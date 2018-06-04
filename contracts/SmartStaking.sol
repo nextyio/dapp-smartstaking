@@ -2,7 +2,34 @@ pragma solidity ^0.4.20;
 
 contract SmartStaking {
     address owner;
-    bool public paused = false;
+    uint256 public constant PACKAGE1 = 1;
+    uint256 public constant PACKAGE2 = 2;
+    uint256 public constant PACKAGE3 = 3;
+    uint256 public constant PACKAGE4 = 4;
+    uint256 public constant INIT_TIMES = 7 days;
+    uint256 public fund;
+    uint256 public fundBonus;
+
+    struct Investor {
+        uint256 amount;
+        uint256 bonus;
+    }
+
+    struct Package {
+        uint256 totalDays;
+        uint256 bonusPercent;
+    }
+
+    mapping(uint256 => Package) public package;
+
+    /**
+    * packageName only 1, 2, 3, 4 corresponding PACKAGE7, PACKAGE30, PACKAGE90, PACKAGE365
+    * totalDays number 7, 30, 90, 365
+    */
+    function setupPackage(uint256 _packageName, uint256 _totalDays, uint256 _bonusPercent) public onlyOwner {
+        package[_packageName].totalDays = _totalDays;
+        package[_packageName].bonusPercent = _bonusPercent;
+    }
 
     function SmartStaking() public {
         owner = msg.sender;
@@ -23,36 +50,6 @@ contract SmartStaking {
     function transferOwnership(address _newOwner) public onlyOwner {
         require(_newOwner != owner);
         owner = _newOwner;
-    }
-
-    /**
-    * @dev Modifier to make a function callable only when the contract is not paused.
-    */
-    modifier whenNotPaused() {
-        require(!paused);
-        _;
-    }
-
-    /**
-    * @dev Modifier to make a function callable only when the contract is paused.
-    */
-    modifier whenPaused() {
-        require(paused);
-        _;
-    }
-
-    /**
-    * @dev called by the owner to pause, triggers stopped state
-    */
-    function pause() onlyOwner whenNotPaused public {
-        paused = true;
-    }
-
-    /**
-    * @dev called by the owner to unpause, returns to normal state
-    */
-    function unpause() onlyOwner whenPaused public {
-        paused = false;
     }
 
     /**
@@ -84,9 +81,9 @@ contract SmartStaking {
     /**
     * deposit for player call
     */
-    function deposit() public payable {
-        require(msg.value >= ROOM1_VALUE);
-        playerInfo[msg.sender].amount += msg.value;
-        playerInfo[msg.sender].isLock = false;
-    }
+    // function deposit() public payable {
+    //     require(msg.value >= ROOM1_VALUE);
+    //     playerInfo[msg.sender].amount += msg.value;
+    //     playerInfo[msg.sender].isLock = false;
+    // }
 }
