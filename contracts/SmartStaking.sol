@@ -12,12 +12,13 @@ contract SmartStaking {
     address[] public investors;
     uint256 public bonusAmount = 0;
 
-    struct InvestorPackages {
+    struct InvestorPackage {
         uint256 amount;
         uint256 bonus;
         uint256 package;
         uint256 bonusPercent;
         uint256 expiredTimes;
+        string status;
     }
 
     struct Package {
@@ -26,7 +27,8 @@ contract SmartStaking {
     }
 
     mapping(uint256 => Package) public packages;
-    mapping(address => InvestorPackages[]) public investorPackges;
+    mapping(address => InvestorPackage[]) public investorPackges;
+    mapping(address => uint256) public lastDayWithdraw;
 
     /**
     * Deposit for fund bonnus onlyOwner or volunteering
@@ -86,14 +88,47 @@ contract SmartStaking {
         fundBonus = safeSub(fundBonus, bonusAmount);
         fund = safeAdd(fund, msg.value);
         investors.push(msg.sender);
+        lastDayWithdraw[msg.sender] = safeAdd(now, INIT_TIMES);
 
         investorPackges[msg.sender].push(InvestorPackages({
             amount: msg.value,
             bonus: 0,
             package: _package,
             bonusPercent: packages[_package].bonusPercent,
-            expiredTimes: safeAdd(packages[_package].totalDays, INIT_TIMES)
+            expiredTimes: safeAdd(now, safeAdd(packages[_package].totalDays, INIT_TIMES)),
+            status: 'NEW'
         }));
+    }
+
+    /**
+    * Handle withdraw bonus for investor
+    */
+    function hanldeWithdrawBonus() public {
+        require(investorPackges[msg.sender].length > 0);
+        require(safeSub(now, lastDayWithdraw[msg.sender]) > 1 days);
+
+        uint256 bonus;
+
+        for (uint256 i = 0; i < investorPackges[msg.sender].length; i++) {
+            InvestorPackage package = investorPackges[msg.sender][i];
+
+            if (package.expiredTimes >= now) {
+                package.status = 'EXPIRED';
+            } else {
+                uint256 bonusPerday = safeDiv(safeDiv(safeMul(package.amount, package.bonusPercent), 100), packages[package.package].totalDays);
+
+                uint256 sumDay = safeSub(now, lastDayWithdraw[msg.sender]);
+                bonus = safeAdd(bonus, safeMul(sumDay, bonusPerday));
+            }
+        }
+
+        withdraw(bonus);
+    }
+
+    function withdraw(uint256 _amount) private returns(bool) {
+        require(_amount <= this.balance);
+
+        return true;
     }
 
     function SmartStaking() public {
