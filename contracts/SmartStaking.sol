@@ -10,6 +10,7 @@ contract SmartStaking {
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
+    uint256 public bonusAmount = 0;
 
     struct InvestorPackages {
         uint256 amount;
@@ -24,7 +25,7 @@ contract SmartStaking {
         uint256 bonusPercent;
     }
 
-    mapping(uint256 => Package) public package;
+    mapping(uint256 => Package) public packages;
     mapping(address => InvestorPackages[]) public investorPackges;
 
     /**
@@ -36,26 +37,26 @@ contract SmartStaking {
 
     /**
     * Setup packages
-    * totalDays 7, 30, 90, 365
+    * totalDays 7, 30, 90, 180
     */
     function setupPackage1(uint256 _bonusPercent) public onlyOwner {
-        package[PACKAGE1].totalDays = 7 days;
-        package[PACKAGE1].bonusPercent = _bonusPercent;
+        packages[PACKAGE1].totalDays = 7 days;
+        packages[PACKAGE1].bonusPercent = _bonusPercent;
     }
 
     function setupPackage2(uint256 _bonusPercent) public onlyOwner {
-        package[PACKAGE2].totalDays = 30 days;
-        package[PACKAGE2].bonusPercent = _bonusPercent;
+        packages[PACKAGE2].totalDays = 30 days;
+        packages[PACKAGE2].bonusPercent = _bonusPercent;
     }
 
     function setupPackage3(uint256 _bonusPercent) public onlyOwner {
-        package[PACKAGE3].totalDays = 90 days;
-        package[PACKAGE3].bonusPercent = _bonusPercent;
+        packages[PACKAGE3].totalDays = 90 days;
+        packages[PACKAGE3].bonusPercent = _bonusPercent;
     }
 
     function setupPackage4(uint256 _bonusPercent) public onlyOwner {
-        package[PACKAGE4].totalDays = 365 days;
-        package[PACKAGE4].bonusPercent = _bonusPercent;
+        packages[PACKAGE4].totalDays = 180 days;
+        packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
     /**
@@ -78,10 +79,11 @@ contract SmartStaking {
     }
 
     function processStaking(uint256 _package) private {
-        uint256 bonusAmount = safeAdd(msg.value, safeDiv(package[_package].bonusPercent, 100));
+        bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
         require(msg.value >= 1);
         require(fundBonus >= bonusAmount);
 
+        fundBonus = safeSub(fundBonus, bonusAmount);
         fund = safeAdd(fund, msg.value);
         investors.push(msg.sender);
 
@@ -89,11 +91,9 @@ contract SmartStaking {
             amount: msg.value,
             bonus: 0,
             package: _package,
-            bonusPercent: package[_package].bonusPercent,
-            expiredTimes: safeAdd(package[_package].totalDays, INIT_TIMES)
+            bonusPercent: packages[_package].bonusPercent,
+            expiredTimes: safeAdd(packages[_package].totalDays, INIT_TIMES)
         }));
-
-        fundBonus = safeSub(fundBonus, bonusAmount);
     }
 
     function SmartStaking() public {
