@@ -6,19 +6,18 @@ contract SmartStaking {
     uint256 public constant PACKAGE2 = 2;
     uint256 public constant PACKAGE3 = 3;
     uint256 public constant PACKAGE4 = 4;
-    uint256 public constant INIT_TIMES = 7 days;
+    uint256 public constant INIT_DATE = 7 days;
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
-    uint256 public bonusAmount = 0;
 
     struct InvestorPackage {
+        bool isPaid;
         uint256 amount;
-        uint256 bonus;
-        uint256 package;
+        uint256 packageId;
         uint256 bonusPercent;
-        uint256 expiredTimes;
-        string status;
+        uint256 expiredDate;
+        uint256 lastDateWithdraw;
     }
 
     struct Package {
@@ -28,7 +27,6 @@ contract SmartStaking {
 
     mapping(uint256 => Package) public packages;
     mapping(address => InvestorPackage[]) public investorPackges;
-    mapping(address => uint256) public lastDayWithdraw;
 
     /**
     * Deposit for fund bonnus onlyOwner or volunteering
@@ -80,55 +78,31 @@ contract SmartStaking {
         processStaking(PACKAGE4);
     }
 
-    function processStaking(uint256 _package) private {
-        bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
-        require(msg.value >= 1);
-        require(fundBonus >= bonusAmount);
-
-        fundBonus = safeSub(fundBonus, bonusAmount);
-        fund = safeAdd(fund, msg.value);
-        investors.push(msg.sender);
-        lastDayWithdraw[msg.sender] = safeAdd(now, INIT_TIMES);
-
-        investorPackges[msg.sender].push(InvestorPackages({
-            amount: msg.value,
-            bonus: 0,
-            package: _package,
-            bonusPercent: packages[_package].bonusPercent,
-            expiredTimes: safeAdd(now, safeAdd(packages[_package].totalDays, INIT_TIMES)),
-            status: 'NEW'
-        }));
+    function getPackageCount() public returns(uint256) {
+        return investorPackges[msg.sender].length;
     }
 
     /**
-    * Handle withdraw bonus for investor
+    * Get package info for Investor
     */
-    function hanldeWithdrawBonus() public {
+    function getPackageInfo(uint256 _id) public view returns(
+        bool,
+        uint256,
+        uint256,
+        uint256,
+        uint256,
+        uint256) {
         require(investorPackges[msg.sender].length > 0);
-        require(safeSub(now, lastDayWithdraw[msg.sender]) > 1 days);
+        InvestorPackage package = investorPackges[msg.sender][_id];
 
-        uint256 bonus;
-
-        for (uint256 i = 0; i < investorPackges[msg.sender].length; i++) {
-            InvestorPackage package = investorPackges[msg.sender][i];
-
-            if (package.expiredTimes >= now) {
-                package.status = 'EXPIRED';
-            } else {
-                uint256 bonusPerday = safeDiv(safeDiv(safeMul(package.amount, package.bonusPercent), 100), packages[package.package].totalDays);
-
-                uint256 sumDay = safeSub(now, lastDayWithdraw[msg.sender]);
-                bonus = safeAdd(bonus, safeMul(sumDay, bonusPerday));
-            }
-        }
-
-        withdraw(bonus);
-    }
-
-    function withdraw(uint256 _amount) private returns(bool) {
-        require(_amount <= this.balance);
-
-        return true;
+        return (
+            package.isPaid,
+            package.amount,
+            package.packageId,
+            package.bonusPercent,
+            package.lastDateWithdraw,
+            package.expiredDate
+        );
     }
 
     function SmartStaking() public {
@@ -150,6 +124,60 @@ contract SmartStaking {
     function transferOwnership(address _newOwner) public onlyOwner {
         require(_newOwner != owner);
         owner = _newOwner;
+    }
+
+    function processStaking(uint256 _package) private returns(bool){
+        uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
+        require(msg.value >= 1);
+        require(fundBonus >= bonusAmount);
+
+        fundBonus = safeSub(fundBonus, bonusAmount);
+        fund = safeAdd(fund, msg.value);
+        investors.push(msg.sender);
+
+        investorPackges[msg.sender].push(InvestorPackage({
+            isPaid: false,
+            amount: msg.value,
+            packageId: _package,
+            bonusPercent: packages[_package].bonusPercent,
+            lastDateWithdraw: safeAdd(now, INIT_DATE),
+            expiredDate: safeAdd(now, safeAdd(packages[_package].totalDays, INIT_DATE))
+        }));
+
+        return true;
+    }
+
+    /**
+    * Handle withdraw bonus with package for Investor
+    */
+    function withdrawBonusPackage(uint256 _id) public payable returns(bool) {
+        InvestorPackage package = investorPackges[msg.sender][_id];
+        require(safeSub(now, package.lastDateWithdraw) > 1 days);
+        require(package.expiredDate < now);
+        require(!package.isPaid);
+
+        uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 100);
+        uint256 bonusPerday = safeDiv(amountBonusPackage, packages[package.packageId].totalDays);
+
+        uint256 sum = safeDiv(safeSub(now, package.lastDateWithdraw), 1 days);
+
+        msg.sender.transfer(safeMul(sum, bonusPerday));
+        return true;
+    }
+
+    /**
+    * Handle the end of package withdraw amount staking for Investor
+    */
+    function finalizePackage(uint256 _id) public payable returns(bool) {
+        InvestorPackage package = investorPackges[msg.sender][_id];
+        require(package.expiredDate >= now);
+        require(!package.isPaid);
+
+        fund = safeSub(fund, package.amount);
+        package.isPaid = true;
+
+        msg.sender.transfer(package.amount);
+        return true;
     }
 
     /**
