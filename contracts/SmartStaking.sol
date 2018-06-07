@@ -161,6 +161,7 @@ contract SmartStaking {
 
         uint256 sum = safeDiv(safeSub(now, package.lastDateWithdraw), 1 days);
 
+        package.lastDateWithdraw = now;
         msg.sender.transfer(safeMul(sum, bonusPerday));
         return true;
     }
