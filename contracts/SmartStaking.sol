@@ -31,7 +31,7 @@ contract SmartStaking {
     /**
     * Deposit for fund bonnus onlyOwner or volunteering
     */
-    function depositFundBonusForOwner() public payable {
+    function depositFundBonus() public payable {
         fundBonus = safeAdd(fundBonus, msg.value);
     }
 
