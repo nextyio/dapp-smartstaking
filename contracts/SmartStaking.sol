@@ -110,34 +110,25 @@ contract SmartStaking {
         uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 100);
         uint256 bonusPerday = safeDiv(amountBonusPackage, safeDiv(packages[package.packageId].totalDays, 1 minutes));
         uint256 sum;
+        uint256 nowDate = now;
+        uint256 expiredDate = package.expiredDate;
 
-        if (package.expiredDate < now) {
+        if (package.expiredDate > now) {
             sum = safeDiv(safeSub(now, package.lastDateWithdraw), 1 minutes);
             package.lastDateWithdraw = now;
             msg.sender.transfer(safeMul(sum, bonusPerday));
-            return true;
         }
 
-        if (package.expiredDate >= now) {
+        if (package.expiredDate <= now) {
             sum = safeDiv(safeSub(package.expiredDate, package.lastDateWithdraw), 1 minutes);
+            package.lastDateWithdraw = now;
             msg.sender.transfer(safeMul(sum, bonusPerday));
 
-            return finalizePackage(_id);
+            fund = safeSub(fund, package.amount);
+            package.isPaid = true;
+            msg.sender.transfer(package.amount);
         }
-    }
 
-    /**
-    * Handle the end of package withdraw amount staking for Investor
-    */
-    function finalizePackage(uint256 _id) public payable returns(bool) {
-        InvestorPackage package = investorPackges[msg.sender][_id];
-        require(package.expiredDate >= now);
-        require(!package.isPaid);
-
-        fund = safeSub(fund, package.amount);
-        package.isPaid = true;
-
-        msg.sender.transfer(package.amount);
         return true;
     }
 
