@@ -7,6 +7,7 @@ contract SmartStaking {
     uint256 public constant PACKAGE3 = 3;
     uint256 public constant PACKAGE4 = 4;
     uint256 public constant INIT_DATE = 1 minutes;
+    uint256 public constant MIN_AMOUNT_STAKING = 500000;
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
@@ -80,7 +81,7 @@ contract SmartStaking {
 
     function processStaking(uint256 _package) private returns(bool){
         uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
-        require(msg.value >= 1);
+        require(msg.value >= MIN_AMOUNT_STAKING);
         require(fundBonus >= bonusAmount);
 
         fundBonus = safeSub(fundBonus, bonusAmount);
