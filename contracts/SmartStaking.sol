@@ -7,7 +7,7 @@ contract SmartStaking {
     uint256 public constant PACKAGE3 = 3;
     uint256 public constant PACKAGE4 = 4;
     uint256 public constant INIT_DATE = 1 minutes;
-    uint256 public constant MIN_AMOUNT_STAKING = 500000;
+    uint256 public constant MIN_AMOUNT_STAKING = 1 ether;
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
@@ -133,7 +133,7 @@ contract SmartStaking {
         return true;
     }
 
-    function getPackageCount() public returns(uint256) {
+    function getPackageCount() public constant returns(uint256) {
         return investorPackges[msg.sender].length;
     }
 
