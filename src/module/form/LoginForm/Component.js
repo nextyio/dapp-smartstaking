@@ -54,10 +54,10 @@ class C extends BaseComponent {
                         <Button loading={this.props.loading} type="ebp" htmlType="submit" className="">
                             Unlock
                         </Button>
-                        &nbsp;&nbsp;
+                        {/*&nbsp;&nbsp;
                         <Button loading={this.props.loading} type="blue" htmlType="button" className="">
                             Connect to Metamask
-                        </Button>
+                        </Button>*/}
                     </FormItem>
                 </Form>
             </div>

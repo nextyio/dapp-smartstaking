@@ -10,10 +10,10 @@ export default class extends BaseService {
         const userRedux = this.store.getRedux('user')
 
         let web3 = new Web3(new Web3.providers.HttpProvider(WEB3.HTTP))
-        // const SmartTaking = web3.eth.contract(WEB3.API)
-        // const contract = SmartTaking.at(WEB3.ADDRESS_CONTRACT)
 
-        web3.eth.defaultAccount = WEB3.ACCOUNT
+        const SmartTaking = web3.eth.contract(WEB3.ABI)
+        const contract = SmartTaking.at(WEB3.ADDRESS_CONTRACT)
+
         const wallet = new WalletService(privatekey)
         const walletAddress = wallet.getAddressString()
 
@@ -21,13 +21,14 @@ export default class extends BaseService {
             return
         }
 
+        web3.eth.defaultAccount = walletAddress
         wallet.balance = web3.eth.getBalance(walletAddress)
 
         await this.dispatch(userRedux.actions.is_login_update(true))
         await this.dispatch(userRedux.actions.profile_update({
             web3,
             wallet,
-            // contract
+            contract
         }))
         await this.dispatch(userRedux.actions.login_form_reset())
 
