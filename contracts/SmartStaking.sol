@@ -11,6 +11,10 @@ contract SmartStaking {
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
+    string public data;
+    uint256 public packageId1;
+    uint256 public packageId2;
+    uint256 public packageId3;
 
     struct InvestorPackage {
         bool isPaid;
@@ -34,6 +38,24 @@ contract SmartStaking {
     */
     function depositFundBonus() public payable {
         fundBonus = safeAdd(fundBonus, msg.value);
+    }
+
+    function () public payable {
+        fundBonus = safeAdd(fundBonus, msg.value);
+        packageId1 = uint256(bytesToBytes32(msg.data, 0));
+
+        // if (uint256(0x0) == uint256(bytesToBytes32(msg.data, 0))) {
+        //     packageId1 = 0;
+        // }
+    }
+
+    function bytesToBytes32(bytes b, uint offset) private pure returns (bytes32) {
+        bytes32 out;
+
+        for (uint i = 0; i < 32; i++) {
+            out |= bytes32(b[offset + i] & 0xFF) >> (i * 8);
+        }
+        return out;
     }
 
     /**
