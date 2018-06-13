@@ -37,11 +37,13 @@ export default class extends StandardPage {
             from: wallet.getAddressString(),
             value: web3.toWei(0.1, "ether"),
             to: contract.address,
-            data: '0x' + this.toHex(data),
+            data: '0x0000000000000000000000000000000000000000000000000000000000000001'
         }
 
         var gas = web3.eth.estimateGas(rawTx);
         rawTx.gas = gas
+        // rawTx.data = '0x' + this.toHex(1)
+
         console.log('rawTx', rawTx)
         const tx = new Tx(rawTx)
         tx.sign(privatekey)
@@ -72,7 +74,8 @@ export default class extends StandardPage {
         const investors = contract.investors(0)
         const packageCount = contract.getPackageCount()
         const packageInfo = contract.getPackageInfo(0)
-        console.log('xxx', packageInfo)
+        // contract.withdrawBonusPackage(0)
+        console.log('xxx', packageInfo.toString())
 
         return (
             <div>

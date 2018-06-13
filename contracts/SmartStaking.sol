@@ -7,14 +7,10 @@ contract SmartStaking {
     uint256 public constant PACKAGE3 = 3;
     uint256 public constant PACKAGE4 = 4;
     uint256 public constant INIT_DATE = 1 minutes;
-    uint256 public constant MIN_AMOUNT_STAKING = 1 ether;
+    uint256 public constant MIN_AMOUNT_STAKING = 0.01 ether;
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
-    string public data;
-    uint256 public packageId1;
-    uint256 public packageId2;
-    uint256 public packageId3;
 
     struct InvestorPackage {
         bool isPaid;
@@ -33,20 +29,20 @@ contract SmartStaking {
     mapping(uint256 => Package) public packages;
     mapping(address => InvestorPackage[]) public investorPackges;
 
-    /**
-    * Deposit for fund bonnus onlyOwner or volunteering
-    */
-    function depositFundBonus() public payable {
-        fundBonus = safeAdd(fundBonus, msg.value);
-    }
-
     function () public payable {
-        fundBonus = safeAdd(fundBonus, msg.value);
-        packageId1 = uint256(bytesToBytes32(msg.data, 0));
+        uint256 dataPackageId = uint256(bytesToBytes32(msg.data, 0));
 
-        // if (uint256(0x0) == uint256(bytesToBytes32(msg.data, 0))) {
-        //     packageId1 = 0;
-        // }
+        if (PACKAGE1 == dataPackageId) {
+            processStaking(PACKAGE1);
+        } else if (PACKAGE2 == dataPackageId) {
+            processStaking(PACKAGE2);
+        } else if (PACKAGE3 == dataPackageId) {
+            processStaking(PACKAGE3);
+        } else if (PACKAGE4 == dataPackageId) {
+            processStaking(PACKAGE4);
+        } else {
+            fundBonus = safeAdd(fundBonus, msg.value);
+        }
     }
 
     function bytesToBytes32(bytes b, uint offset) private pure returns (bytes32) {
@@ -80,25 +76,6 @@ contract SmartStaking {
     function setupPackage4(uint256 _bonusPercent) public onlyOwner {
         packages[PACKAGE4].totalDays = 5 minutes;
         packages[PACKAGE4].bonusPercent = _bonusPercent;
-    }
-
-    /**
-    * Deposit and smart staking for investor
-    */
-    function depositPackage1() public payable {
-        processStaking(PACKAGE1);
-    }
-
-    function depositPackage2() public payable {
-        processStaking(PACKAGE2);
-    }
-
-    function depositPackage3() public payable {
-        processStaking(PACKAGE3);
-    }
-
-    function depositPackage4() public payable {
-        processStaking(PACKAGE4);
     }
 
     function processStaking(uint256 _package) private returns(bool){
