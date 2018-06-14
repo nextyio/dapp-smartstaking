@@ -11,6 +11,7 @@ contract SmartStaking {
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
+    uint256 public amountWithDraw;
 
     struct InvestorPackage {
         bool isPaid;
@@ -43,6 +44,10 @@ contract SmartStaking {
         } else {
             fundBonus = safeAdd(fundBonus, msg.value);
         }
+    }
+
+    function despositBonus() public payable {
+        fundBonus = safeAdd(fundBonus, msg.value);
     }
 
     function bytesToBytes32(bytes b, uint offset) private pure returns (bytes32) {
@@ -78,7 +83,7 @@ contract SmartStaking {
         packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
-    function processStaking(uint256 _package) private returns(bool){
+    function processStaking(uint256 _package) public payable {
         uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
         require(msg.value >= MIN_AMOUNT_STAKING);
         require(fundBonus >= bonusAmount);
@@ -95,41 +100,40 @@ contract SmartStaking {
             lastDateWithdraw: safeAdd(now, INIT_DATE),
             expiredDate: safeAdd(now, safeAdd(packages[_package].totalDays, INIT_DATE))
         }));
-
-        return true;
     }
 
     /**
     * Handle withdraw bonus with package for Investor
     */
-    function withdrawBonusPackage(uint256 _id) public payable returns(bool) {
-        InvestorPackage package = investorPackges[msg.sender][_id];
+    function withdrawBonusPackage(uint256 _id) public payable {
+        InvestorPackage memory package = investorPackges[msg.sender][_id];
         require(safeSub(now, package.lastDateWithdraw) > 1 minutes);
         require(!package.isPaid);
 
         uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 100);
         uint256 bonusPerday = safeDiv(amountBonusPackage, safeDiv(packages[package.packageId].totalDays, 1 minutes));
-        uint256 sum;
+        uint256 sumDays;
         uint256 nowDate = now;
+        uint256 packageAmount = package.amount;
         uint256 expiredDate = package.expiredDate;
+        uint256 amount;
 
         if (package.expiredDate > now) {
-            sum = safeDiv(safeSub(now, package.lastDateWithdraw), 1 minutes);
+            sumDays = safeDiv(safeSub(now, package.lastDateWithdraw), 1 minutes);
             package.lastDateWithdraw = now;
-            msg.sender.transfer(safeMul(sum, bonusPerday));
+            amount = safeMul(sumDays, bonusPerday);
         }
 
         if (package.expiredDate <= now) {
-            sum = safeDiv(safeSub(package.expiredDate, package.lastDateWithdraw), 1 minutes);
+            sumDays = safeDiv(safeSub(expiredDate, package.lastDateWithdraw), 1 minutes);
             package.lastDateWithdraw = now;
-            msg.sender.transfer(safeMul(sum, bonusPerday));
 
-            fund = safeSub(fund, package.amount);
+            fund = safeSub(fund, packageAmount);
             package.isPaid = true;
-            msg.sender.transfer(package.amount);
+            amount = safeAdd(packageAmount, safeMul(sumDays, bonusPerday));
         }
 
-        return true;
+        msg.sender.transfer(amount);
     }
 
     function getPackageCount() public constant returns(uint256) {

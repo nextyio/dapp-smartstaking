@@ -2,17 +2,47 @@ import React from 'react';
 import StandardPage from '../StandardPage';
 import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
+import _ from 'lodash'
+const SolidityFunction = require('web3/lib/web3/function')
 
 import './style.scss'
 
 import { Col, Row, Icon, Form, Input, Button, Dropdown } from 'antd'
+import {WEB3} from '@/constant'
 const FormItem = Form.Item;
 
 export default class extends StandardPage {
 
     setingPackage() {
-        let {contract} = this.props.profile
-        contract.setupPackage1(10)
+        const {contract, wallet, web3} = this.props.profile
+        const privatekey = wallet.getPrivateKey()
+        const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: 'withdrawBonusPackage' }), '')
+        console.log('xxx1', functionDef)
+
+        const payloadData = functionDef.toPayload([0]).data;
+        console.log('xxx2', payloadData)
+        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+
+        const rawTx = {
+            nonce: nonce,
+            from: wallet.getAddressString(),
+            value: '0x0',
+            to: contract.address,
+            data: payloadData
+        }
+
+        // var gas = web3.eth.estimateGas(rawTx);
+        rawTx.gas = 50000
+
+        const tx = new Tx(rawTx)
+        tx.sign(privatekey)
+        const serializedTx = tx.serialize()
+
+        web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function(err, hash) {
+            console.log('err', err)
+            if (!err)
+                console.log(hash)
+        })
     }
 
     toHex(str) {
@@ -31,18 +61,16 @@ export default class extends StandardPage {
 
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
 
-        let data = '1'
         const rawTx = {
             nonce: nonce,
             from: wallet.getAddressString(),
-            value: web3.toWei(0.1, "ether"),
+            value: web3.toWei(2, "ether"),
             to: contract.address,
             data: '0x0000000000000000000000000000000000000000000000000000000000000001'
         }
 
         var gas = web3.eth.estimateGas(rawTx);
         rawTx.gas = gas
-        // rawTx.data = '0x' + this.toHex(1)
 
         console.log('rawTx', rawTx)
         const tx = new Tx(rawTx)
@@ -57,7 +85,8 @@ export default class extends StandardPage {
     }
 
     renderContractInfo () {
-        let {contract} = this.props.profile
+        let {contract, wallet} = this.props.profile
+
         console.log('contract', contract)
 
         if (!contract) {
@@ -74,8 +103,7 @@ export default class extends StandardPage {
         const investors = contract.investors(0)
         const packageCount = contract.getPackageCount()
         const packageInfo = contract.getPackageInfo(0)
-        // contract.withdrawBonusPackage(0)
-        console.log('xxx', packageInfo.toString())
+        // contract.withdrawBonusPackage(2)
 
         return (
             <div>
@@ -84,7 +112,7 @@ export default class extends StandardPage {
                 <p>Count package: {packageCount.toString()}</p>
                 <p>Package Ids: {package1.toString()}, {package2.toString()}, {package3.toString()}, {package4.toString()}</p>
                 <Button type="ebp" htmlType="button" onClick={this.setingPackage.bind(this)} className="">
-                    Setting Package1
+                    withdrawBonusPackage
                 </Button>
                 <Button type="ebp" htmlType="button" onClick={this.depositPackage1.bind(this)} className="">
                     Deposit Package
