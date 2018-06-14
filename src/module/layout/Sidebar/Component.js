@@ -92,10 +92,10 @@ export default class extends BaseComponent {
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
-                    <Menu.Item key="smart_staking">
+                    <Menu.Item key="smart-staking">
                         <Icon type="wallet" /> {I18N.get('0007')}
                     </Menu.Item>
-                    <Menu.Item key="interest_management">
+                    <Menu.Item key="interest-management">
                         <Icon type="schedule" /> {I18N.get('0010')}
                     </Menu.Item>
                 </Menu>
@@ -107,8 +107,8 @@ export default class extends BaseComponent {
         const key = e.key
         if (_.includes([
             'home',
-            'smart_staking',
-            'interest_management',
+            'smart-staking',
+            'interest-management',
             'register',
             'signup',
             'dashboard',

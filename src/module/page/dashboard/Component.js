@@ -106,15 +106,41 @@ export default class extends LoggedInPage {
 
                 </div>
                 <div className="ebp-page content-center">
-                    <div><span>Current amount in Smart Staking: 10.000</span></div>
-                    <div><span>Total Smart Staking amount: 50.000</span></div>
-                    <div><span>Current interest rate:</span></div>
-                    <ul>
-                        <li>7 days: 1%</li>
-                        <li>30 days: 2%</li>
-                        <li>180 days: 3%</li>
-                        <li>360 days: 4%</li>
-                    </ul>
+                    <Row>
+                        <Col span={12}>
+                            <h1>10.000</h1>
+                            <span className="text-stat">Current amount in Smart Staking</span>
+                        </Col>
+                        <Col span={12}>
+                            <h1>50.000</h1>
+                            <span className="text-stat">Total Smart Staking amount</span>
+                        </Col>
+                    </Row>
+                    <div className="ebp-header-divider dashboard-rate-margin">
+
+                    </div>
+                    {/* <div><span className="text-stat">Current amount in Smart Staking: 10.000</span></div> */}
+                    {/* <div><span className="text-stat">Total Smart Staking amount: 50.000</span></div> */}
+                    <div><span className="text-stat">Current interest rate:</span></div>
+
+                    <Row>
+                        <Col span={6}>
+                            <h1>1%</h1>
+                            7 days
+                        </Col>
+                        <Col span={6}>
+                            <h1>2%</h1>
+                            30 days
+                        </Col>
+                        <Col span={6}>
+                            <h1>3%</h1>
+                            180 days
+                        </Col>
+                        <Col span={6}>
+                            <h1>4%</h1>
+                            360 days
+                        </Col>
+                    </Row>
                 </div>
             </div>
         )
