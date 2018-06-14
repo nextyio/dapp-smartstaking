@@ -1,14 +1,15 @@
 import React from 'react';
 import StandardPage from '../StandardPage';
-import _ from 'lodash'
+import LoggedInPage from '../LoggedInPage';
+import _ from 'lodash';
 
-import './style.scss'
+import './style.scss';
 
-import { Col, Row, List, Button } from 'antd'
-import Footer from '@/module/layout/Footer/Container'
-import moment from 'moment/moment'
+import { Col, Row, List, Button, Breadcrumb, Icon } from 'antd';
+import Footer from '@/module/layout/Footer/Container';
+import moment from 'moment/moment';
 
-export default class extends StandardPage {
+export default class extends LoggedInPage {
 
     componentDidMount() {
     }
@@ -67,11 +68,14 @@ export default class extends StandardPage {
                         </a>
                     </Col>
                 </Row>
-                <div className="horizGap d_rowGrey">
+            </div>
+        );
+    }
 
-                </div>
-
-                <Footer />
+    ord_renderBreadcrumb() {
+        return (
+            <div>
+                <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
             </div>
         );
     }

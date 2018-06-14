@@ -1,13 +1,13 @@
 import React from 'react'
 import BaseComponent from '@/model/BaseComponent'
-import {Layout, Menu, Icon, Badge, Avatar, Modal, Dropdown} from 'antd'
+import { Layout, Menu, Icon, Badge, Avatar, Modal, Dropdown, Button } from 'antd'
 import _ from 'lodash'
 import I18N from '@/I18N'
+import './style.scss'
 
+import { USER_ROLE } from '@/constant'
 
-import {USER_ROLE} from '@/constant'
-
-const {Header} = Layout
+const { Header } = Layout
 const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup
 
@@ -46,67 +46,35 @@ export default class extends BaseComponent {
 
         const isLogin = this.props.isLogin
 
-        const acctDropdown = this.buildAcctDropdown()
+        // const acctDropdown = this.buildAcctDropdown()
 
         return (
-            <Header className="c_Header">
-                <Menu onClick={this.clickItem.bind(this)} className="c_Header_Menu" selectedKeys={['mail']} mode="horizontal">
-                    <Menu.Item className="c_MenuItem logo" key="home-icon">
-                        <img src='/assets/images/Elastos_Logo_Temp.png' />
-                    </Menu.Item>
-
-                    <Menu.Item className="c_MenuItem" key="home">
-                        {I18N.get('0002')}
-                    </Menu.Item>
-
-                    <Menu.Item className="c_MenuItem" key="about">
-                        {I18N.get('0008')}
-                    </Menu.Item>
-
-                    <Menu.Item className="c_MenuItem" key="contact">
-                        {I18N.get('0010')}
-                    </Menu.Item>
-
-                    <Menu.Item className="c_MenuItem account right-side">
-                        <Dropdown overlay={acctDropdown} style="margin-top: 24px;">
-                            <a className="ant-dropdown-link" href="#">
-                                {I18N.get('0004')} <Icon type="down" />
-                            </a>
-                        </Dropdown>
-                    </Menu.Item>
-                </Menu>
+            <Header style={{ background: '#3c8dbc', padding: 0 }}>
+                {/* <Menu className="right-side" onClick={this.clickItem.bind(this)} selectedKeys={['mail']} mode="horizontal"> */}
+                <Button className="right-side" onClick={this.logout.bind(this)} ghost>
+                    {/* <Menu.Item className="right-side"> */}
+                    <Icon type="logout" />{I18N.get('0204')}
+                </Button>
+                {/* </Menu.Item> */}
+                {/* </Menu> */}
 
             </Header>
         )
     }
 
-    clickItem(e) {
-        const key = e.key
-        if (_.includes([
-            'home',
-            'account',
-            'login',
-            'register',
-            'signup',
-            'profile',
-            'about',
-            'contact'
-        ], key)) {
-            this.props.history.push('/' + e.key)
-        }
-        else if (key === 'logout') {
-            Modal.confirm({
-                title: 'Are you sure you want to logout?',
-                content: '',
-                okText: 'Yes',
-                okType: 'danger',
-                cancelText: 'No',
-                onOk: () => {
-                    this.props.logout()
-                },
-                onCancel() {
-                }
-            })
-        }
+    logout(e) {
+        Modal.confirm({
+            title: 'Are you sure you want to logout?',
+            content: '',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: () => {
+                this.props.logout()
+            },
+            onCancel() {
+            }
+        })
+
     }
 }

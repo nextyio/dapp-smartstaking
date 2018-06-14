@@ -2,14 +2,14 @@ export default {
     // Header
     '0001': 'Bounty Programs',
     '0002': 'Home',
-    '0003': 'Organizers',
+    '0003': 'Dashboard',
     '0004': 'Account',
     '0005': 'Teams',
     '0006': 'Tasks',
-    '0007': 'How to Earn ELA',
+    '0007': 'Smart Staking',
     '0008': 'About',
     '0009': 'FAQ',
-    '0010': 'Contact',
+    '0010': 'Interest Management',
 
     '0100': 'Developer',
     '0101': 'Social',

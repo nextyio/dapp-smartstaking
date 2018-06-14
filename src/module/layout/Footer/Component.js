@@ -8,9 +8,9 @@ export default class extends BaseComponent {
     ord_render() {
         return (
             <div className="c_Footer">
-                <div className="horizGap d_rowGrey">
+                {/* <div className="horizGap d_rowGrey">
 
-                </div>
+                </div> */}
                 <div className="d_rowGrey">
                     <Row className="d_rowFooter">
                         <Col span={8}>

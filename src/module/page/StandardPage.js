@@ -1,7 +1,9 @@
 import React from 'react';
 import BasePage from '@/model/BasePage';
-import {Layout} from 'antd';
+import { Layout } from 'antd';
 import Header from '../layout/Header/Container';
+// import './style.scss';
+// const { Header, Sider, Content } = Layout;
 
 export default class extends BasePage {
     ord_renderPage() {
