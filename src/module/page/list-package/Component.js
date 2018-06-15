@@ -17,10 +17,10 @@ export default class extends LoggedInPage {
 
         const columns = [{
             title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: (name, record) => {
-                return <Link to={"/list-package/" + record.index}>{name}</Link>
+            dataIndex: 'index',
+            key: 'index',
+            render: (index, record) => {
+                return <Link to={"/list-package/" + index}>SS000{index}</Link>
             }
         }, {
             title: 'Amount',
@@ -51,8 +51,11 @@ export default class extends LoggedInPage {
             }
         }, {
             title: 'Assumed Reward',
-            dataIndex: 'assumedReward',
-            key: 'assumedReward',
+            dataIndex: 'bonusPercent',
+            key: 'bonusPercent',
+            render: (bonusPercent, packageInfo) => {
+                return <p>{((packageInfo.bonusPercent * packageInfo.amount) / 100) / 1e18}</p>
+            }
         }];
 
         return (<Table pagination={false} dataSource={dataSource} columns={columns} />);
@@ -72,6 +75,7 @@ export default class extends LoggedInPage {
             let expiredDate = packageInfo[5].toString()
 
             packages.push({
+                index: i + 1,
                 isPaid,
                 amount,
                 packageId,
