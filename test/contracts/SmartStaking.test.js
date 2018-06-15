@@ -95,13 +95,19 @@ contract('SmartStaking', function (accounts) {
     });
 
     describe('smart staking reward pool accept', function () {
-        const value = ether(42);
+        const value = ether(2);
         it('should accept payments', async function () {
             await this.contract.send(value).should.be.fulfilled;
         });
 
         it('should forward funds to wallet', async function () {
             await this.contract.sendTransaction({ value: value, from: owner }).should.be.fulfilled;
+            const bonus = await this.contract.fundBonus.call();
+            assert.equal(bonus.toString(), value);
+        });
+
+        it('should forward funds to wallet with data', async function () {
+            await this.contract.sendTransaction({ value: value, data: '0x001', from: owner }).should.be.fulfilled;
             const bonus = await this.contract.fundBonus.call();
             assert.equal(bonus.toString(), value);
         });
