@@ -30,44 +30,42 @@ export default class extends LoggedInPage {
         const fundBonus = contract.fundBonus().toString() / 1e18
 
         return (
-            <div className="p_Profile">
+            <div className="">
                 <div className="ebp-header-divider">
 
                 </div>
                 <div className="ebp-page">
-                    <h3>Smart Staking Information</h3>
+                    <h3 className="text-center">Smart Staking Information</h3>
                     <Row>
-                        <Col span={8}>
+                        <Col span={8} offset={6} style={{'textAlign': 'left'}}>
                             Current amount in smart staking wallet:
                         </Col>
-                        <Col span={8}>
+                        <Col span={8} style={{'textAlign': 'left'}}>
                             {fundBonus} NTY
                         </Col>
                     </Row>
-                    <Row>
-                        <Col span={8}>
+                    <Row style={{'marginTop': '15px'}}>
+                        <Col span={8} offset={6} style={{'textAlign': 'left'}}>
                             Your balance:
                         </Col>
-                        <Col span={8}>
+                        <Col span={8} style={{'textAlign': 'left'}}>
                             {balance} NTY
                         </Col>
                     </Row>
-                    <h3>Add more</h3>
-                    <Row>
-                        <Col span={4}>
+                    <h3 className="text-center">Add more</h3>
+                    <Row style={{'marginTop': '15px'}}>
+                        <Col span={8} offset={6} style={{'textAlign': 'left'}}>
                             Amount:
                         </Col>
-                        <Col span={8}>
+                        <Col span={12} offset={6} style={{'textAlign': 'left'}}>
                             <Input type="number" onChange={this.onChangeInput.bind(this)} />
                         </Col>
                     </Row>
 
-                    <Row>
-                        <Col span={4}>
-
-                        </Col>
-                        <Col span={8}>
-                            <Button onClick={this.depositNTY.bind(this)} className="btn-margin-top">Add</Button>
+                    <Row style={{'marginTop': '15px'}}>
+                        
+                        <Col span={8} offset={8}>
+                            <Button onClick={this.depositNTY.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
                     {/* <p>Account Address: {address}</p> */}
