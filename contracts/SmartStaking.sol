@@ -113,7 +113,6 @@ contract SmartStaking {
         uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 100);
         uint256 bonusPerday = safeDiv(amountBonusPackage, safeDiv(packages[package.packageId].totalDays, 1 minutes));
         uint256 sumDays;
-        uint256 nowDate = now;
         uint256 packageAmount = package.amount;
         uint256 expiredDate = package.expiredDate;
         uint256 amount;
@@ -136,7 +135,7 @@ contract SmartStaking {
         msg.sender.transfer(amount);
     }
 
-    function getPackageCount() public constant returns(uint256) {
+    function getPackageCount() public view returns(uint256) {
         return investorPackges[msg.sender].length;
     }
 
@@ -163,7 +162,7 @@ contract SmartStaking {
         );
     }
 
-    function SmartStaking() public {
+    constructor() public {
         owner = msg.sender;
     }
 
@@ -181,6 +180,7 @@ contract SmartStaking {
     */
     function transferOwnership(address _newOwner) public onlyOwner {
         require(_newOwner != owner);
+        require(_newOwner != address(0x0));
         owner = _newOwner;
     }
 
