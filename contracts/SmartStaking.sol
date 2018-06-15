@@ -88,7 +88,7 @@ contract SmartStaking {
     }
 
     function processStaking(uint256 _package) internal {
-        uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
+        uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 10000);
         require(msg.value >= MIN_AMOUNT_STAKING);
         require(fundBonus >= bonusAmount);
 
@@ -114,7 +114,7 @@ contract SmartStaking {
         require(safeSub(now, package.lastDateWithdraw) > 1 minutes);
         require(!package.isPaid);
 
-        uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 100);
+        uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 10000);
         uint256 bonusPerday = safeDiv(amountBonusPackage, safeDiv(packages[package.packageId].totalDays, 1 minutes));
         uint256 sumDays;
         uint256 packageAmount = package.amount;

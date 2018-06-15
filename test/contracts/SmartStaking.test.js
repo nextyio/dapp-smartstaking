@@ -3,6 +3,8 @@
 const assertRevert = require('../helpers/assertRevert');
 const ether = require('../helpers/ether');
 
+const BigNumber = web3.BigNumber;
+
 const SmartStaking = artifacts.require('SmartStaking');
 
 require('chai')
@@ -99,9 +101,41 @@ contract('SmartStaking', function (accounts) {
         });
 
         it('should forward funds to wallet', async function () {
-            await this.contract.sendTransaction({ value, from: owner }).should.be.fulfilled;
+            await this.contract.sendTransaction({ value: value, from: owner }).should.be.fulfilled;
             const bonus = await this.contract.fundBonus.call();
             assert.equal(bonus.toString(), value);
+        });
+    });
+
+    describe('anyone can send fund to wallet to participate smart staking', function () {
+        const reward = ether(10);
+        const value = ether(1);
+        it('accept payment to allow sender to participate smart staking', async function () {
+            // setup package 1, 1500 ~ 15%
+            await this.contract.setupPackage1(1500, { from: owner });
+
+            // deposit 10 NTY to reward pool
+            await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+            const bonus = await this.contract.fundBonus.call();
+            assert.equal(bonus.toString(), reward);
+            
+            // send 1 NTY to participate smart staking's package 1
+            // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
+            await this.contract.sendTransaction({
+                value: value, 
+                data: '0x0000000000000000000000000000000000000000000000000000000000000001', 
+                from: anyone
+            }).should.be.fulfilled;
+
+            // check reward pool after smart staking
+            const bonusAfter = await this.contract.fundBonus.call();
+            const rate = new BigNumber(15);
+            const expect = reward.sub(rate.mul(value).div(100));
+            assert.equal(bonusAfter.toString(), expect.toString());
+
+            // package count of anyone should be 1
+            const packageCount = await this.contract.getPackageCount({ from: anyone });
+            assert.equal(packageCount.toString(), 1);
         });
     });
 });
