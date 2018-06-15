@@ -15,7 +15,6 @@ export default class extends LoggedInPage {
         if (!contract || !wallet || !web3) {
             return null;
         }
-        console.log('contract', contract)
 
         const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
         const address = wallet.getAddressString()

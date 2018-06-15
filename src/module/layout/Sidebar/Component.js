@@ -39,11 +39,6 @@ export default class extends BaseComponent {
                         <Icon type="database" /> {I18N.get('0011')}
                     </Menu.Item>
                     { isAdmin &&
-                        <Menu.Item key="interest-management">
-                            <Icon type="schedule" /> {I18N.get('0010')}
-                        </Menu.Item>
-                    }
-                    { isAdmin &&
                         <Menu.Item key="smart-staking">
                             <Icon type="wallet" /> {I18N.get('0007')}
                         </Menu.Item>
@@ -63,7 +58,6 @@ export default class extends BaseComponent {
         if (_.includes([
             'home',
             'smart-staking',
-            'interest-management',
             'register',
             'signup',
             'dashboard',
