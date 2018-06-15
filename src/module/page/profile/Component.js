@@ -17,10 +17,9 @@ export default class extends StandardPage {
         const {contract, wallet, web3} = this.props.profile
         const privatekey = wallet.getPrivateKey()
         const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: 'withdrawBonusPackage' }), '')
-        console.log('xxx1', functionDef)
 
-        const payloadData = functionDef.toPayload([0]).data;
-        console.log('xxx2', payloadData)
+        const payloadData = functionDef.toPayload([2]).data;
+
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
 
         const rawTx = {
@@ -32,7 +31,7 @@ export default class extends StandardPage {
         }
 
         // var gas = web3.eth.estimateGas(rawTx);
-        rawTx.gas = 50000
+        rawTx.gas = 100000
 
         const tx = new Tx(rawTx)
         tx.sign(privatekey)

@@ -106,7 +106,7 @@ contract SmartStaking {
     * Handle withdraw bonus with package for Investor
     */
     function withdrawBonusPackage(uint256 _id) public payable {
-        InvestorPackage memory package = investorPackges[msg.sender][_id];
+        InvestorPackage package = investorPackges[msg.sender][_id];
         require(safeSub(now, package.lastDateWithdraw) > 1 minutes);
         require(!package.isPaid);
 

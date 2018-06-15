@@ -22,7 +22,7 @@ export default createContainer(Component, (state)=>{
 
                 if (rs) {
                     message.success('Access success')
-                    userService.path.push('/dashboard')
+                    userService.path.push('/profile')
                 }
             } catch (err) {
                 message.error(err.message)
