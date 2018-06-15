@@ -139,7 +139,7 @@ export default class extends LoggedInPage {
                 <div className="ebp-header-divider">
 
                 </div>
-                <div className="ebp-page">
+                <div className="ebp-page text-center">
                     <h3>Smart Staking Information</h3>
                     <Row>
                         <Col span={4}>
@@ -149,7 +149,7 @@ export default class extends LoggedInPage {
                             {balance}
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={4}>
                             Reward pool:
                         </Col>
@@ -158,7 +158,7 @@ export default class extends LoggedInPage {
                         </Col>
                     </Row>
                     <hr />
-                    <Row>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={4}>
                             Package:
                         </Col>
@@ -166,7 +166,7 @@ export default class extends LoggedInPage {
                             {this.renderPackageDropdown()}
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={4}>
                             Amount:
                         </Col>
@@ -174,7 +174,7 @@ export default class extends LoggedInPage {
                             <Input onChange={this.onAmountChange.bind(this)} type="number" />
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={4}>
                             
                         </Col>
@@ -183,12 +183,12 @@ export default class extends LoggedInPage {
                         </Col>
                     </Row>
                     
-                    <Row>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={4}>
                             
                         </Col>
                         <Col span={8}>
-                            <Button onClick={this.confirm.bind(this)} className="btn-margin-top">Add</Button>
+                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
                     {/* <p>Account Address: {address}</p> */}
@@ -203,7 +203,7 @@ export default class extends LoggedInPage {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
-                <Breadcrumb.Item> User Smart Staking</Breadcrumb.Item>
+                <Breadcrumb.Item> Deposit</Breadcrumb.Item>
             </Breadcrumb>
         );
     }
