@@ -44,5 +44,43 @@ contract('SmartStaking', function (accounts) {
           let originalOwner = await contract.owner();
           await assertRevert(contract.transferOwnership(null, { from: originalOwner }));
         });
-    });    
+    })
+
+    describe('admin', function () {
+        describe('non-admin cannot set/update packages information', function () {
+            it('package1 information', async function () {
+                await assertRevert(contract.setupPackage1(15, { from: anyone }));
+            });
+
+            it('package2 information', async function () {
+                await assertRevert(contract.setupPackage2(25, { from: anyone }));
+            });
+            
+            it('package3 information', async function () {
+                await assertRevert(contract.setupPackage3(35, { from: anyone }));
+            });
+            
+            it('package4 information', async function () {
+                await assertRevert(contract.setupPackage4(45, { from: anyone }));
+            });
+        });
+
+        describe('owner can set/update each package information', function () {
+            it('package1 information', async function () {
+                await contract.setupPackage1(15, { from: owner });
+            });
+
+            it('package2 information', async function () {
+                await contract.setupPackage2(25, { from: owner });
+            });
+
+            it('package3 information', async function () {
+                await contract.setupPackage3(35, { from: owner });
+            });
+
+            it('package4 information', async function () {
+                await contract.setupPackage4(45, { from: owner });
+            });
+        });
+    });
 });
