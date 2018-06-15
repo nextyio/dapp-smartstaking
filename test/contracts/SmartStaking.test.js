@@ -68,23 +68,31 @@ contract('SmartStaking', function (accounts) {
         describe('owner can set/update each package information', function () {
             it('package1 information', async function () {
                 await this.contract.setupPackage1(15, { from: owner });
+                const package = await this.contract.packages.call(1);
+                assert.equal(package[1].toString(), 15);
             });
 
             it('package2 information', async function () {
                 await this.contract.setupPackage2(25, { from: owner });
+                const package = await this.contract.packages.call(2);
+                assert.equal(package[1].toString(), 25);
             });
 
             it('package3 information', async function () {
                 await this.contract.setupPackage3(35, { from: owner });
+                const package = await this.contract.packages.call(3);
+                assert.equal(package[1].toString(), 35);
             });
 
             it('package4 information', async function () {
                 await this.contract.setupPackage4(45, { from: owner });
+                const package = await this.contract.packages.call(4);
+                assert.equal(package[1].toString(), 45);
             });
         });
     });
 
-    describe('reward pool', function () {
+    describe('smart staking reward pool accept', function () {
         const value = ether(42);
         it('should accept payments', async function () {
             await this.contract.send(value).should.be.fulfilled;
@@ -92,6 +100,8 @@ contract('SmartStaking', function (accounts) {
 
         it('should forward funds to wallet', async function () {
             await this.contract.sendTransaction({ value, from: owner }).should.be.fulfilled;
+            const bonus = await this.contract.fundBonus.call();
+            assert.equal(bonus.toString(), value);
         });
     });
 });

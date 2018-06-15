@@ -87,7 +87,7 @@ contract SmartStaking {
         packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
-    function processStaking(uint256 _package) public payable {
+    function processStaking(uint256 _package) internal {
         uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 100);
         require(msg.value >= MIN_AMOUNT_STAKING);
         require(fundBonus >= bonusAmount);
