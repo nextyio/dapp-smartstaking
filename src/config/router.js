@@ -2,6 +2,7 @@ import HomePage from '@/module/page/home/Container'
 import DashboardPage from '@/module/page/dashboard/Container'
 import SmartStakingPage from '@/module/page/smart-staking/Container'
 import ListPackagePage from '@/module/page/list-package/Container'
+import DetailPackagePage from '@/module/page/detail-package/Container'
 import UserSmartStakingPage from '@/module/page/user-smart-staking/Container'
 import LoginPage from '@/module/page/login/Container'
 import RegisterPage from '@/module/page/register/Container'
@@ -33,6 +34,10 @@ export default [
     {
         path: '/list-package',
         page: ListPackagePage
+    },
+    {
+        path: '/list-package/:id',
+        page: DetailPackagePage
     },
     {
         path: '/login',

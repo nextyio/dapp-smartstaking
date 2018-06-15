@@ -2,6 +2,7 @@ import React from 'react';
 import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
+import { Link } from 'react-router-dom'
 
 import './style.scss'
 
@@ -13,12 +14,14 @@ export default class extends LoggedInPage {
     renderTable() {
         const dataSource = [{
             name: 'SS0001',
+            index: 0,
             amount: 50000,
             package: '7 days',
             expire: '6/22/2018',
             assumedReward: 1400
         }, {
             name: 'SS0002',
+            index: 1,
             amount: 150000,
             package: '30 days',
             expire: '7/15/2018',
@@ -29,6 +32,10 @@ export default class extends LoggedInPage {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
+            render: (name, record) => {
+                return <Link to={"/list-package/" + record.index}>{name}</Link>
+                // <a href={"/list-package/" + record.index} className="tableLink">{name}</a>
+            }
         }, {
             title: 'Amount',
             dataIndex: 'amount',
