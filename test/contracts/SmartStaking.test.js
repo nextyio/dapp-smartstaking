@@ -11,6 +11,13 @@ require('chai')
     .use(require('chai-as-promised'))
     .should();
 
+function wait(ms) {
+    var start = Date.now(), now = start;
+    while (now - start < ms) {
+        now = Date.now();
+    }
+}
+
 contract('SmartStaking', function (accounts) {
 
     const [
@@ -95,13 +102,19 @@ contract('SmartStaking', function (accounts) {
     });
 
     describe('smart staking reward pool accept', function () {
-        const value = ether(42);
+        const value = ether(2);
         it('should accept payments', async function () {
             await this.contract.send(value).should.be.fulfilled;
         });
 
         it('should forward funds to wallet', async function () {
             await this.contract.sendTransaction({ value: value, from: owner }).should.be.fulfilled;
+            const bonus = await this.contract.fundBonus.call();
+            assert.equal(bonus.toString(), value);
+        });
+
+        it('should forward funds to wallet with data', async function () {
+            await this.contract.sendTransaction({ value: value, data: '0x001', from: owner }).should.be.fulfilled;
             const bonus = await this.contract.fundBonus.call();
             assert.equal(bonus.toString(), value);
         });
@@ -122,8 +135,8 @@ contract('SmartStaking', function (accounts) {
             // send 1 NTY to participate smart staking's package 1
             // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
             await this.contract.sendTransaction({
-                value: value, 
-                data: '0x0000000000000000000000000000000000000000000000000000000000000001', 
+                value: value,
+                data: '0x0000000000000000000000000000000000000000000000000000000000000001',
                 from: anyone
             }).should.be.fulfilled;
 
@@ -133,9 +146,55 @@ contract('SmartStaking', function (accounts) {
             const expect = reward.sub(rate.mul(value).div(100));
             assert.equal(bonusAfter.toString(), expect.toString());
 
+            // check total fund, for the beginning it should be equal to value
+            const fund = await this.contract.fund.call();
+            assert.equal(fund.toString(), value.toString());
+
             // package count of anyone should be 1
             const packageCount = await this.contract.getPackageCount({ from: anyone });
             assert.equal(packageCount.toString(), 1);
+        });
+
+        it('participate smart staking then withdraw', async function () {
+            // setup package 1, 2500 ~ 25%
+            await this.contract.setupPackage2(2500, { from: owner });
+
+            // deposit 10 NTY to reward pool
+            await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+            const bonus = await this.contract.fundBonus.call();
+            assert.equal(bonus.toString(), reward);
+
+            // send 1 NTY to participate smart staking's package 2
+            // data: '0x0000000000000000000000000000000000000000000000000000000000000002'
+            await this.contract.sendTransaction({
+                value: value,
+                data: '0x0000000000000000000000000000000000000000000000000000000000000002',
+                from: anyone
+            }).should.be.fulfilled;
+
+            // check reward pool after smart staking
+            const bonusAfter = await this.contract.fundBonus.call();
+            const rate = new BigNumber(25);
+            const expect = reward.sub(rate.mul(value).div(100));
+            assert.equal(bonusAfter.toString(), expect.toString());
+
+            // check total fund, for the beginning it should be equal to value
+            const fund = await this.contract.fund.call();
+            assert.equal(fund.toString(), value.toString());
+
+            // package count of anyone should be 1
+            const packageCount = await this.contract.getPackageCount({ from: anyone });
+            assert.equal(packageCount.toString(), 1);
+
+            const package = await this.contract.getPackageInfo(0, { from: anyone });
+            assert.equal(package[0], false);
+            assert.equal(package[1].toString(), value.toString());
+
+            // wait 4+ minutes then withdraw
+            wait(250000);
+            this.contract.withdrawBonusPackage(0, { from: anyone });
+            const packageAfterWithdraw = await this.contract.getPackageInfo(0, { from: anyone });
+            assert.equal(packageAfterWithdraw[0], true);
         });
     });
 });
