@@ -32,17 +32,21 @@ export default class extends BaseComponent {
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
-                    <Menu.Item key="smart-staking">
-                        <Icon type="wallet" /> {I18N.get('0007')}
-                    </Menu.Item>
-                    <Menu.Item key="interest-management">
-                        <Icon type="schedule" /> {I18N.get('0010')}
-                    </Menu.Item>
                     <Menu.Item key="list-package">
                         <Icon type="database" /> {I18N.get('0011')}
                     </Menu.Item>
                     { isAdmin &&
-                        <Menu.Item key="admin">
+                        <Menu.Item key="interest-management">
+                            <Icon type="schedule" /> {I18N.get('0010')}
+                        </Menu.Item>
+                    }
+                    { isAdmin &&
+                        <Menu.Item key="smart-staking">
+                            <Icon type="wallet" /> {I18N.get('0007')}
+                        </Menu.Item>
+                    }
+                    { isAdmin &&
+                        <Menu.Item key="setting-packages">
                             <Icon type="setting" /> {I18N.get('0012')}
                         </Menu.Item>
                     }
@@ -63,7 +67,7 @@ export default class extends BaseComponent {
             'about',
             'contact',
             'profile',
-            'admin',
+            'setting-packages',
             'list-package'
         ], key)) {
             this.props.history.push('/' + e.key)

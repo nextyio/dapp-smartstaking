@@ -11,7 +11,7 @@ export default {
     '0009': 'FAQ',
     '0010': 'Interest Management',
     '0011': 'List Package',
-    '0012': 'Admin',
+    '0012': 'Setting Packages',
 
     '0100': 'Developer',
     '0101': 'Social',
