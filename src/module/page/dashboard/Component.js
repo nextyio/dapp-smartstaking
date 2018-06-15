@@ -10,42 +10,6 @@ const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
 
-    renderContractInfo () {
-        let {contract} = this.props.profile
-        console.log('contract', contract)
-
-        if (!contract) {
-            return null
-        }
-
-        const fund = contract.fund()
-        const fundBonus = contract.fundBonus()
-        const package1 = contract.PACKAGE1()
-        const package2 = contract.PACKAGE2()
-        const package3 = contract.PACKAGE3()
-        const package4 = contract.PACKAGE4()
-        const MIN_AMOUNT_STAKING = contract.MIN_AMOUNT_STAKING()
-        const investors = contract.investors(0)
-        const packageCount = contract.getPackageCount()
-        const packageInfo = contract.getPackageInfo(0)
-        console.log('xxx', packageInfo)
-
-        return (
-            <div>
-                <p>Total fund: {fund.toString()}</p>
-                <p>Total fund for bonus (interest): {fundBonus.toString()}</p>
-                <p>Count package: {packageCount.toString()}</p>
-                <p>Package Ids: {package1.toString()}, {package2.toString()}, {package3.toString()}, {package4.toString()}</p>
-                <Button type="ebp" htmlType="button" onClick={this.setingPackage.bind(this)} className="">
-                    Setting Package1
-                </Button>
-                <Button type="ebp" htmlType="button" onClick={this.depositPackage1.bind(this)} className="">
-                    Deposit Package
-                </Button>
-            </div>
-        )
-    }
-
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
         if (!contract || !wallet || !web3) {
