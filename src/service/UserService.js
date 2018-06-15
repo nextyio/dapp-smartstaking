@@ -24,6 +24,12 @@ export default class extends BaseService {
         web3.eth.defaultAccount = walletAddress
         wallet.balance = web3.eth.getBalance(walletAddress)
 
+        const owner = contract.owner()
+
+        if (walletAddress === owner) {
+            await this.dispatch(userRedux.actions.is_admin_update(true))
+        }
+
         await this.dispatch(userRedux.actions.is_login_update(true))
         await this.dispatch(userRedux.actions.profile_update({
             web3,

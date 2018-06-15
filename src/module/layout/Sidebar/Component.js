@@ -92,9 +92,6 @@ export default class extends BaseComponent {
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
-                    <Menu.Item key="profile">
-                        <Icon type="dashboard" /> {I18N.get('0200')}
-                    </Menu.Item>
                     <Menu.Item key="smart-staking">
                         <Icon type="wallet" /> {I18N.get('0007')}
                     </Menu.Item>

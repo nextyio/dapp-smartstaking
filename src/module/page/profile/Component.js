@@ -29,7 +29,7 @@ export default class extends StandardPage {
             to: contract.address,
             data: payloadData
         }
-
+        console.log('rawTx', rawTx)
         // var gas = web3.eth.estimateGas(rawTx);
         rawTx.gas = 100000
 

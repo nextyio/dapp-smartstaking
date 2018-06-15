@@ -13,34 +13,6 @@ import store from '@/store'
 const springConfig = {stiffness: 180, damping: 14}
 export default class extends BaseComponent {
     ord_render(p) {
-
-        /*
-        const s = this.ord_animate()
-        const defaultStyle = {}
-        _.each(s.from, (v, i)=>{
-            defaultStyle[`value_${i}`] = v
-        })
-        const toStyle = {}
-        _.each(s.to, (v, i)=>{
-            toStyle[`value_${i}`] = spring(v, springConfig)
-        })
-
-        const mp = {
-            defaultStyle,
-            style : toStyle
-        }
-
-        return (
-            <Motion {...mp}>
-                {
-                    (tar)=>{
-                        return (<div style={s.style_fn(_.values(tar))}>{this.ord_renderPage(p)}</div>)
-                    }
-                }
-            </Motion>
-        )
-        */
-
         return (<div>{this.ord_renderPage(p)}</div>)
     }
 
@@ -74,6 +46,9 @@ export default class extends BaseComponent {
         this.ord_checkLogin(is_login, is_admin)
     }
 
-    ord_checkLogin() {
+    ord_checkLogin(isLogin, isAdmin) {
+        if (!isLogin) {
+            this.props.history.replace('/login');
+        }
     }
 }
