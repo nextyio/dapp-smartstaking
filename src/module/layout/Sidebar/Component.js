@@ -14,70 +14,10 @@ const MenuItemGroup = Menu.ItemGroup
 
 export default class extends BaseComponent {
 
-    buildAcctDropdown() {
-
-        const isLogin = this.props.isLogin
-        const hasAdminAccess = [USER_ROLE.ADMIN, USER_ROLE.COUNCIL].includes(this.props.role)
-
-        return (
-            <Menu onClick={this.clickItem.bind(this)}>
-                {isLogin ?
-                    <Menu.Item key="profile">
-                        {I18N.get('0200')}
-                    </Menu.Item> :
-                    <Menu.Item key="login">
-                        {I18N.get('0201')}
-                    </Menu.Item>
-                }
-                {isLogin && hasAdminAccess &&
-                    <Menu.Item key="admin/tasks">
-                        {I18N.get('0203')}
-                    </Menu.Item>
-                }
-                {isLogin &&
-                    <Menu.Item key="logout">
-                        {I18N.get('0204')}
-                    </Menu.Item>
-                }
-            </Menu>
-        )
-    }
-
     ord_render() {
 
-        const isLogin = this.props.isLogin
-
-        const acctDropdown = this.buildAcctDropdown()
-
+        const isAdmin = this.props.isAdmin
         return (
-            // <Header className="c_Header">
-            //     <Menu onClick={this.clickItem.bind(this)} className="c_Header_Menu" selectedKeys={['mail']} mode="horizontal">
-            //         <Menu.Item className="c_MenuItem logo" key="home-icon">
-            //             <img src='/assets/images/Elastos_Logo_Temp.png' />
-            //         </Menu.Item>
-
-            //         <Menu.Item className="c_MenuItem" key="home">
-            //             {I18N.get('0002')}
-            //         </Menu.Item>
-
-            //         <Menu.Item className="c_MenuItem" key="about">
-            //             {I18N.get('0008')}
-            //         </Menu.Item>
-
-            //         <Menu.Item className="c_MenuItem" key="contact">
-            //             {I18N.get('0010')}
-            //         </Menu.Item>
-
-            //         <Menu.Item className="c_MenuItem account right-side">
-            //             <Dropdown overlay={acctDropdown} style="margin-top: 24px;">
-            //                 <a className="ant-dropdown-link" href="#">
-            //                     {I18N.get('0004')} <Icon type="down" />
-            //                 </a>
-            //             </Dropdown>
-            //         </Menu.Item>
-            //     </Menu>
-
-            // </Header>
 
             <Sider
                 trigger={null}
@@ -98,12 +38,14 @@ export default class extends BaseComponent {
                     <Menu.Item key="interest-management">
                         <Icon type="schedule" /> {I18N.get('0010')}
                     </Menu.Item>
-                    <Menu.Item key="user-smart-staking">
-                        <Icon type="wallet" /> {I18N.get('0007')}
-                    </Menu.Item>
                     <Menu.Item key="list-package">
                         <Icon type="database" /> {I18N.get('0011')}
                     </Menu.Item>
+                    { isAdmin &&
+                        <Menu.Item key="admin">
+                            <Icon type="setting" /> {I18N.get('0012')}
+                        </Menu.Item>
+                    }
                 </Menu>
             </Sider>
         )
@@ -121,7 +63,7 @@ export default class extends BaseComponent {
             'about',
             'contact',
             'profile',
-            'user-smart-staking',
+            'admin',
             'list-package'
         ], key)) {
             this.props.history.push('/' + e.key)

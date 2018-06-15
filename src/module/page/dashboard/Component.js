@@ -10,50 +10,6 @@ const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
 
-    setingPackage() {
-        let {contract} = this.props.profile
-        contract.setupPackage1(10)
-    }
-
-    toHex(str) {
-        var hex = '';
-
-        for(var i=0; i<str.length; i++) {
-            hex += '' + str.charCodeAt(i).toString(16);
-        }
-
-        return hex;
-    }
-
-    depositPackage1() {
-        const {contract, wallet, web3} = this.props.profile
-        const privatekey = wallet.getPrivateKey()
-
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-
-        let data = '1'
-        const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: web3.toWei(0.1, "ether"),
-            to: contract.address,
-            data: '0x' + this.toHex(data),
-        }
-
-        var gas = web3.eth.estimateGas(rawTx);
-        rawTx.gas = gas
-        console.log('rawTx', rawTx)
-        const tx = new Tx(rawTx)
-        tx.sign(privatekey)
-        const serializedTx = tx.serialize()
-
-        web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function(err, hash) {
-            console.log('err', err)
-            if (!err)
-                console.log(hash)
-        })
-    }
-
     renderContractInfo () {
         let {contract} = this.props.profile
         console.log('contract', contract)
@@ -92,9 +48,9 @@ export default class extends LoggedInPage {
 
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
-        let balance
-        let address
-
+        let balance = 0
+        let address = null
+        console.log('contract', contract)
         if (wallet) {
             balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
             address = wallet.getAddressString()
