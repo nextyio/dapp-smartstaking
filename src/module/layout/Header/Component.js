@@ -42,21 +42,29 @@ export default class extends BaseComponent {
         )
     }
 
+    renderHeader() {
+        const isLogin = this.props.isLogin;
+        if (isLogin) {
+            return (<Button className="right-side" onClick={this.logout.bind(this)} ghost>
+                <Icon type="logout" />{I18N.get('0204')}
+            </Button>);
+        } else {
+            return (
+                <div className="xlogo">
+                    <img src='/assets/images/Elastos_Logo_Temp.png' />
+                    Smart Staking
+                </div>
+            )
+        }
+    }
+
     ord_render() {
 
         const isLogin = this.props.isLogin
 
-        // const acctDropdown = this.buildAcctDropdown()
-
         return (
             <Header style={{ background: '#3c8dbc', padding: 0 }}>
-                {/* <Menu className="right-side" onClick={this.clickItem.bind(this)} selectedKeys={['mail']} mode="horizontal"> */}
-                {isLogin && <Button className="right-side" onClick={this.logout.bind(this)} ghost>
-                    {/* <Menu.Item className="right-side"> */}
-                    <Icon type="logout" />{I18N.get('0204')}
-                </Button>}
-                {/* </Menu.Item> */}
-                {/* </Menu> */}
+                {this.renderHeader()}
 
             </Header>
         )

@@ -111,7 +111,7 @@ export default class extends LoggedInPage {
     ord_renderBreadcrumb() {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-                <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
                 <Breadcrumb.Item> List Package</Breadcrumb.Item>
             </Breadcrumb>
         );
