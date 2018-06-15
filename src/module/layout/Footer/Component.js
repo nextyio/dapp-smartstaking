@@ -39,7 +39,7 @@ export default class extends BaseComponent {
                                 <b>Email</b>
 
                                 <p>
-                                    <a href="mailto:community@elastos.org">support@nexty.io</a>
+                                    <a href="support@nexty.io">support@nexty.io</a>
                                 </p>
 
                                 <b>Address</b>

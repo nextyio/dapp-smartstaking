@@ -1,7 +1,7 @@
 {
   "name": "smart-staking",
   "version": "1.0.0",
-  "description": "Elastos Bounty Program Front-end",
+  "description": "Dapp Smart Staking",
   "scripts": {
     "test": "scripts/test.sh",
     "start": "rimraf dev_dist && webpack-dev-server --mode development --config ./webpack/webpack.dev.js",

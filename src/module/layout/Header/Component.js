@@ -51,7 +51,7 @@ export default class extends BaseComponent {
         } else {
             return (
                 <div className="xlogo">
-                    <img src='/assets/images/Elastos_Logo_Temp.png' />
+                    <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
             )

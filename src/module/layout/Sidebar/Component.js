@@ -25,7 +25,7 @@ export default class extends BaseComponent {
                 // {/* // collapsed={this.state.collapsed} */}
                 >
                 <div className="xlogo">
-                    <img src='/assets/images/Elastos_Logo_Temp.png' />
+                    <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
                 <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={['convert']}>
