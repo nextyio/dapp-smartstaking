@@ -2,6 +2,7 @@ import React from 'react';
 import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
+import { Link } from 'react-router-dom'
 
 import './style.scss'
 
@@ -124,6 +125,12 @@ export default class extends LoggedInPage {
         })
     }
 
+    onChangeCheckbox(e) {
+        this.setState({
+            checkedTerms: e.target.checked
+        })
+    }
+
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
         let balance
@@ -135,62 +142,64 @@ export default class extends LoggedInPage {
         }
 
         return (
-            <div className="p_Profile">
+            <div className="">
                 <div className="ebp-header-divider">
 
                 </div>
-                <div className="ebp-page text-center">
-                    <h3>Smart Staking Information</h3>
+                <div className="ebp-page">
+                    <h3 className="text-center">Smart Staking Information</h3>
+                    <div className="ant-col-md-10 ant-col-md-offset-6" style={{'textAlign': 'left'}}>
                     <Row>
-                        <Col span={4}>
+                        <Col span={12}>
                             Your balance:
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             {balance}
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
+                        <Col span={12}>
                             Reward pool:
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             2.000.000 pNTY
                         </Col>
                     </Row>
                     <hr />
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
+                        <Col span={12}>
                             Package:
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             {this.renderPackageDropdown()}
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
+                        <Col span={12}>
                             Amount:
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             <Input onChange={this.onAmountChange.bind(this)} type="number" />
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
+                        <Col span={12}>
                             
                         </Col>
-                        <Col span={8}>
-                            <Checkbox onChange={this.onChangeCheckbox}>I accept terms</Checkbox>
+                        <Col span={12}>
+                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I accept terms</Checkbox>
                         </Col>
                     </Row>
                     
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
+                        <Col span={12}>
                             
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
+                    </div>
                     {/* <p>Account Address: {address}</p> */}
                     {/* <p>Account Balance: {balance}</p> */}
                     {/* {this.renderContractInfo()} */}
@@ -202,7 +211,7 @@ export default class extends LoggedInPage {
     ord_renderBreadcrumb() {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
-                <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
                 <Breadcrumb.Item> Deposit</Breadcrumb.Item>
             </Breadcrumb>
         );

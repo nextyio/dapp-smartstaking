@@ -4,7 +4,7 @@ import SmartStakingPage from '@/module/page/smart-staking/Container'
 import ListPackagePage from '@/module/page/list-package/Container'
 import DetailPackagePage from '@/module/page/detail-package/Container'
 import SettingPackagePage from '@/module/page/setting-package/Container'
-import UserSmartStakingPage from '@/module/page/user-smart-staking/Container'
+import DepositPage from '@/module/page/deposit/Container'
 import LoginPage from '@/module/page/login/Container'
 import RegisterPage from '@/module/page/register/Container'
 import ProfilePage from '@/module/page/profile/Container'
@@ -29,8 +29,8 @@ export default [
         page: SmartStakingPage
     },
     {
-        path: '/user-smart-staking',
-        page: UserSmartStakingPage
+        path: '/deposit',
+        page: DepositPage
     },
     {
         path: '/list-package',
