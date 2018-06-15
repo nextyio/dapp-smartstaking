@@ -148,10 +148,10 @@ export default class extends LoggedInPage {
 
     ord_renderBreadcrumb() {
         return (
-            <div>
+            <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
                 <Breadcrumb.Item> Dashboard</Breadcrumb.Item>
-            </div>
+            </Breadcrumb>
         );
     }
 }

@@ -27,11 +27,9 @@ export default class extends BasePage {
                         /> */}
                     {/* </Header> */}
                     <Header />
-                    <Breadcrumb style={{ 'margin-left': '16px', 'margin-top': '16px', float: 'right' }}>
                         {/* <Breadcrumb.Item><Link to="/"><Icon type="home" /> Home</Link></Breadcrumb.Item>
                         <Breadcrumb.Item>Login</Breadcrumb.Item> */}
                         {this.ord_renderBreadcrumb()}
-                    </Breadcrumb>
                     <Content style={{ margin: '16px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
                         {this.ord_renderContent()}
                     </Content>
