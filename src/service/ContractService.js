@@ -1,5 +1,6 @@
 import BaseService from '../model/BaseService'
 import _ from 'lodash'
+import Tx from 'ethereumjs-tx'
 
 export default class extends BaseService {
     async getFund() {
@@ -68,5 +69,31 @@ export default class extends BaseService {
         }
 
         return packages;
+    }
+
+    async deposit(packageId, amount) {
+        const storeUser = this.store.getState().user
+        let {contract, web3, wallet} = storeUser.profile
+
+        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
+
+        const privatekey = wallet.getPrivateKey()
+        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+
+        const rawTx = {
+            nonce: nonce,
+            from: wallet.getAddressString(),
+            value: web3.toWei(amount, "ether"),
+            to: contract.address,
+            data: '0x000000000000000000000000000000000000000000000000000000000000000' + packageId
+        }
+
+        var gas = web3.eth.estimateGas(rawTx);
+        rawTx.gas = gas
+        const tx = new Tx(rawTx)
+        tx.sign(privatekey)
+        const serializedTx = tx.serialize()
+
+        return web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'))
     }
 }

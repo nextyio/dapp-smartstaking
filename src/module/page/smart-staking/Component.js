@@ -1,7 +1,6 @@
 import React from 'react';
 import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
-import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 
 import './style.scss'
@@ -19,6 +18,16 @@ export default class extends LoggedInPage {
         })
     }
 
+    componentDidMount() {
+        this.loadData()
+    }
+
+    loadData() {
+        this.props.getFundBonus().then((fundBonus) => {
+            this.setState({fundBonus})
+        })
+    }
+
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
 
@@ -27,7 +36,6 @@ export default class extends LoggedInPage {
         }
 
         const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-        const fundBonus = contract.fundBonus().toString() / 1e18
 
         return (
             <div className="">
@@ -41,7 +49,7 @@ export default class extends LoggedInPage {
                             Current amount in smart staking wallet:
                         </Col>
                         <Col span={8} style={{'textAlign': 'left'}}>
-                            {fundBonus} NTY
+                            {this.state.fundBonus} NTY
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
@@ -86,31 +94,12 @@ export default class extends LoggedInPage {
     }
 
     confirm() {
-        let {wallet, web3, contract} = this.props.profile
-        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-
-        const privatekey = wallet.getPrivateKey()
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-
-        const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: web3.toWei(this.state.amount, "ether"),
-            to: contract.address,
-            data: '0x0000000000000000000000000000000000000000000000000000000000000000'
-        }
-
-        var gas = web3.eth.estimateGas(rawTx);
-        rawTx.gas = gas
-        const tx = new Tx(rawTx)
-        tx.sign(privatekey)
-        const serializedTx = tx.serialize()
-
-        web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function(err, hash) {
-            console.log('err', err)
-            if (!err) {
-                Message.success('Deposit successful')
+        this.props.deposit(0, this.state.amount).then((result) => {
+            if (!result) {
+                Message.error('Deposit error')
             }
+
+            Message.success('Deposit successful')
         })
     }
 
