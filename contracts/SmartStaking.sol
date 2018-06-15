@@ -1,7 +1,7 @@
 pragma solidity ^0.4.20;
 
 contract SmartStaking {
-    address owner;
+    address public owner;
     uint256 public constant PACKAGE1 = 1;
     uint256 public constant PACKAGE2 = 2;
     uint256 public constant PACKAGE3 = 3;
