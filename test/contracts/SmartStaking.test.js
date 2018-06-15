@@ -122,8 +122,8 @@ contract('SmartStaking', function (accounts) {
             // send 1 NTY to participate smart staking's package 1
             // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
             await this.contract.sendTransaction({
-                value: value, 
-                data: '0x0000000000000000000000000000000000000000000000000000000000000001', 
+                value: value,
+                data: '0x0000000000000000000000000000000000000000000000000000000000000001',
                 from: anyone
             }).should.be.fulfilled;
 
