@@ -51,10 +51,10 @@ export default class extends BaseComponent {
         return (
             <Header style={{ background: '#3c8dbc', padding: 0 }}>
                 {/* <Menu className="right-side" onClick={this.clickItem.bind(this)} selectedKeys={['mail']} mode="horizontal"> */}
-                <Button className="right-side" onClick={this.logout.bind(this)} ghost>
+                {isLogin && <Button className="right-side" onClick={this.logout.bind(this)} ghost>
                     {/* <Menu.Item className="right-side"> */}
                     <Icon type="logout" />{I18N.get('0204')}
-                </Button>
+                </Button>}
                 {/* </Menu.Item> */}
                 {/* </Menu> */}
 
