@@ -16,6 +16,19 @@ export default class extends BaseComponent {
         return (<div>{this.ord_renderPage(p)}</div>)
     }
 
+    ord_init() {
+        const storeUser = store.getState().user
+
+        if (!storeUser) {
+            return
+        }
+        const is_login = storeUser.is_login
+        const is_admin = storeUser.is_admin
+        if (!is_login) {
+            this.ord_checkLogin(is_login, is_admin)
+        }
+    }
+
     ord_animate() {
         return {
             from: [0, 50],
@@ -35,20 +48,11 @@ export default class extends BaseComponent {
     }
 
     componentDidMount() {
-        const storeUser = store.getState().user
-
-        if (!storeUser) {
-            return
-        }
-        const is_login = storeUser.is_login
-        const is_admin = storeUser.is_admin
-
-        this.ord_checkLogin(is_login, is_admin)
     }
 
     ord_checkLogin(isLogin, isAdmin) {
         if (!isLogin) {
-            this.props.history.replace('/login');
+            return this.props.history.replace('/login');
         }
     }
 }

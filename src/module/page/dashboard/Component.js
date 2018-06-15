@@ -48,13 +48,26 @@ export default class extends LoggedInPage {
 
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
-        let balance = 0
-        let address = null
-        console.log('contract', contract)
-        if (wallet) {
-            balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-            address = wallet.getAddressString()
+        if (!contract || !wallet || !web3) {
+            return null;
         }
+        console.log('contract', contract)
+
+        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
+        const address = wallet.getAddressString()
+
+        const fund = contract.fund().toString() / 1e18
+        const fundBonus = contract.fundBonus().toString() / 1e18
+
+        const packageInfo1 = contract.packages(1)
+        const packageInfo2 = contract.packages(2)
+        const packageInfo3 = contract.packages(3)
+        const packageInfo4 = contract.packages(4)
+
+        const bonusPackage1 = packageInfo1[1].toString()
+        const bonusPackage2 = packageInfo2[1].toString()
+        const bonusPackage3 = packageInfo3[1].toString()
+        const bonusPackage4 = packageInfo4[1].toString()
 
         return (
             <div className="p_Profile">
@@ -64,37 +77,36 @@ export default class extends LoggedInPage {
                 <div className="ebp-page content-center">
                     <Row>
                         <Col span={12}>
-                            <h1>10.000</h1>
+                            <h1>{fundBonus} NTY</h1>
                             <span className="text-stat">Current amount in Smart Staking</span>
                         </Col>
                         <Col span={12}>
-                            <h1>50.000</h1>
+                            <h1>{fund} NTY</h1>
                             <span className="text-stat">Total Smart Staking amount</span>
                         </Col>
                     </Row>
                     <div className="ebp-header-divider dashboard-rate-margin">
 
                     </div>
-                    {/* <div><span className="text-stat">Current amount in Smart Staking: 10.000</span></div> */}
-                    {/* <div><span className="text-stat">Total Smart Staking amount: 50.000</span></div> */}
+
                     <div><span className="text-stat">Current interest rate:</span></div>
 
                     <Row>
                         <Col span={6}>
-                            <h1>1%</h1>
+                            <h1>{bonusPackage1} %</h1>
                             7 days
                         </Col>
                         <Col span={6}>
-                            <h1>2%</h1>
-                            30 days
+                            <h1>{bonusPackage2} %</h1>
+                            14 days
                         </Col>
                         <Col span={6}>
-                            <h1>3%</h1>
-                            180 days
+                            <h1>{bonusPackage3} %</h1>
+                            90 days
                         </Col>
                         <Col span={6}>
-                            <h1>4%</h1>
-                            360 days
+                            <h1>{bonusPackage4} %</h1>
+                            190 days
                         </Col>
                     </Row>
                 </div>

@@ -34,7 +34,7 @@ export default class extends BaseComponent {
                         </Col>
                         <Col span={8}>
                             <div className="d_footerSection">
-                                <h2>Contact Us</h2>
+                                <h4>Contact Us</h4>
 
                                 <b>Email</b>
 
@@ -45,15 +45,13 @@ export default class extends BaseComponent {
                                 <b>Address</b>
 
                                 <p>
-                                    HD Moon City<br/>
-                                    My Dinh, Ha Noi<br/>
-                                    Vietnam
+                                    HD Moon City, My Dinh, Ha Noi, Vietnam
                                 </p>
                             </div>
                         </Col>
                         <Col span={8}>
                             <div className="d_footerSection">
-                                <h2>Support</h2>
+                                <h4>Support</h4>
 
                                 <p>
                                     If you're a developer and are running into issues
