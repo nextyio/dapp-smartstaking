@@ -12,8 +12,20 @@ const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
 
-    renderTable(packages) {
-        const dataSource = packages;
+    componentDidMount() {
+        this.loadData()
+    }
+
+    loadData() {
+        this.props.getUserPackages().then((packages) => {
+            this.setState({
+                packages
+            })
+        })
+    }
+
+    renderTable() {
+        const dataSource = this.state.packages;
 
         const columns = [{
             title: 'Name',
@@ -61,40 +73,11 @@ export default class extends LoggedInPage {
         return (<Table pagination={false} dataSource={dataSource} columns={columns} />);
     }
 
-    getPackages(contract) {
-        const packageCount = contract.getPackageCount().toString()
-        const packages = []
-
-        for (let i = 0; i < packageCount; i++) {
-            const packageInfo = contract.getPackageInfo(i)
-            let isPaid = packageInfo[0]
-            let amount = packageInfo[1].toString()
-            let packageId = packageInfo[2].toString()
-            let bonusPercent = packageInfo[3].toString()
-            let lastDateWithdraw = packageInfo[4].toString()
-            let expiredDate = packageInfo[5].toString()
-
-            packages.push({
-                index: i + 1,
-                isPaid,
-                amount,
-                packageId,
-                bonusPercent,
-                lastDateWithdraw,
-                expiredDate
-            })
-        }
-
-        return packages;
-    }
-
     ord_renderContent() {
         let { wallet, web3, contract } = this.props.profile
         if (!contract || !wallet || !web3) {
             return null;
         }
-
-        const packages = this.getPackages(contract)
 
         return (
             <div className="p_Profile">
@@ -102,7 +85,7 @@ export default class extends LoggedInPage {
 
                 </div>
                 <div className="ebp-page">
-                    {this.renderTable(packages)}
+                    {this.renderTable()}
                 </div>
             </div>
         )

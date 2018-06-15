@@ -63,7 +63,7 @@ export default class extends LoggedInPage {
                     </Row>
 
                     <Row style={{'marginTop': '15px'}}>
-                        
+
                         <Col span={8} offset={8}>
                             <Button onClick={this.depositNTY.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
