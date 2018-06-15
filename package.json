@@ -85,6 +85,8 @@
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "chai-bignumber": "^2.0.0",
+    "coveralls": "^2.13.1",
+    "dotenv": "^4.0.0",
     "ethereumjs-util": "^5.1.2",
     "ethjs-abi": "^0.2.1",
     "ganache-cli": "6.1.0",

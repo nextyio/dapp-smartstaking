@@ -30,7 +30,11 @@ contract SmartStaking {
     mapping(uint256 => Package) public packages;
     mapping(address => InvestorPackage[]) public investorPackges;
 
-    function () public payable {
+    function () external payable {
+        if (msg.data.length == 0) {
+            fundBonus = safeAdd(fundBonus, msg.value);
+            return;
+        }
         uint256 dataPackageId = uint256(bytesToBytes32(msg.data, 0));
 
         if (PACKAGE1 == dataPackageId) {
