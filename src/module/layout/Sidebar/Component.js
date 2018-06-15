@@ -101,6 +101,9 @@ export default class extends BaseComponent {
                     <Menu.Item key="interest-management">
                         <Icon type="schedule" /> {I18N.get('0010')}
                     </Menu.Item>
+                    <Menu.Item key="user-smart-staking">
+                        <Icon type="wallet" /> {I18N.get('0007')}
+                    </Menu.Item>
                 </Menu>
             </Sider>
         )
@@ -117,7 +120,8 @@ export default class extends BaseComponent {
             'dashboard',
             'about',
             'contact',
-            'profile'
+            'profile',
+            'user-smart-staking'
         ], key)) {
             this.props.history.push('/' + e.key)
         }
