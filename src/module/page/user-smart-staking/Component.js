@@ -95,7 +95,7 @@ export default class extends LoggedInPage {
 
     renderPackageDropdown() {
         const menu = (
-            <Menu onClick={this.handleMenuClick}>
+            <Menu onClick={this.handleMenuClick.bind(this)}>
                 <Menu.Item key="7">7 days</Menu.Item>
                 <Menu.Item key="30">30 days</Menu.Item>
                 <Menu.Item key="90">90 days</Menu.Item>
@@ -106,14 +106,22 @@ export default class extends LoggedInPage {
         return (
             <Dropdown overlay={menu}>
                 <Button>
-                    Choose <Icon type="down" />
+                    {this.state.package ? this.state.package + " days" : "Choose"} <Icon type="down" />
                 </Button>
             </Dropdown>
         )
     }
 
     handleMenuClick(e) {
-        console.log("clickkkkkk", e)
+        this.setState({
+            package: e.key
+        })
+    }
+
+    onAmountChange(e) {
+        this.setState({
+            amount: e.target.value
+        })
     }
 
     ord_renderContent () {
@@ -163,7 +171,7 @@ export default class extends LoggedInPage {
                             Amount:
                         </Col>
                         <Col span={8}>
-                            <Input type="number" />
+                            <Input onChange={this.onAmountChange.bind(this)} type="number" />
                         </Col>
                     </Row>
                     <Row>
@@ -201,9 +209,34 @@ export default class extends LoggedInPage {
     }
 
     confirm () {
+        const _package = this.state.package;
+        const package_timestamp = parseInt(_package) * 24 * 60 * 60 * 1000;
+        const expire_timestamp = new Date().getTime() + package_timestamp;
+        const expire_date = new Date(expire_timestamp);
+        const expire_month = expire_date.getMonth() + 1;
+        const expire_day = expire_date.getDate();
+        const expire_year = expire_date.getFullYear();
+
+        const content = (
+            <div>
+                <div>
+                    Package: {this.state.package} days
+                </div>
+                <div>
+                    Amount: {this.state.amount}
+                </div>
+                <div>
+                    Assumed reward: 2.000.000
+                </div>
+                <div>
+                    Exprire date: {expire_month}/{expire_day}/{expire_year}
+                </div>
+            </div>
+        );
+
         Modal.confirm({
             title: 'Are you sure?',
-            content: '',
+            content: content,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
