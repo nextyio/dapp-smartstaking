@@ -5,7 +5,7 @@ import Tx from 'ethereumjs-tx'
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox } from 'antd'
 const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
@@ -93,37 +93,6 @@ export default class extends LoggedInPage {
         )
     }
 
-    renderPackageDropdown() {
-        const menu = (
-            <Menu onClick={this.handleMenuClick.bind(this)}>
-                <Menu.Item key="7">7 days</Menu.Item>
-                <Menu.Item key="30">30 days</Menu.Item>
-                <Menu.Item key="90">90 days</Menu.Item>
-                <Menu.Item key="180">180 days</Menu.Item>
-            </Menu>
-        );
-
-        return (
-            <Dropdown overlay={menu}>
-                <Button>
-                    {this.state.package ? this.state.package + " days" : "Choose"} <Icon type="down" />
-                </Button>
-            </Dropdown>
-        )
-    }
-
-    handleMenuClick(e) {
-        this.setState({
-            package: e.key
-        })
-    }
-
-    onAmountChange(e) {
-        this.setState({
-            amount: e.target.value
-        })
-    }
-
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
         let balance
@@ -139,56 +108,88 @@ export default class extends LoggedInPage {
                 <div className="ebp-header-divider">
 
                 </div>
-                <div className="ebp-page text-center">
-                    <h3>Smart Staking Information</h3>
+                <div className="ebp-page">
+                    <h3>Interest rate</h3>
                     <Row>
-                        <Col span={4}>
-                            Your balance:
+                        <Col span={8}>
+                            7 days
                         </Col>
                         <Col span={8}>
-                            {balance}
+                        <InputNumber
+                            defaultValue={0}
+                            min={0}
+                            max={100}
+                            formatter={value => `${value}%`}
+                            parser={value => value.replace('%', '')}
+                            onChange={this.onChange7Days.bind(this)}
+                        />
+                        </Col>
+                        <Col span={8}>
+                            <span>{this.state.package7daysReward}%</span>
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
-                            Reward pool:
+                        <Col span={8}>
+                            30 days
                         </Col>
                         <Col span={8}>
-                            2.000.000 pNTY
-                        </Col>
-                    </Row>
-                    <hr />
-                    <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
-                            Package:
-                        </Col>
-                        <Col span={8}>
-                            {this.renderPackageDropdown()}
-                        </Col>
-                    </Row>
-                    <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
-                            Amount:
+                        <InputNumber
+                            defaultValue={0}
+                            min={0}
+                            max={100}
+                            formatter={value => `${value}%`}
+                            parser={value => value.replace('%', '')}
+                            onChange={this.onChange30Days.bind(this)}
+                        />
                         </Col>
                         <Col span={8}>
-                            <Input onChange={this.onAmountChange.bind(this)} type="number" />
+                            <span>{this.state.package30daysReward}%</span>
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
+                        <Col span={8}>
+                            90 days
+                        </Col>
+                        <Col span={8}>
+                        <InputNumber
+                            defaultValue={0}
+                            min={0}
+                            max={100}
+                            formatter={value => `${value}%`}
+                            parser={value => value.replace('%', '')}
+                            onChange={this.onChange90Days.bind(this)}
+                        />
+                        </Col>
+                        <Col span={8}>
+                            <span>{this.state.package90daysReward}%</span>
+                        </Col>
+                    </Row>
+                    <Row style={{'marginTop': '15px'}}>
+                        <Col span={8}>
+                            180 days
+                        </Col>
+                        <Col span={8}>
+                        <InputNumber
+                            defaultValue={0}
+                            min={0}
+                            max={100}
+                            formatter={value => `${value}%`}
+                            parser={value => value.replace('%', '')}
+                            onChange={this.onChange180Days.bind(this)}
+                        />
+                        </Col>
+                        <Col span={8}>
+                            <span>{this.state.package180daysReward}%</span>
+                        </Col>
+                    </Row>
+
+                    <Row style={{'marginTop': '15px'}}>
+                        <Col span={8}>
                             
                         </Col>
                         <Col span={8}>
-                            <Checkbox onChange={this.onChangeCheckbox}>I accept terms</Checkbox>
-                        </Col>
-                    </Row>
-                    
-                    <Row style={{'marginTop': '15px'}}>
-                        <Col span={4}>
-                            
-                        </Col>
-                        <Col span={8}>
-                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
+                            <Button onClick={this.reset.bind(this)} type="primary" className="btn-margin-top">Reset</Button>
+                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set.bind(this)} className="btn-margin-top">Set</Button>
                         </Col>
                     </Row>
                     {/* <p>Account Address: {address}</p> */}
@@ -203,48 +204,41 @@ export default class extends LoggedInPage {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Icon type="home" /> Home</Breadcrumb.Item>
-                <Breadcrumb.Item> Deposit</Breadcrumb.Item>
+                <Breadcrumb.Item> Setting Package</Breadcrumb.Item>
             </Breadcrumb>
         );
     }
 
-    confirm () {
-        const _package = this.state.package;
-        const package_timestamp = parseInt(_package) * 24 * 60 * 60 * 1000;
-        const expire_timestamp = new Date().getTime() + package_timestamp;
-        const expire_date = new Date(expire_timestamp);
-        const expire_month = expire_date.getMonth() + 1;
-        const expire_day = expire_date.getDate();
-        const expire_year = expire_date.getFullYear();
+    set () {
+        
+    }
 
-        const content = (
-            <div>
-                <div>
-                    Package: {this.state.package} days
-                </div>
-                <div>
-                    Amount: {this.state.amount}
-                </div>
-                <div>
-                    Assumed reward: 2.000.000
-                </div>
-                <div>
-                    Exprire date: {expire_month}/{expire_day}/{expire_year}
-                </div>
-            </div>
-        );
+    reset () {
+        
+    }
 
-        Modal.confirm({
-            title: 'Are you sure?',
-            content: content,
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk: () => {
-                this.props.confirm()
-            },
-            onCancel() {
-            }
-        })
+    onChange7Days(value) {
+        this.setState({
+            percent_7days: value,
+            package7daysReward: 7 * value
+        });
+    }
+    onChange30Days(value) {
+        this.setState({
+            percent_30days: value,
+            package30daysReward: 30 * value
+        });
+    }
+    onChange90Days(value) {
+        this.setState({
+            percent_90days: value,
+            package90daysReward: 90 * value
+        });
+    }
+    onChange180Days(value) {
+        this.setState({
+            percent_180days: value,
+            package180daysReward: 180 * value
+        });
     }
 }

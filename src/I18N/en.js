@@ -12,6 +12,7 @@ export default {
     '0010': 'Interest Management',
     '0011': 'List Package',
     '0012': 'Setting Packages',
+    '0013': 'Deposit',
 
     '0100': 'Developer',
     '0101': 'Social',

@@ -32,6 +32,9 @@ export default class extends BaseComponent {
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
+                    <Menu.Item key="user-smart-staking">
+                        <Icon type="wallet" /> {I18N.get('0013')}
+                    </Menu.Item>
                     <Menu.Item key="list-package">
                         <Icon type="database" /> {I18N.get('0011')}
                     </Menu.Item>
@@ -68,7 +71,8 @@ export default class extends BaseComponent {
             'contact',
             'profile',
             'setting-packages',
-            'list-package'
+            'list-package',
+            'user-smart-staking'
         ], key)) {
             this.props.history.push('/' + e.key)
         }
