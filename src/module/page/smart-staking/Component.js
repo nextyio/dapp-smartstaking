@@ -26,6 +26,10 @@ export default class extends LoggedInPage {
         this.props.getFundBonus().then((fundBonus) => {
             this.setState({fundBonus})
         })
+
+        this.props.getBalance().then((balance) => {
+            this.setState({balance})
+        })
     }
 
     ord_renderContent () {
@@ -34,8 +38,6 @@ export default class extends LoggedInPage {
         if (!contract || !wallet || !web3) {
             return null;
         }
-
-        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
 
         return (
             <div className="">
@@ -57,7 +59,7 @@ export default class extends LoggedInPage {
                             Your balance:
                         </Col>
                         <Col span={8} style={{'textAlign': 'left'}}>
-                            {balance} NTY
+                            {this.state.balance} NTY
                         </Col>
                     </Row>
                     <h3 className="text-center">Add more</h3>
@@ -104,14 +106,12 @@ export default class extends LoggedInPage {
     }
 
     depositNTY() {
-        let {wallet, web3, contract} = this.props.profile
-        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
 
         if (!this.state.amount) {
             return Message.error('Amount is required')
         }
 
-        if (this.state.amount > balance) {
+        if (this.state.amount > this.state.balance) {
             return Message.error('Amount do not greater than your balance')
         }
 

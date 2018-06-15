@@ -41,6 +41,12 @@ export default class extends BaseService {
         return true
     }
 
+    async getBalance() {
+        const storeUser = this.store.getState().user
+        let {web3, wallet} = storeUser.profile
+        return parseFloat(web3.fromWei(wallet.balance, 'ether'))
+    }
+
     async logout(){
         const userRedux = this.store.getRedux('user')
         const tasksRedux = this.store.getRedux('task')

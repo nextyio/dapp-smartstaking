@@ -1,6 +1,7 @@
 import {createContainer} from '@/util'
 import Component from './Component'
 import ContractService from '@/service/ContractService'
+import UserService from '@/service/UserService'
 
 export default createContainer(Component, (state) => {
     return {
@@ -8,6 +9,7 @@ export default createContainer(Component, (state) => {
     }
 }, () => {
     const contractService = new ContractService()
+    const userService = new UserService()
 
     return {
         async getFundBonus() {
@@ -15,6 +17,9 @@ export default createContainer(Component, (state) => {
         },
         async deposit(packageId, amount) {
             return await contractService.deposit(packageId, amount)
+        },
+        async getBalance(packageId, amount) {
+            return await userService.getBalance()
         }
     }
 })
