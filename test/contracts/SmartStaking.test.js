@@ -123,7 +123,7 @@ contract('SmartStaking', function (accounts) {
     });
 
     describe('anyone can send fund to wallet to participate smart staking', function () {
-        const reward = ether(10);
+        const reward = ether(2);
         const value = ether(1);
 
         describe('abnormal condition', function () {
@@ -225,7 +225,7 @@ contract('SmartStaking', function (accounts) {
                 // check package information
                 const package = await this.contract.getPackageInfo(0, { from: anyone });
                 assert.equal(package[0], false);
-                assert.equal(package[1].toString(), value.toString());            
+                assert.equal(package[1].toString(), value.toString());
             });
     
             it('participate smart staking then withdraw', async function () {
@@ -236,7 +236,7 @@ contract('SmartStaking', function (accounts) {
                 await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
                 const bonus = await this.contract.fundBonus.call();
                 assert.equal(bonus.toString(), reward);
-    
+
                 // send 1 NTY to participate smart staking's package 2
                 // data: '0x0000000000000000000000000000000000000000000000000000000000000002'
                 await this.contract.sendTransaction({
@@ -268,6 +268,131 @@ contract('SmartStaking', function (accounts) {
                 this.contract.withdrawBonusPackage(0, { from: anyone });
                 const packageAfterWithdraw = await this.contract.getPackageInfo(0, { from: anyone });
                 assert.equal(packageAfterWithdraw[0], true);
+            });
+        });
+    });
+
+    describe('migration', function () {
+        const reward = ether(2);
+        const value = ether(1);
+        const update = ether(1.1);
+        describe('no one can call migration method except owner', function () {
+            it('non-owner cannot call create staking', async function () {
+                await assertRevert(this.contract.createStaking(recipient, value, 1, 100, 15300000, 1550000, {from: anyone}));
+            });
+
+            it('non-owner cannot call update staking', async function () {
+                await assertRevert(this.contract.updateStaking(recipient, 0, false, value, 1, 100, 15300000, 1550000, {from: anyone}));
+            });
+        });
+
+        describe('owner can call migration method', function () {
+            describe('revert if sending wrong input', function () {
+                it('wrong package key < 1 when new smart staking', async function () {
+                    await assertRevert(this.contract.createStaking(recipient, value, 0, 100, 15300000, 1550000, {from: owner}));
+                });
+
+                it('wrong package key > 4 when new smart staking', async function () {
+                    await assertRevert(this.contract.createStaking(recipient, value, 5, 100, 15300000, 1550000, {from: owner}));
+                });
+
+                it('wrong package key < 1 when update smart staking', async function () {
+                    // deposit 10 NTY to reward pool
+                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    const bonus = await this.contract.fundBonus.call();
+                    assert.equal(bonus.toString(), reward);
+                    
+                    await this.contract.createStaking(anyone, value, 1, 100, 15300000, 1550000, {from: owner});
+                    await assertRevert(this.contract.updateStaking(anyone, 0, true, value, 0, 100, 15300000, 1550000, {from: owner}));
+                });
+
+                it('wrong package key > 4 when update smart staking', async function () {
+                    // deposit 10 NTY to reward pool
+                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    const bonus = await this.contract.fundBonus.call();
+                    assert.equal(bonus.toString(), reward);
+
+                    await this.contract.createStaking(recipient, value, 4, 100, 15300000, 1550000, {from: owner});
+                    await assertRevert(this.contract.updateStaking(recipient, 0, true, value, 5, 100, 15300000, 1550000, {from: owner}));
+                });
+
+                it('dont have enough fund to pay reward when creating smart staking', async function () {
+                    // deposit 10 NTY to reward pool
+                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    const bonus = await this.contract.fundBonus.call();
+                    assert.equal(bonus.toString(), reward);
+
+                    await assertRevert(this.contract.createStaking(recipient, value, 1, 15000000, 15300000, 1550000, {from: owner}));
+                });
+
+                it('dont have enough fund to pay reward when updating smart staking', async function () {
+                    // deposit 10 NTY to reward pool
+                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    const bonus = await this.contract.fundBonus.call();
+                    assert.equal(bonus.toString(), reward);
+
+                    await this.contract.createStaking(recipient, value, 1, 1500, 15300000, 1550000, {from: owner});
+                    await assertRevert(this.contract.createStaking(recipient, value, 1, 15000000, 15300000, 1550000, {from: owner}));
+                });
+            });
+
+            describe('create and update smart staking succesfully', function () {
+                it('owner can create new smart staking for anyone', async function () {
+                    // deposit 10 NTY to reward pool
+                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    const bonus = await this.contract.fundBonus.call();
+                    assert.equal(bonus.toString(), reward);
+
+                    await this.contract.createStaking(recipient, value, 1, 1500, 15300000, 1550000, {from: owner});
+
+                    // check reward pool after smart staking
+                    const bonusAfter = await this.contract.fundBonus.call();
+                    const rate = new BigNumber(15);
+                    const expect = reward.sub(rate.mul(value).div(100));
+                    assert.equal(bonusAfter.toString(), expect.toString());
+
+                    // check total fund, for the beginning it should be equal to value
+                    const fund = await this.contract.fund.call();
+                    assert.equal(fund.toString(), value.toString());
+
+                    // package count of recipient should be 1
+                    const packageCount = await this.contract.getPackageCount({ from: recipient });
+                    assert.equal(packageCount.toString(), 1);
+
+                    // check package information
+                    const package = await this.contract.getPackageInfo(0, { from: recipient });
+                    assert.equal(package[0], false);
+                    assert.equal(package[1].toString(), value.toString());
+                });
+
+                it('owner can create then update smart staking for anyone', async function () {
+                    // deposit 10 NTY to reward pool
+                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    const bonus = await this.contract.fundBonus.call();
+                    assert.equal(bonus.toString(), reward);
+
+                    await this.contract.createStaking(recipient, value, 1, 1500, 15300000, 1550000, {from: owner});
+                    await this.contract.updateStaking(recipient, 0, false, update, 2, 2500, 15300000, 1550000, {from: owner});
+
+                    // check reward pool after smart staking
+                    const bonusAfter = await this.contract.fundBonus.call();
+                    const rate = new BigNumber(25);
+                    const expect = reward.sub(rate.mul(update).div(100));
+                    assert.equal(bonusAfter.toString(), expect.toString());
+
+                    // check total fund, for the beginning it should be equal to value
+                    const fund = await this.contract.fund.call();
+                    assert.equal(fund.toString(), update.toString());
+
+                    // package count of recipient should be 1
+                    const packageCount = await this.contract.getPackageCount({ from: recipient });
+                    assert.equal(packageCount.toString(), 1);
+
+                    // check package information
+                    const package = await this.contract.getPackageInfo(0, { from: recipient });
+                    assert.equal(package[0], false);
+                    assert.equal(package[1].toString(), update.toString());
+                });
             });
         });
     });
