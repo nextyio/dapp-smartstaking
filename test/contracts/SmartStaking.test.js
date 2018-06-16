@@ -155,6 +155,40 @@ contract('SmartStaking', function (accounts) {
         });
 
         describe('normal condition', function () {
+            it('participate smart staking before admin setup package', async function () {
+                // deposit 10 NTY to reward pool
+                await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                const bonus = await this.contract.fundBonus.call();
+                assert.equal(bonus.toString(), reward);
+
+                // send 1 NTY to participate smart staking's package 1
+                // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
+                await this.contract.sendTransaction({
+                    value: value,
+                    data: '0x0000000000000000000000000000000000000000000000000000000000000001',
+                    from: anyone
+                }).should.be.fulfilled;
+
+                // check reward pool after smart staking
+                const bonusAfter = await this.contract.fundBonus.call();
+                const rate = new BigNumber(0);
+                const expect = reward.sub(rate.mul(value).div(100));
+                assert.equal(bonusAfter.toString(), expect.toString());
+    
+                // check total fund, for the beginning it should be equal to value
+                const fund = await this.contract.fund.call();
+                assert.equal(fund.toString(), value.toString());
+    
+                // package count of anyone should be 1
+                const packageCount = await this.contract.getPackageCount({ from: anyone });
+                assert.equal(packageCount.toString(), 1);
+    
+                // check package information
+                const package = await this.contract.getPackageInfo(0, { from: anyone });
+                assert.equal(package[0], false);
+                assert.equal(package[1].toString(), value.toString());            
+            });
+            
             it('accept payment to allow sender to participate smart staking', async function () {
                 // setup package 1, 1500 ~ 15%
                 await this.contract.setupPackage1(1500, { from: owner });
