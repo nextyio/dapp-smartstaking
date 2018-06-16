@@ -69,7 +69,7 @@ export default class extends LoggedInPage {
                 return <p>{moment.utc(expiredDate * 1000).format('MM/DD/YYYY') }</p>
             }
         }, {
-            title: 'Assumed Reward',
+            title: 'Estimated Reward',
             dataIndex: 'bonusPercent',
             key: 'bonusPercent',
             render: (bonusPercent, packageInfo) => {

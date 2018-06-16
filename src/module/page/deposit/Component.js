@@ -42,7 +42,7 @@ export default class extends LoggedInPage {
         return (
             <Dropdown overlay={menu}>
                 <Button>
-                    {this.state.package ? this.state.package + " days" : "Choose"} <Icon type="down" />
+                    {this.state.package ? this.state.package + " days" : "Please Choose"} <Icon type="down" />
                 </Button>
             </Dropdown>
         )
@@ -191,7 +191,7 @@ export default class extends LoggedInPage {
                     Assumed reward: {this.state.fundBonus} NTY
                 </div>
                 <div>
-                    Exprire date: {expire_month}/{expire_day}/{expire_year}
+                    Expired date: {expire_month}/{expire_day}/{expire_year}
                 </div>
             </div>
         );

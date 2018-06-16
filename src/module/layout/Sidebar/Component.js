@@ -27,7 +27,7 @@ export default class extends BaseComponent {
                     <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
-                <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar">
+                <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
@@ -95,6 +95,11 @@ export default class extends BaseComponent {
             'list-package',
             'deposit'
         ];
+
+        if (!url) {
+            return ['dashboard']
+        }
+
         for(var menu in sidebar) {
             if(url.indexOf(sidebar[menu]) > -1) {
                 return [sidebar[menu]];

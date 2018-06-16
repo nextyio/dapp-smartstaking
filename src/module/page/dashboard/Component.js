@@ -51,7 +51,7 @@ export default class extends LoggedInPage {
                     <Row>
                         <Col span={12}>
                             <h1>{this.state.fundBonus} NTY</h1>
-                            <span className="text-stat">Current amount in Smart Staking</span>
+                            <span className="text-stat">Reward pool</span>
                         </Col>
                         <Col span={12}>
                             <h1>{this.state.fund} NTY</h1>
@@ -62,7 +62,7 @@ export default class extends LoggedInPage {
 
                     </div>
 
-                    <div><span className="text-stat">Current interest rate:</span></div>
+                    <div><span className="text-stat">Current reward:</span></div>
 
                     <Row>
                         <Col span={6}>
