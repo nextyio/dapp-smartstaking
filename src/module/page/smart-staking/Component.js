@@ -106,9 +106,8 @@ export default class extends LoggedInPage {
     }
 
     depositNTY() {
-
         if (!this.state.amount) {
-            return Message.error('Amount is required')
+            return Message.error('Invalid amount')
         }
 
         if (this.state.amount > this.state.balance) {
