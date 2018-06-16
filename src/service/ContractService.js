@@ -1,6 +1,8 @@
 import BaseService from '../model/BaseService'
 import _ from 'lodash'
 import Tx from 'ethereumjs-tx'
+const SolidityFunction = require('web3/lib/web3/function')
+import {WEB3} from '@/constant'
 
 export default class extends BaseService {
     async getFund() {
@@ -76,8 +78,6 @@ export default class extends BaseService {
         let {contract, web3, wallet} = storeUser.profile
 
         const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-
-        const privatekey = wallet.getPrivateKey()
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
 
         const rawTx = {
@@ -88,12 +88,57 @@ export default class extends BaseService {
             data: '0x000000000000000000000000000000000000000000000000000000000000000' + packageId
         }
 
-        var gas = web3.eth.estimateGas(rawTx);
+        const gas = this.estimateGas(rawTx)
         rawTx.gas = gas
+
+        return this.sendRawTransaction(rawTx)
+    }
+
+    async callFunction(functionName, params) {
+        const storeUser = this.store.getState().user
+        let {contract, web3, wallet} = storeUser.profile
+
+        const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: functionName }), '')
+
+        const payloadData = functionDef.toPayload(params).data
+        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+
+        const rawTx = {
+            nonce: nonce,
+            from: wallet.getAddressString(),
+            value: '0x0',
+            to: contract.address,
+            data: payloadData
+        }
+        const gas = this.estimateGas(rawTx)
+        rawTx.gas = gas
+
+        return this.sendRawTransaction(rawTx)
+    }
+
+    sendRawTransaction(rawTx) {
+        const storeUser = this.store.getState().user
+        let {web3, wallet} = storeUser.profile
+
+        const privatekey = wallet.getPrivateKey()
         const tx = new Tx(rawTx)
         tx.sign(privatekey)
         const serializedTx = tx.serialize()
 
         return web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'))
+    }
+
+    estimateGas(rawTx) {
+        const storeUser = this.store.getState().user
+        let {web3} = storeUser.profile
+        let gas
+
+        try {
+            gas = web3.eth.estimateGas(rawTx)
+        } catch(err) {
+            gas = 100000
+        }
+
+        return gas
     }
 }
