@@ -63,10 +63,6 @@ contract SmartStaking {
         }
     }
 
-    function despositBonus() public payable {
-        fundBonus = safeAdd(fundBonus, msg.value);
-    }
-
     /**
      * @dev convert any bytes array to maximum length 32 bytes array
      * if the length of input bytes array `b` < 32 then take the bytes array length
