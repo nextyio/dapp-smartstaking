@@ -5,8 +5,12 @@ import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message } from 'antd'
 const FormItem = Form.Item;
+
+Message.config({
+    top: 100
+})
 
 export default class extends LoggedInPage {
 
@@ -70,6 +74,12 @@ export default class extends LoggedInPage {
             alerts.push(<Alert message={this.state.error} type="error" showIcon />)
         }
 
+        let txhash = null;
+        if (this.state.txhash) {
+            const message = 'Transaction hash: ' + this.state.txhash
+             txhash = <Alert message={message} type="success" showIcon />
+        }
+
         return (
             <div className="">
                 <div className="ebp-header-divider">
@@ -80,6 +90,9 @@ export default class extends LoggedInPage {
                     <div className="ant-col-md-10 ant-col-md-offset-7">
                         <Row>
                             {alerts}
+                        </Row>
+                        <Row>
+                            {txhash}
                         </Row>
                     </div>
                     <div className="ant-col-md-10 ant-col-md-offset-7" style={{'textAlign': 'left'}}>
@@ -135,7 +148,7 @@ export default class extends LoggedInPage {
                     </Row>
                     </div>
                 </div>
-                
+
             </div>
         )
     }
@@ -154,7 +167,7 @@ export default class extends LoggedInPage {
         this.setState({
             error: error
         });
-        if(error) { 
+        if(error) {
             return;
         }
 
@@ -172,10 +185,10 @@ export default class extends LoggedInPage {
                     Package: {this.state.package} days
                 </div>
                 <div>
-                    Amount: {this.state.amount}
+                    Amount: {this.state.amount} NTY
                 </div>
                 <div>
-                    Assumed reward: {this.state.fundBonus}
+                    Assumed reward: {this.state.fundBonus} NTY
                 </div>
                 <div>
                     Exprire date: {expire_month}/{expire_day}/{expire_year}
@@ -190,10 +203,30 @@ export default class extends LoggedInPage {
             okType: 'danger',
             cancelText: 'No',
             onOk: () => {
-                this.props.confirm()
+                this.onConfirmDeposit()
             },
             onCancel() {
             }
+        })
+    }
+
+    onConfirmDeposit() {
+        const mapsDaysToPackage = {
+            '7': 1,
+            '30': 2,
+            '90': 3,
+            '180': 4
+        }
+
+        this.props.deposit(mapsDaysToPackage[this.state.package], this.state.amount).then((result) => {
+            if (!result) {
+                Message.error('Deposit error')
+            }
+
+            Message.success('Deposit successful')
+            this.setState({
+                txhash: result
+            })
         })
     }
 

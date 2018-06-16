@@ -18,8 +18,8 @@ export default createContainer(Component, (state) => {
         async getBalance(packageId, amount) {
             return await userService.getBalance()
         },
-        async callFunction(functionName, params) {
-            return await contractService.callFunction(functionName, params)
+        async deposit(packageId, amount) {
+            return await contractService.deposit(packageId, amount)
         }
     }
 })
