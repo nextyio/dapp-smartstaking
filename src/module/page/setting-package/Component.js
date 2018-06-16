@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox, Alert } from 'antd'
 const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
@@ -25,6 +25,7 @@ export default class extends LoggedInPage {
 
       this.props.getPackagesInfo().then((packages) => {
           this.setState({
+              package7daysPosted:false,
               toReset_percent_7days: packages.package1[1].toString(),
               toReset_percent_30days: packages.package2[1].toString(),
               toReset_percent_90days: packages.package3[1].toString(),
@@ -36,7 +37,7 @@ export default class extends LoggedInPage {
               package7daysReward:packages.package1[1].toString()*7,
               package30daysReward:packages.package2[1].toString()*30,
               package90daysReward:packages.package3[1].toString()*90,
-              package180daysReward:packages.package4[1].toString()*180,
+              package180daysReward:packages.package4[1].toString()*180
           })
       })
   }
@@ -45,6 +46,7 @@ export default class extends LoggedInPage {
         let {wallet, web3, contract} = this.props.profile
         let balance
         let address
+        //if (this.state.package7daysSuccess) console.log('done');
 
         if (wallet) {
             balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
@@ -76,6 +78,9 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                             <span>{this.state.package7daysReward}%</span>
                         </Col>
+
+
+
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={4} offset={6}>
@@ -95,6 +100,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                             <span>{this.state.package30daysReward}%</span>
                         </Col>
+
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={4} offset={6}>
@@ -158,11 +164,66 @@ export default class extends LoggedInPage {
         );
     }
 
+    clear(){
+        this.setState({
+          package7daysPosted:null,
+          package30daysPosted:null,
+          package90daysPosted:null,
+          package180daysPosted:null,
+          package7daysSuccess:null,
+          package30daysSuccess:null,
+          package90daysSuccess:null,
+          package180daysSuccess:null
+        })
+    }
+
     set () {
-        console.log('xxx', this.state.package7daysReward);
-        if (this.state.package7daysReward != this.state.toReset_percent_7days) {
-          this.props.callFunction('setupPackage1', [this.state.package7daysReward]);
+        //console.log('xxx', this.state.package7daysReward);
+        this.clear.bind(this);
+        if (this.state.percent_7days != this.state.toReset_percent_7days) {
+            this.props.callFunction('setupPackage1', [this.state.percent_7days]).then((result) => {
+                this.setState({
+                    package7daysSuccess:result,
+                })
+            });
+            this.setState({
+                package7daysPosted:true,
+            })
         }
+
+        if (this.state.percent_30days != this.state.toReset_percent_30days) {
+            this.props.callFunction('setupPackage2', [this.state.percent_30days]).then((result) => {
+                this.setState({
+                    package30daysSuccess:result,
+                })
+            });
+            this.setState({
+                package30daysPosted:true,
+            })
+        }
+
+        if (this.state.percent_90days != this.state.toReset_percent_90days) {
+            this.props.callFunction('setupPackage3', [this.state.percent_90days]).then((result) => {
+                this.setState({
+                    package30daysSuccess:result,
+                })
+            });
+            this.setState({
+                package90daysPosted:true,
+            })
+        }
+
+        if (this.state.percent_180days != this.state.toReset_percent_180days) {
+            this.props.callFunction('setupPackage4', [this.state.percent_180days]).then((result) => {
+                this.setState({
+                    package180daysSuccess:result,
+                })
+            });
+            this.setState({
+                package180daysPosted:true,
+            })
+        }
+
     }
 
     reset () {
