@@ -34,7 +34,7 @@ contract SmartStaking {
     }
 
     mapping(uint256 => Package) public packages;
-    mapping(address => InvestorPackage[]) public investorPackges;
+    mapping(address => InvestorPackage[]) public investorPackages;
 
     function () external payable {
         if (msg.data.length == 0) {
@@ -104,7 +104,7 @@ contract SmartStaking {
         fundBonus = safeSub(fundBonus, bonusAmount);
         fund = safeAdd(fund, msg.value);
 
-        investorPackges[msg.sender].push(InvestorPackage({
+        investorPackages[msg.sender].push(InvestorPackage({
             isPaid: false,
             amount: msg.value,
             packageId: _package,
@@ -118,7 +118,8 @@ contract SmartStaking {
     * Handle withdraw bonus with package for Investor
     */
     function withdrawBonusPackage(uint256 _id) public payable {
-        InvestorPackage package = investorPackges[msg.sender][_id];
+        require(_id < investorPackages[msg.sender].length);
+        InvestorPackage package = investorPackages[msg.sender][_id];
         require(safeSub(now, package.lastDateWithdraw) > REWARD_TIME_UNIT);
         require(!package.isPaid);
 
@@ -150,7 +151,7 @@ contract SmartStaking {
     }
 
     function getPackageCount() public view returns(uint256) {
-        return investorPackges[msg.sender].length;
+        return investorPackages[msg.sender].length;
     }
 
     /**
@@ -163,8 +164,8 @@ contract SmartStaking {
         uint256,
         uint256,
         uint256) {
-        require(investorPackges[msg.sender].length > 0);
-        InvestorPackage package = investorPackges[msg.sender][_id];
+        require(investorPackages[msg.sender].length > 0);
+        InvestorPackage package = investorPackages[msg.sender][_id];
 
         return (
             package.isPaid,
