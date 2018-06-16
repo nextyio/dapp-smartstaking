@@ -55,7 +55,7 @@ export default class extends LoggedInPage {
             render: (packageId) => {
                 const days = {
                     '1' : '7 days',
-                    '2' : '14 days',
+                    '2' : '30 days',
                     '3' : '90 days',
                     '4' : '180 days',
                 }
