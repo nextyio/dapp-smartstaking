@@ -159,7 +159,11 @@ export default class extends LoggedInPage {
     }
 
     set () {
-        console.log('xxx', this.state)
+        console.log('xxx', this.state);
+        if (this.state.package7daysReward != this.state.toReset_percent_7days) {
+          $has
+          this.props.callFunction('setupPackage1', [this.state.package7daysReward]);
+        }
     }
 
     reset () {

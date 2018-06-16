@@ -21,7 +21,7 @@ export default createContainer(Component, (state)=>{
                 const rs = await userService.decryptWallet(privateKey)
 
                 if (rs) {
-                    message.success('Access success')
+                    message.success('Login successfully')
                     userService.path.push('/dashboard')
                 }
             } catch (err) {

@@ -77,22 +77,18 @@ contract SmartStaking {
     * totalDays 7, 30, 90, 180
     */
     function setupPackage1(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE1].totalDays = PACKAGE1_PERIOD;
         packages[PACKAGE1].bonusPercent = _bonusPercent;
     }
 
     function setupPackage2(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE2].totalDays = PACKAGE2_PERIOD;
         packages[PACKAGE2].bonusPercent = _bonusPercent;
     }
 
     function setupPackage3(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE3].totalDays = PACKAGE3_PERIOD;
         packages[PACKAGE3].bonusPercent = _bonusPercent;
     }
 
     function setupPackage4(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE4].totalDays = PACKAGE4_PERIOD;
         packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
@@ -179,6 +175,18 @@ contract SmartStaking {
 
     constructor() public {
         owner = msg.sender;
+
+        packages[PACKAGE1].totalDays = PACKAGE1_PERIOD;
+        packages[PACKAGE1].bonusPercent = 0;
+
+        packages[PACKAGE2].totalDays = PACKAGE2_PERIOD;
+        packages[PACKAGE2].bonusPercent = 0;
+
+        packages[PACKAGE3].totalDays = PACKAGE3_PERIOD;
+        packages[PACKAGE3].bonusPercent = 0;
+
+        packages[PACKAGE4].totalDays = PACKAGE4_PERIOD;
+        packages[PACKAGE4].bonusPercent = 0;
     }
 
     /**

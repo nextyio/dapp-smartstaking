@@ -44,7 +44,7 @@ class C extends BaseComponent {
         return (
             <div className="c_loginForm">
                 <p>
-                    Do you like to access your wallet ?
+                    Do you want to access your wallet?
                 </p>
                 <Form onSubmit={this.handleSubmit.bind(this)} className="c_loginForm">
                     <FormItem>
@@ -52,7 +52,7 @@ class C extends BaseComponent {
                     </FormItem>
                     <FormItem>
                         <Button loading={this.props.loading} type="ebp" htmlType="submit" className="">
-                            Unlock
+                            Login
                         </Button>
                         {/*&nbsp;&nbsp;
                         <Button loading={this.props.loading} type="blue" htmlType="button" className="">

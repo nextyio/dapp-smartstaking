@@ -28,7 +28,7 @@ export default class extends BaseComponent {
                     <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
-                <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={['convert']}>
+                <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
@@ -84,5 +84,24 @@ export default class extends BaseComponent {
                 }
             })
         }
+    }
+
+    detectUrl() {
+        let url = window.location.pathname;
+        console.log("////", url)
+        let sidebar = [
+            'smart-staking',
+            'dashboard',
+            'setting-packages',
+            'list-package',
+            'deposit'
+        ];
+        for(var menu in sidebar) {
+            if(url.indexOf(sidebar[menu]) > -1) {
+                return [sidebar[menu]];
+                break;
+            }
+        }
+        return null;
     }
 }

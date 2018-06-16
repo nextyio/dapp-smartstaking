@@ -87,7 +87,7 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page">
                     <h3 className="text-center">Smart Staking Information</h3>
-                    <div className="ant-col-md-10 ant-col-md-offset-7">
+                    <div className="ant-col-md-10 ant-col-md-offset-7 text-alert">
                         <Row>
                             {alerts}
                         </Row>
@@ -96,7 +96,7 @@ export default class extends LoggedInPage {
                         </Row>
                     </div>
                     <div className="ant-col-md-10 ant-col-md-offset-7" style={{'textAlign': 'left'}}>
-                    <Row style={{'marginTop': '15px'}}>
+                    <Row>
                         <Col span={12}>
                             Your balance:
                         </Col>

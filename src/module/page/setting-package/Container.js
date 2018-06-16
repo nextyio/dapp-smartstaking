@@ -18,6 +18,9 @@ export default createContainer(Component, (state) => {
         },
         async getPackagesInfo() {
             return await contractService.getPackagesInfo()
+        },
+        async callFunction(){
+          return await contractService.callFunction()
         }
     }
 })

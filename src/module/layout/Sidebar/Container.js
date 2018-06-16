@@ -15,7 +15,7 @@ export default createContainer(Component, (state) => {
         async logout() {
             const rs = await userService.logout();
             if (rs) {
-                message.success('logout success');
+                message.success('Log out successfully');
                 userService.path.push('/login');
             }
         }
