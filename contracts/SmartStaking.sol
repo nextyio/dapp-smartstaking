@@ -11,7 +11,6 @@ contract SmartStaking {
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
     address[] public investors;
-    uint256 public amountWithDraw;
 
     struct InvestorPackage {
         bool isPaid;
