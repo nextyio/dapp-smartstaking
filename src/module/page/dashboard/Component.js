@@ -71,7 +71,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col span={6}>
                             <h1>{this.state.bonusPackage2} %</h1>
-                            14 days
+                            30 days
                         </Col>
                         <Col span={6}>
                             <h1>{this.state.bonusPackage3} %</h1>
@@ -79,7 +79,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col span={6}>
                             <h1>{this.state.bonusPackage4} %</h1>
-                            190 days
+                            180 days
                         </Col>
                     </Row>
                 </div>
