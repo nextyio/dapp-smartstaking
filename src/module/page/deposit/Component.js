@@ -175,7 +175,7 @@ export default class extends LoggedInPage {
                     Amount: {this.state.amount}
                 </div>
                 <div>
-                    Assumed reward: 2.000.000
+                    Assumed reward: {this.state.fundBonus}
                 </div>
                 <div>
                     Exprire date: {expire_month}/{expire_day}/{expire_year}
