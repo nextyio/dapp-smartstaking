@@ -52,7 +52,7 @@ class C extends BaseComponent {
                     </FormItem>
                     <FormItem>
                         <Button loading={this.props.loading} type="ebp" htmlType="submit" className="">
-                            Unlock
+                            Login
                         </Button>
                         {/*&nbsp;&nbsp;
                         <Button loading={this.props.loading} type="blue" htmlType="button" className="">

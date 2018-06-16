@@ -116,7 +116,7 @@ export default class extends LoggedInPage {
         }
 
         if (this.state.amount <= 0) {
-            return Message.error('Amount do not less than 0')
+            return Message.error('Amount must be value greater than 0')
         }
 
         const content = (
