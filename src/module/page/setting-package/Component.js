@@ -25,6 +25,10 @@ export default class extends LoggedInPage {
 
       this.props.getPackagesInfo().then((packages) => {
           this.setState({
+              toReset_percent_7days: packages.package1[1].toString(),
+              toReset_percent_30days: packages.package2[1].toString(),
+              toReset_percent_90days: packages.package3[1].toString(),
+              toReset_percent_180days: packages.package4[1].toString(),
               percent_7days: packages.package1[1].toString(),
               percent_30days: packages.package2[1].toString(),
               percent_90days: packages.package3[1].toString(),
@@ -159,7 +163,16 @@ export default class extends LoggedInPage {
     }
 
     reset () {
-
+      this.setState({
+          percent_7days: this.state.toReset_percent_7days,
+          percent_30days: this.state.toReset_percent_30days,
+          percent_90days: this.state.toReset_percent_90days,
+          percent_180days: this.state.toReset_percent_180days,
+          package7daysReward:this.state.toReset_percent_7days*7,
+          package30daysReward:this.state.toReset_percent_30days*30,
+          package90daysReward:this.state.toReset_percent_90days*90,
+          package180daysReward:this.state.toReset_percent_180days*180,
+      })
     }
 
     onChange7Days(value) {
