@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message, Alert } from 'antd'
 const FormItem = Form.Item;
 Message.config({
     top: 100
@@ -39,6 +39,12 @@ export default class extends LoggedInPage {
             return null;
         }
 
+        let txhash = null;
+        if (this.state.txhash) {
+            const message = 'Transaction hash: ' + this.state.txhash
+             txhash = <Alert message={message} type="success" showIcon />
+        }
+
         return (
             <div className="">
                 <div className="ebp-header-divider">
@@ -46,7 +52,12 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page">
                     <h3 className="text-center">Smart Staking Information</h3>
-                    <Row>
+                    <div className="ant-col-md-11 ant-col-md-offset-6 text-alert">
+                        <Row>
+                            {txhash}
+                        </Row>
+                    </div>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={8} offset={6} style={{'textAlign': 'left'}}>
                             Current amount in smart staking wallet:
                         </Col>
@@ -101,7 +112,10 @@ export default class extends LoggedInPage {
                 Message.error('Deposit error')
             }
 
-            Message.success('Deposit successful')
+            Message.success('Adding deposit to reward pool successfully')
+            this.setState({
+                txhash: result
+            })
         })
     }
 
