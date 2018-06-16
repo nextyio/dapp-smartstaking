@@ -3,10 +3,9 @@ import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
-
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert } from 'antd'
 const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
@@ -24,6 +23,7 @@ export default class extends LoggedInPage {
             this.setState({balance})
         })
     }
+
 
     renderPackageDropdown() {
         const menu = (
@@ -63,6 +63,13 @@ export default class extends LoggedInPage {
     }
 
     ord_renderContent () {
+
+        const alerts = [];
+
+        if(this.state.error) {
+            alerts.push(<Alert message={this.state.error} type="error" showIcon />)
+        }
+
         return (
             <div className="">
                 <div className="ebp-header-divider">
@@ -70,8 +77,13 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page">
                     <h3 className="text-center">Smart Staking Information</h3>
-                    <div className="ant-col-md-10 ant-col-md-offset-6" style={{'textAlign': 'left'}}>
-                    <Row>
+                    <div className="ant-col-md-10 ant-col-md-offset-7">
+                        <Row>
+                            {alerts}
+                        </Row>
+                    </div>
+                    <div className="ant-col-md-10 ant-col-md-offset-7" style={{'textAlign': 'left'}}>
+                    <Row style={{'marginTop': '15px'}}>
                         <Col span={12}>
                             Your balance:
                         </Col>
@@ -104,7 +116,7 @@ export default class extends LoggedInPage {
                             <Input onChange={this.onAmountChange.bind(this)} type="number" />
                         </Col>
                     </Row>
-                    <Row style={{'marginTop': '15px'}}>
+                    <Row style={{'marginTop': '12px'}}>
                         <Col span={12}>
 
                         </Col>
@@ -118,11 +130,12 @@ export default class extends LoggedInPage {
 
                         </Col>
                         <Col span={12}>
-                            <Button onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
+                            <Button disabled={!this.state.checkedTerms} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
                     </div>
                 </div>
+                
             </div>
         )
     }
@@ -137,9 +150,17 @@ export default class extends LoggedInPage {
     }
 
     confirm () {
+        const error = this.validate();
+        this.setState({
+            error: error
+        });
+        if(error) { 
+            return;
+        }
+
         const _package = this.state.package;
         const package_timestamp = parseInt(_package) * 24 * 60 * 60 * 1000;
-        const expire_timestamp = new Date().getTime() + package_timestamp;
+        const expire_timestamp = new Date().getTime() + package_timestamp + 7 * 24 * 60 * 60 * 1000;
         const expire_date = new Date(expire_timestamp);
         const expire_month = expire_date.getMonth() + 1;
         const expire_day = expire_date.getDate();
@@ -174,5 +195,17 @@ export default class extends LoggedInPage {
             onCancel() {
             }
         })
+    }
+
+    validate() {
+        let errorFields = [];
+        if(!this.state.package) {
+            errorFields.push('Package');
+        }
+        if(!this.state.amount) {
+            errorFields.push('Amount');
+        }
+        if(errorFields.length == 0) return null;
+        return errorFields.join(", ") + " is required.";
     }
 }
