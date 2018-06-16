@@ -2,15 +2,22 @@ pragma solidity ^0.4.23;
 
 contract SmartStaking {
     address public owner;
-    uint256 public constant PACKAGE1 = 1;
-    uint256 public constant PACKAGE2 = 2;
-    uint256 public constant PACKAGE3 = 3;
-    uint256 public constant PACKAGE4 = 4;
-    uint256 public constant INIT_DATE = 1 minutes;
-    uint256 public constant MIN_AMOUNT_STAKING = 0.01 ether;
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
-    address[] public investors;
+
+    uint256 constant PACKAGE1 = 1;
+    uint256 constant PACKAGE2 = 2;
+    uint256 constant PACKAGE3 = 3;
+    uint256 constant PACKAGE4 = 4;
+
+    uint256 constant PACKAGE1_PERIOD = 1 minutes; // should be 7 days in mainnet
+    uint256 constant PACKAGE2_PERIOD = 2 minutes; // should be 30 days in mainnet
+    uint256 constant PACKAGE3_PERIOD = 3 minutes; // should be 90 days in mainnet
+    uint256 constant PACKAGE4_PERIOD = 5 minutes; // should be 180 days in mainnet
+
+    uint256 constant LOCK_PERIOD = 1 minutes; // should be 7 days in mainnet
+    uint256 constant STAKING_MIN_AMOUNT = 0.01 ether; // should be 50 pNTY ~ 500,000 NTY/ether in mainnet
+    uint256 constant REWARD_TIME_UNIT = 1 minutes; // should be 1 days in mainnet
 
     struct InvestorPackage {
         bool isPaid;
@@ -27,7 +34,7 @@ contract SmartStaking {
     }
 
     mapping(uint256 => Package) public packages;
-    mapping(address => InvestorPackage[]) public investorPackges;
+    mapping(address => InvestorPackage[]) public investorPackages;
 
     function () external payable {
         if (msg.data.length == 0) {
@@ -70,41 +77,40 @@ contract SmartStaking {
     * totalDays 7, 30, 90, 180
     */
     function setupPackage1(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE1].totalDays = 1 minutes;
+        packages[PACKAGE1].totalDays = PACKAGE1_PERIOD;
         packages[PACKAGE1].bonusPercent = _bonusPercent;
     }
 
     function setupPackage2(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE2].totalDays = 2 minutes;
+        packages[PACKAGE2].totalDays = PACKAGE2_PERIOD;
         packages[PACKAGE2].bonusPercent = _bonusPercent;
     }
 
     function setupPackage3(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE3].totalDays = 3 minutes;
+        packages[PACKAGE3].totalDays = PACKAGE3_PERIOD;
         packages[PACKAGE3].bonusPercent = _bonusPercent;
     }
 
     function setupPackage4(uint256 _bonusPercent) public onlyOwner {
-        packages[PACKAGE4].totalDays = 5 minutes;
+        packages[PACKAGE4].totalDays = PACKAGE4_PERIOD;
         packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
     function processStaking(uint256 _package) internal {
         uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 10000);
-        require(msg.value >= MIN_AMOUNT_STAKING);
+        require(msg.value >= STAKING_MIN_AMOUNT);
         require(fundBonus >= bonusAmount);
 
         fundBonus = safeSub(fundBonus, bonusAmount);
         fund = safeAdd(fund, msg.value);
-        investors.push(msg.sender);
 
-        investorPackges[msg.sender].push(InvestorPackage({
+        investorPackages[msg.sender].push(InvestorPackage({
             isPaid: false,
             amount: msg.value,
             packageId: _package,
             bonusPercent: packages[_package].bonusPercent,
-            lastDateWithdraw: safeAdd(now, INIT_DATE),
-            expiredDate: safeAdd(now, safeAdd(packages[_package].totalDays, INIT_DATE))
+            lastDateWithdraw: safeAdd(now, LOCK_PERIOD),
+            expiredDate: safeAdd(now, safeAdd(packages[_package].totalDays, LOCK_PERIOD))
         }));
     }
 
@@ -112,8 +118,9 @@ contract SmartStaking {
     * Handle withdraw bonus with package for Investor
     */
     function withdrawBonusPackage(uint256 _id) public payable {
-        InvestorPackage package = investorPackges[msg.sender][_id];
-        require(safeSub(now, package.lastDateWithdraw) > 1 minutes);
+        require(_id < investorPackages[msg.sender].length);
+        InvestorPackage package = investorPackages[msg.sender][_id];
+        require(safeSub(now, package.lastDateWithdraw) > REWARD_TIME_UNIT);
         require(!package.isPaid);
 
         uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 10000);
@@ -124,13 +131,13 @@ contract SmartStaking {
         uint256 amount = 0;
 
         if (package.expiredDate > now) {
-            sumDays = safeDiv(safeSub(now, package.lastDateWithdraw), 1 minutes);
+            sumDays = safeDiv(safeSub(now, package.lastDateWithdraw), REWARD_TIME_UNIT);
             package.lastDateWithdraw = now;
             amount = safeMul(sumDays, bonusPerday);
         }
 
         if (package.expiredDate <= now) {
-            sumDays = safeDiv(safeSub(expiredDate, package.lastDateWithdraw), 1 minutes);
+            sumDays = safeDiv(safeSub(expiredDate, package.lastDateWithdraw), REWARD_TIME_UNIT);
             package.lastDateWithdraw = now;
 
             fund = safeSub(fund, packageAmount);
@@ -144,7 +151,7 @@ contract SmartStaking {
     }
 
     function getPackageCount() public view returns(uint256) {
-        return investorPackges[msg.sender].length;
+        return investorPackages[msg.sender].length;
     }
 
     /**
@@ -157,8 +164,8 @@ contract SmartStaking {
         uint256,
         uint256,
         uint256) {
-        require(investorPackges[msg.sender].length > 0);
-        InvestorPackage package = investorPackges[msg.sender][_id];
+        require(investorPackages[msg.sender].length > 0);
+        InvestorPackage package = investorPackages[msg.sender][_id];
 
         return (
             package.isPaid,

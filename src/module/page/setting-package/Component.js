@@ -10,6 +10,32 @@ import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Me
 const FormItem = Form.Item;
 
 export default class extends LoggedInPage {
+  componentDidMount() {
+      this.loadData()
+  }
+
+  loadData() {
+      this.props.getFund().then((fund) => {
+          this.setState({fund})
+      })
+
+      this.props.getFundBonus().then((fundBonus) => {
+          this.setState({fundBonus})
+      })
+
+      this.props.getPackagesInfo().then((packages) => {
+          this.setState({
+              percent_7days: packages.package1[1].toString(),
+              percent_30days: packages.package2[1].toString(),
+              percent_90days: packages.package3[1].toString(),
+              percent_180days: packages.package4[1].toString(),
+              package7daysReward:packages.package1[1].toString()*7,
+              package30daysReward:packages.package2[1].toString()*30,
+              package90daysReward:packages.package3[1].toString()*90,
+              package180daysReward:packages.package4[1].toString()*180,
+          })
+      })
+  }
 
     ord_renderContent () {
         let {wallet, web3, contract} = this.props.profile
@@ -35,6 +61,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
+                            value={this.state.percent_7days}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -53,6 +80,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
+                            value={this.state.percent_30days}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -71,6 +99,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
+                            value={this.state.percent_90days}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -89,6 +118,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
+                            value={this.state.percent_180days}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
