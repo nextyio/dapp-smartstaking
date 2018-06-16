@@ -1,4 +1,4 @@
-// const expectEvent = require('../helpers/expectEvent');
+const expectEvent = require('../helpers/expectEvent');
 // const expectThrow = require('../helpers/expectThrow');
 const assertRevert = require('../helpers/assertRevert');
 const ether = require('../helpers/ether');
@@ -265,7 +265,10 @@ contract('SmartStaking', function (accounts) {
     
                 // wait 4+ minutes then withdraw
                 wait(250000);
-                this.contract.withdrawBonusPackage(0, { from: anyone });
+                await expectEvent.inTransaction(
+                    this.contract.withdrawBonusPackage(0, { from: anyone }),
+                    'Withdraw'
+                );
                 const packageAfterWithdraw = await this.contract.getPackageInfo(0, { from: anyone });
                 assert.equal(packageAfterWithdraw[0], true);
             });

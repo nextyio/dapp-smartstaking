@@ -40,6 +40,8 @@ contract SmartStaking {
     mapping(uint256 => Package) public packages;
     mapping(address => InvestorPackage[]) public investorPackages;
 
+    event Withdraw(address _to, uint256 _amount);
+
     /**
      * @dev fallback function to handle when user send fund the the contract address
      */
@@ -214,6 +216,7 @@ contract SmartStaking {
 
         if (amount > 0) {
             msg.sender.transfer(amount);
+            emit Withdraw(msg.sender, amount);
         }
     }
 
