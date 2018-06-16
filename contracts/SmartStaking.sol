@@ -122,7 +122,7 @@ contract SmartStaking {
         uint256 sumDays;
         uint256 packageAmount = package.amount;
         uint256 expiredDate = package.expiredDate;
-        uint256 amount;
+        uint256 amount = 0;
 
         if (package.expiredDate > now) {
             sumDays = safeDiv(safeSub(now, package.lastDateWithdraw), 1 minutes);
@@ -139,7 +139,9 @@ contract SmartStaking {
             amount = safeAdd(packageAmount, safeMul(sumDays, bonusPerday));
         }
 
-        msg.sender.transfer(amount);
+        if (amount > 0) {
+            msg.sender.transfer(amount);
+        }
     }
 
     function getPackageCount() public view returns(uint256) {
