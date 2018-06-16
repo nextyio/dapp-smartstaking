@@ -75,28 +75,30 @@ contract('SmartStaking', function (accounts) {
         });
 
         describe('owner can set/update each package information', function () {
-            it('package1 information', async function () {
-                await this.contract.setupPackage1(15, { from: owner });
-                const package = await this.contract.packages.call(1);
-                assert.equal(package[1].toString(), 15);
-            });
+            describe('set package successfully', function () {
+                it('package1 information', async function () {
+                    await this.contract.setupPackage1(15, { from: owner });
+                    const package = await this.contract.packages.call(1);
+                    assert.equal(package[1].toString(), 15);
+                });
 
-            it('package2 information', async function () {
-                await this.contract.setupPackage2(25, { from: owner });
-                const package = await this.contract.packages.call(2);
-                assert.equal(package[1].toString(), 25);
-            });
+                it('package2 information', async function () {
+                    await this.contract.setupPackage2(25, { from: owner });
+                    const package = await this.contract.packages.call(2);
+                    assert.equal(package[1].toString(), 25);
+                });
 
-            it('package3 information', async function () {
-                await this.contract.setupPackage3(35, { from: owner });
-                const package = await this.contract.packages.call(3);
-                assert.equal(package[1].toString(), 35);
-            });
+                it('package3 information', async function () {
+                    await this.contract.setupPackage3(35, { from: owner });
+                    const package = await this.contract.packages.call(3);
+                    assert.equal(package[1].toString(), 35);
+                });
 
-            it('package4 information', async function () {
-                await this.contract.setupPackage4(45, { from: owner });
-                const package = await this.contract.packages.call(4);
-                assert.equal(package[1].toString(), 45);
+                it('package4 information', async function () {
+                    await this.contract.setupPackage4(45, { from: owner });
+                    const package = await this.contract.packages.call(4);
+                    assert.equal(package[1].toString(), 45);
+                });
             });
         });
     });
