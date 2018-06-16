@@ -1,5 +1,9 @@
 pragma solidity ^0.4.23;
 
+
+/**
+ * Smart Staking contract
+ */
 contract SmartStaking {
     address public owner;
     uint256 public fund = 0; // total fund investor desposit
@@ -36,6 +40,9 @@ contract SmartStaking {
     mapping(uint256 => Package) public packages;
     mapping(address => InvestorPackage[]) public investorPackages;
 
+    /**
+     * @dev fallback function to handle when user send fund the the contract address
+     */
     function () external payable {
         if (msg.data.length == 0) {
             fundBonus = safeAdd(fundBonus, msg.value);
@@ -60,6 +67,10 @@ contract SmartStaking {
         fundBonus = safeAdd(fundBonus, msg.value);
     }
 
+    /**
+     * @dev convert any bytes array to maximum length 32 bytes array
+     * if the length of input bytes array `b` < 32 then take the bytes array length
+     */
     function bytesToBytes32(bytes b, uint offset) private pure returns (bytes32) {
         bytes32 out;
         uint256 length = b.length;
@@ -96,6 +107,66 @@ contract SmartStaking {
         packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
+    /**
+     * @dev Onwer can create new smart staking for `_to`
+     * before Friday, August 31, 2018 11:59:59 PM
+     */
+    function createStaking(address _to, uint256 _amount, uint256 _packageId,
+            uint256 _bonusPercent, uint256 _expiredDate, uint256 _lastDateWithdraw) public onlyOwner {
+
+        // Only onwer can create new smart staking for `_to` before Friday, August 31, 2018 11:59:59 PM
+        require(now <= 1535759999);
+        require(_amount >= STAKING_MIN_AMOUNT);
+        uint256 bonusAmount = safeDiv(safeMul(_amount, _bonusPercent), 10000);
+        require(fundBonus >= bonusAmount);
+        require(_packageId >= PACKAGE1);
+        require(_packageId <= PACKAGE4);
+
+        fundBonus = safeSub(fundBonus, bonusAmount);
+        fund = safeAdd(fund, _amount);
+
+        investorPackages[_to].push(InvestorPackage({
+            isPaid: false,
+            amount: _amount,
+            packageId: _packageId,
+            bonusPercent: _bonusPercent,
+            lastDateWithdraw: _lastDateWithdraw,
+            expiredDate: _expiredDate
+        }));
+    }
+
+    /**
+     * @dev onwer can update specific smart staking for `_to` and `_id`
+     * before Friday, August 31, 2018 11:59:59 PM
+     */
+    function updateStaking(address _to, uint256 _id, bool _isPaid, uint256 _amount, uint256 _packageId,
+            uint256 _bonusPercent, uint256 _expiredDate, uint256 _lastDateWithdraw) public onlyOwner {
+
+        // Only onwer can update smart staking for `_to` before Friday, August 31, 2018 11:59:59 PM
+        require(now <= 1535759999);
+        require(_id < investorPackages[_to].length);
+        require(_amount >= STAKING_MIN_AMOUNT);
+        require(_packageId >= PACKAGE1);
+        require(_packageId <= PACKAGE4);
+        uint256 bonusAmount = safeDiv(safeMul(_amount, _bonusPercent), 10000);
+        InvestorPackage oldPackage = investorPackages[_to][_id];
+        uint256 oldBonus = safeDiv(safeMul(oldPackage.amount, oldPackage.bonusPercent), 10000);
+        require((fundBonus + oldBonus) > bonusAmount);
+
+        fundBonus = safeSub(safeAdd(fundBonus, oldBonus), bonusAmount);
+        fund = safeAdd(safeSub(fund, oldPackage.amount), _amount);
+
+        oldPackage.isPaid = _isPaid;
+        oldPackage.amount = _amount;
+        oldPackage.packageId = _packageId;
+        oldPackage.bonusPercent = _bonusPercent;
+        oldPackage.lastDateWithdraw = _lastDateWithdraw;
+        oldPackage.expiredDate = _expiredDate;
+    }
+
+    /**
+     * @dev create new smart staking package for user when they send fund to the contract
+     */
     function processStaking(uint256 _package) internal {
         uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 10000);
         require(msg.value >= STAKING_MIN_AMOUNT);
@@ -150,12 +221,15 @@ contract SmartStaking {
         }
     }
 
+    /**
+     * @dev Return total number of smart staking package of sender
+     */
     function getPackageCount() public view returns(uint256) {
         return investorPackages[msg.sender].length;
     }
 
     /**
-    * Get package info for Investor
+    * Get specific sender's smart staking package info by `_id`
     */
     function getPackageInfo(uint256 _id) public view returns(
         bool,
@@ -177,6 +251,9 @@ contract SmartStaking {
         );
     }
 
+    /**
+     * @dev Smart Staking contract constructor
+     */
     constructor() public {
         owner = msg.sender;
 
