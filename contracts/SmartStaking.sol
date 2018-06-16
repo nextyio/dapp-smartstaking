@@ -6,11 +6,10 @@ contract SmartStaking {
     uint256 public constant PACKAGE2 = 2;
     uint256 public constant PACKAGE3 = 3;
     uint256 public constant PACKAGE4 = 4;
-    uint256 public constant INIT_DATE = 1 minutes;
-    uint256 public constant MIN_AMOUNT_STAKING = 0.01 ether;
+    uint256 public constant INIT_DATE = 1 minutes; // should be 7 days in mainnet
+    uint256 public constant MIN_AMOUNT_STAKING = 0.01 ether; // should be 50 pNTY ~ 500,000 NTY in mainnet
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
-    address[] public investors;
 
     struct InvestorPackage {
         bool isPaid;
@@ -96,7 +95,6 @@ contract SmartStaking {
 
         fundBonus = safeSub(fundBonus, bonusAmount);
         fund = safeAdd(fund, msg.value);
-        investors.push(msg.sender);
 
         investorPackges[msg.sender].push(InvestorPackage({
             isPaid: false,
