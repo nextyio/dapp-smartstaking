@@ -41,6 +41,13 @@ export default class extends LoggedInPage {
             render: (amount) => {
                 return <p>{amount / 1e18} NTY</p>
             }
+        },  {
+            title: 'Paid',
+            dataIndex: 'isPaid',
+            key: 'isPaid',
+            render: (isPaid) => {
+                return <p>{isPaid ? 'Expired' : 'Processing'}</p>
+            }
         }, {
             title: 'Package',
             dataIndex: 'packageId',

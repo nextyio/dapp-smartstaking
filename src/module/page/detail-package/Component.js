@@ -7,7 +7,11 @@ import moment from 'moment/moment'
 
 import './style.scss'
 
-import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox } from 'antd'
+import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message } from 'antd'
+
+Message.config({
+    top: 100
+})
 
 export default class extends LoggedInPage {
 
@@ -31,7 +35,8 @@ export default class extends LoggedInPage {
         this.props.getPackageInfo(packageId - 1).then((packageInfo) => {
 
             this.setState({
-                packageInfo
+                packageInfo,
+                packageId
             })
         })
     }
@@ -48,9 +53,9 @@ export default class extends LoggedInPage {
         const dateLastWithDraw = moment.utc(this.state.packageInfo.lastDateWithdraw * 1000)
         const dateExpired = moment.utc(this.state.packageInfo.expiredDate * 1000);
 
-        const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'minutes')
-        const nowToLast =  dateNow.diff(dateLastWithDraw, 'minutes')
-        const expiredToNow = dateExpired.diff(dateNow, 'minutes')
+        const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'days')
+        const nowToLast =  dateNow.diff(dateLastWithDraw, 'days')
+        const expiredToNow = dateExpired.diff(dateNow, 'days')
 
         const bonusPerday = ((this.state.packageInfo.amount * this.state.packageInfo.bonusPercent) / 100) / days[this.state.packageInfo.packageId]
         let amount
@@ -78,6 +83,12 @@ export default class extends LoggedInPage {
             '4' : '180 days',
         }
 
+        let txhash = null;
+        if (this.state.txhash) {
+            const message = 'Transaction hash: ' + this.state.txhash
+             txhash = <Alert message={message} type="success" showIcon />
+        }
+
         return (
             <div className="">
                 <div className="ebp-header-divider">
@@ -85,6 +96,11 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="">
                     <h2 className="text-center">SS000{packageId}</h2>
+                    <div className="ant-col-md-10 ant-col-md-offset-7 text-alert">
+                        <Row>
+                            {txhash}
+                        </Row>
+                    </div>
                     <Row>
                         <Col span={12} style={{'textAlign': 'right'}}>
                             <span>Package:</span>
@@ -111,7 +127,7 @@ export default class extends LoggedInPage {
                     </Row>
                     <Row>
                         <Col md={8} offset={8}>
-                            <Alert className="alert-withdraw" message="You cannot withdraw deposit" type="error" />
+                            {/*<Alert className="alert-withdraw" message="You cannot withdraw deposit" type="error" />*/}
                         </Col>
                     </Row>
                     <Row>
@@ -137,6 +153,19 @@ export default class extends LoggedInPage {
         );
     }
 
+    confirmWithraw() {
+        this.props.callFunction('withdrawBonusPackage', [(this.state.packageId - 1)]).then((result) => {
+            if (!result) {
+                Message.error('Deposit error')
+            }
+
+            Message.success('Deposit successful')
+            this.setState({
+                txhash: result
+            })
+        })
+    }
+
     confirm () {
         Modal.confirm({
             title: 'Are you sure?',
@@ -145,7 +174,7 @@ export default class extends LoggedInPage {
             okType: 'danger',
             cancelText: 'Cancel',
             onOk: () => {
-                this.props.confirm()
+                this.confirmWithraw()
             },
             onCancel() {
             }

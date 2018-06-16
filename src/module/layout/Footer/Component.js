@@ -35,17 +35,9 @@ export default class extends BaseComponent {
                         <Col span={8}>
                             <div className="d_footerSection">
                                 <h4>Contact Us</h4>
-
                                 <b>Email</b>
-
                                 <p>
                                     <a href="support@nexty.io">support@nexty.io</a>
-                                </p>
-
-                                <b>Address</b>
-
-                                <p>
-                                    HD Moon City, My Dinh, Ha Noi, Vietnam
                                 </p>
                             </div>
                         </Col>
@@ -54,11 +46,6 @@ export default class extends BaseComponent {
                                 <h4>Support</h4>
 
                                 <p>
-                                    If you're a developer and are running into issues
-                                    with any of our open source projects our support team
-                                    is always here to help you
-                                    <br/>
-                                    <br/>
                                     <a href="mailto:support@nexty.io">support@nexty.io</a>
                                 </p>
                             </div>
