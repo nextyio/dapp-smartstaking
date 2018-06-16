@@ -25,19 +25,16 @@ export default class extends LoggedInPage {
 
       this.props.getPackagesInfo().then((packages) => {
           this.setState({
-              package7daysPosted:false,
-              toReset_percent_7days: packages.package1[1].toString(),
-              toReset_percent_30days: packages.package2[1].toString(),
-              toReset_percent_90days: packages.package3[1].toString(),
-              toReset_percent_180days: packages.package4[1].toString(),
-              percent_7days: packages.package1[1].toString(),
-              percent_30days: packages.package2[1].toString(),
-              percent_90days: packages.package3[1].toString(),
-              percent_180days: packages.package4[1].toString(),
-              package7daysReward:packages.package1[1].toString()*7,
-              package30daysReward:packages.package2[1].toString()*30,
-              package90daysReward:packages.package3[1].toString()*90,
-              package180daysReward:packages.package4[1].toString()*180
+              //package7daysPosted:false,
+              toReset_7days: packages.package1[1].toString(),
+              toReset_30days: packages.package2[1].toString(),
+              toReset_90days: packages.package3[1].toString(),
+              toReset_180days: packages.package4[1].toString(),
+
+              package7daysReward:packages.package1[1].toString(),
+              package30daysReward:packages.package2[1].toString(),
+              package90daysReward:packages.package3[1].toString(),
+              package180daysReward:packages.package4[1].toString()
           })
       })
   }
@@ -67,7 +64,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
-                            value={this.state.percent_7days}
+                            value={this.state.package7daysReward}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -76,12 +73,10 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col span={4}>
-                            <span>{this.state.package7daysReward}%</span>
+                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set1.bind(this)} className="btn-margin-top">Set</Button>
                         </Col>
-
-
-
                     </Row>
+
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={4} offset={6}>
                             30 days
@@ -89,7 +84,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
-                            value={this.state.percent_30days}
+                            value={this.state.package30daysReward}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -98,10 +93,11 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col span={4}>
-                            <span>{this.state.package30daysReward}%</span>
+                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set2.bind(this)} className="btn-margin-top">Set</Button>
                         </Col>
 
                     </Row>
+
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={4} offset={6}>
                             90 days
@@ -109,7 +105,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
-                            value={this.state.percent_90days}
+                            value={this.state.package90daysReward}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -118,9 +114,11 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col span={4}>
-                            <span>{this.state.package90daysReward}%</span>
+                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set3.bind(this)} className="btn-margin-top">Set</Button>
                         </Col>
+
                     </Row>
+
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={4} offset={6}>
                             180 days
@@ -128,7 +126,7 @@ export default class extends LoggedInPage {
                         <Col span={4}>
                         <InputNumber
                             defaultValue={0}
-                            value={this.state.percent_180days}
+                            value={this.state.package180daysReward}
                             min={0}
                             max={100}
                             formatter={value => `${value}%`}
@@ -137,8 +135,9 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col span={4}>
-                            <span>{this.state.package180daysReward}%</span>
+                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set4.bind(this)} className="btn-margin-top">Set</Button>
                         </Col>
+
                     </Row>
 
                     <Row style={{'marginTop': '15px'}}>
@@ -147,7 +146,6 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col span={4}>
                             <Button onClick={this.reset.bind(this)} type="primary" className="btn-margin-top">Reset</Button>
-                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set.bind(this)} className="btn-margin-top">Set</Button>
                         </Col>
                     </Row>
                 </div>
@@ -164,7 +162,7 @@ export default class extends LoggedInPage {
         );
     }
 
-    clear(){
+  /*  clear(){
         this.setState({
           package7daysPosted:null,
           package30daysPosted:null,
@@ -175,52 +173,71 @@ export default class extends LoggedInPage {
           package90daysSuccess:null,
           package180daysSuccess:null
         })
+    }*/
+    set1 () {
+        if (this.state.package7daysReward != this.state.toReset_7days) {
+            this.props.callFunction('setupPackage1', [this.state.package7daysReward]).then((result) => {
+              console.log("done1");
+              this.state.toReset_7days=this.state.package7daysReward;
+            })
+        }
+    }
+
+    set2 (){
+        if (this.state.package30daysReward != this.state.toReset_30days) {
+            this.props.callFunction('setupPackage2', [this.state.package30daysReward]).then((result) => {
+              console.log("done2");
+              this.state.toReset_30days=this.state.package30daysReward;
+            })
+        }
+    }
+
+    set3 (){
+        if (this.state.package90daysReward != this.state.toReset_90days) {
+            this.props.callFunction('setupPackage3', [this.state.package90daysReward]).then((result) => {
+              console.log("done3");
+              this.state.toReset_90days=this.state.package90daysReward;
+            })
+        }
+    }
+
+    set4 (){
+        if (this.state.package180daysReward != this.state.toReset_180days) {
+            this.props.callFunction('setupPackage4', [this.state.package180daysReward]).then((result) => {
+              console.log("done4");
+              this.state.toReset_180days=this.state.package180daysReward;
+            })
+        }
     }
 
     set () {
         //console.log('xxx', this.state.package7daysReward);
-        this.clear.bind(this);
-        if (this.state.percent_7days != this.state.toReset_percent_7days) {
-            this.props.callFunction('setupPackage1', [this.state.percent_7days]).then((result) => {
-                this.setState({
-                    package7daysSuccess:result,
-                })
-            });
-            this.setState({
-                package7daysPosted:true,
+        //this.clear.bind(this);
+        if (this.state.package7daysReward != this.state.toReset_7days) {
+            this.props.callFunction('setupPackage1', [this.state.package7daysReward]).then((result) => {
+              console.log("done1");
+              this.state.toReset_7days=this.state.package7daysReward;
             })
         }
 
-        if (this.state.percent_30days != this.state.toReset_percent_30days) {
-            this.props.callFunction('setupPackage2', [this.state.percent_30days]).then((result) => {
-                this.setState({
-                    package30daysSuccess:result,
-                })
-            });
-            this.setState({
-                package30daysPosted:true,
+        if (this.state.package30daysReward != this.state.toReset_30days) {
+            this.props.callFunction('setupPackage2', [this.state.package30daysReward]).then((result) => {
+              console.log("done2");
+              this.state.toReset_30days=this.state.package30daysReward;
             })
         }
 
-        if (this.state.percent_90days != this.state.toReset_percent_90days) {
-            this.props.callFunction('setupPackage3', [this.state.percent_90days]).then((result) => {
-                this.setState({
-                    package30daysSuccess:result,
-                })
-            });
-            this.setState({
-                package90daysPosted:true,
+        if (this.state.package90daysReward != this.state.toReset_90days) {
+            this.props.callFunction('setupPackage3', [this.state.package90daysReward]).then((result) => {
+              console.log("done3");
+              this.state.toReset_90days=this.state.package90daysReward;
             })
         }
 
-        if (this.state.percent_180days != this.state.toReset_percent_180days) {
-            this.props.callFunction('setupPackage4', [this.state.percent_180days]).then((result) => {
-                this.setState({
-                    package180daysSuccess:result,
-                })
-            });
-            this.setState({
-                package180daysPosted:true,
+        if (this.state.package180daysReward != this.state.toReset_180days) {
+            this.props.callFunction('setupPackage4', [this.state.package180daysReward]).then((result) => {
+              console.log("done4");
+              this.state.toReset_180days=this.state.package180daysReward;
             })
         }
 
@@ -228,39 +245,33 @@ export default class extends LoggedInPage {
 
     reset () {
       this.setState({
-          percent_7days: this.state.toReset_percent_7days,
-          percent_30days: this.state.toReset_percent_30days,
-          percent_90days: this.state.toReset_percent_90days,
-          percent_180days: this.state.toReset_percent_180days,
-          package7daysReward:this.state.toReset_percent_7days*7,
-          package30daysReward:this.state.toReset_percent_30days*30,
-          package90daysReward:this.state.toReset_percent_90days*90,
-          package180daysReward:this.state.toReset_percent_180days*180,
+
+          package7daysReward:this.state.toReset_7days,
+          package30daysReward:this.state.toReset_30days,
+          package90daysReward:this.state.toReset_90days,
+          package180daysReward:this.state.toReset_180days,
       })
     }
 
     onChange7Days(value) {
         this.setState({
-            percent_7days: value,
-            package7daysReward: 7 * value
+            package7daysReward: value
         });
     }
     onChange30Days(value) {
         this.setState({
-            percent_30days: value,
-            package30daysReward: 30 * value
+
+            package30daysReward: value
         });
     }
     onChange90Days(value) {
         this.setState({
-            percent_90days: value,
-            package90daysReward: 90 * value
+            package90daysReward: value
         });
     }
     onChange180Days(value) {
         this.setState({
-            percent_180days: value,
-            package180daysReward: 180 * value
+            package180daysReward: value
         });
     }
 }
