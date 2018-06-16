@@ -22,13 +22,12 @@ export default class extends BaseComponent {
             <Sider
                 trigger={null}
                 collapsible
-                // {/* // collapsed={this.state.collapsed} */}
                 >
                 <div className="xlogo">
                     <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
-                <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
+                <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar">
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
                     </Menu.Item>
@@ -88,7 +87,7 @@ export default class extends BaseComponent {
 
     detectUrl() {
         let url = window.location.pathname;
-        console.log("////", url)
+
         let sidebar = [
             'smart-staking',
             'dashboard',

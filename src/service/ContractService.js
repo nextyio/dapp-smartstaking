@@ -99,7 +99,6 @@ export default class extends BaseService {
         let {contract, web3, wallet} = storeUser.profile
 
         const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: functionName }), '')
-
         const payloadData = functionDef.toPayload(params).data
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
 

@@ -19,6 +19,7 @@ export default class extends LoggedInPage {
             balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
             address = wallet.getAddressString()
         }
+        console.log('xxx', this.props.match.params.id)
 
         return (
             <div className="">
@@ -63,7 +64,7 @@ export default class extends LoggedInPage {
                     </Row>
                 </div>
                 <div className="ebp-page">
-                    
+
                 </div>
             </div>
         )

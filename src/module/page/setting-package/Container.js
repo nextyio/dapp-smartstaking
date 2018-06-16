@@ -19,18 +19,8 @@ export default createContainer(Component, (state) => {
         async getPackagesInfo() {
             return await contractService.getPackagesInfo()
         },
-        async callFunction(){
-          return await contractService.callFunction()
+        async callFunction(functionName, params){
+          return await contractService.callFunction(functionName, params)
         }
     }
 })
-
-/*import {createContainer} from '@/util'
-import Component from './Component'
-
-export default createContainer(Component, (state) => {
-    return {
-        ...state.user
-    }
-})
-*/
