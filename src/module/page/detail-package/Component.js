@@ -3,6 +3,7 @@ import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
+import moment from 'moment/moment'
 
 import './style.scss'
 
@@ -10,16 +11,72 @@ import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, C
 
 export default class extends LoggedInPage {
 
-    ord_renderContent() {
-        let { wallet, web3, contract } = this.props.profile
-        let balance
-        let address
+    state = {
+        packageInfo: {
+            isPaid : false,
+            amount : 0,
+            packageId : 0,
+            bonusPercent : 0,
+            lastDateWithdraw : 0,
+            expiredDate : 0
+        },
+    }
 
-        if (wallet) {
-            balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-            address = wallet.getAddressString()
+    componentDidMount() {
+        this.loadData()
+    }
+
+    loadData() {
+        const packageId = this.props.match.params.id
+        this.props.getPackageInfo(packageId - 1).then((packageInfo) => {
+
+            this.setState({
+                packageInfo
+            })
+        })
+    }
+
+    renderReward() {
+        const days = {
+            '1' : 7,
+            '2' : 30,
+            '3' : 90,
+            '4' : 180,
         }
-        console.log('xxx', this.props.match.params.id)
+
+        const dateNow = moment.utc(new Date())
+        const dateLastWithDraw = moment.utc(this.state.packageInfo.lastDateWithdraw * 1000)
+        const dateExpired = moment.utc(this.state.packageInfo.expiredDate * 1000);
+
+        const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'minutes')
+        const nowToLast =  dateNow.diff(dateLastWithDraw, 'minutes')
+        const expiredToNow = dateExpired.diff(dateNow, 'minutes')
+
+        const bonusPerday = ((this.state.packageInfo.amount * this.state.packageInfo.bonusPercent) / 100) / days[this.state.packageInfo.packageId]
+        let amount
+
+        if (expiredToNow < 0) {
+            amount = lastToExpired * bonusPerday
+        } else {
+            amount = nowToLast * bonusPerday
+        }
+
+        if (amount > 0) {
+            amount = amount / 1e18
+        }
+
+        return (<p>{amount} NTY</p>)
+    }
+
+    ord_renderContent() {
+        const packageId = this.props.match.params.id
+
+        const days = {
+            '1' : '7 days',
+            '2' : '30 days',
+            '3' : '90 days',
+            '4' : '180 days',
+        }
 
         return (
             <div className="">
@@ -27,13 +84,13 @@ export default class extends LoggedInPage {
 
                 </div>
                 <div className="">
-                    <h2 className="text-center">SS0001</h2>
+                    <h2 className="text-center">SS000{packageId}</h2>
                     <Row>
                         <Col span={12} style={{'textAlign': 'right'}}>
                             <span>Package:</span>
                         </Col>
                         <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
-                            <span>30 days</span>
+                            <span>{days[this.state.packageInfo.packageId]}</span>
                         </Col>
                     </Row>
                     <Row>
@@ -41,7 +98,7 @@ export default class extends LoggedInPage {
                             <span>Expire Date:</span>
                         </Col>
                         <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
-                            <span>6/22/2018</span>
+                            <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('MM/DD/YYYY') }</span>
                         </Col>
                     </Row>
                     <Row>
@@ -49,7 +106,7 @@ export default class extends LoggedInPage {
                             <span>Current reward:</span>
                         </Col>
                         <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
-                            <span>1400</span>
+                            <span>{this.renderReward()}</span>
                         </Col>
                     </Row>
                     <Row>

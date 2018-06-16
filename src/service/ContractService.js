@@ -39,6 +39,10 @@ export default class extends BaseService {
         }
     }
 
+    async getPackageInfo(index) {
+        return this.getPackage(index)
+    }
+
     async getUserPackages() {
         const storeUser = this.store.getState().user
         let {contract} = storeUser.profile
@@ -51,22 +55,11 @@ export default class extends BaseService {
         const packages = []
 
         for (let i = 0; i < packageCount; i++) {
-            const packageInfo = contract.getPackageInfo(i)
-            let isPaid = packageInfo[0]
-            let amount = packageInfo[1].toString()
-            let packageId = packageInfo[2].toString()
-            let bonusPercent = packageInfo[3].toString()
-            let lastDateWithdraw = packageInfo[4].toString()
-            let expiredDate = packageInfo[5].toString()
+            const packageInfo = this.getPackage(i)
 
             packages.push({
                 index: i + 1,
-                isPaid,
-                amount,
-                packageId,
-                bonusPercent,
-                lastDateWithdraw,
-                expiredDate
+                ...packageInfo
             })
         }
 
@@ -113,6 +106,32 @@ export default class extends BaseService {
         rawTx.gas = gas
 
         return this.sendRawTransaction(rawTx)
+    }
+
+    getPackage(index) {
+        const storeUser = this.store.getState().user
+        let {contract} = storeUser.profile
+
+        if (!contract) {
+          return
+        }
+
+        const packageInfo = contract.getPackageInfo(index)
+        let isPaid = packageInfo[0]
+        let amount = packageInfo[1].toString()
+        let packageId = packageInfo[2].toString()
+        let bonusPercent = packageInfo[3].toString()
+        let lastDateWithdraw = packageInfo[4].toString()
+        let expiredDate = packageInfo[5].toString()
+
+        return {
+            isPaid,
+            amount,
+            packageId,
+            bonusPercent,
+            lastDateWithdraw,
+            expiredDate
+        }
     }
 
     sendRawTransaction(rawTx) {

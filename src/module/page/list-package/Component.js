@@ -3,7 +3,7 @@ import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
-import moment from 'moment/moment';
+import moment from 'moment/moment'
 
 import './style.scss'
 
@@ -59,7 +59,7 @@ export default class extends LoggedInPage {
             dataIndex: 'expiredDate',
             key: 'expiredDate',
             render: (expiredDate) => {
-                return <p>{moment.utc(expiredDate*1000).format('MM/DD/YYYY') }</p>
+                return <p>{moment.utc(expiredDate * 1000).format('MM/DD/YYYY') }</p>
             }
         }, {
             title: 'Assumed Reward',
