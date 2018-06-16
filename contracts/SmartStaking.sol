@@ -77,18 +77,22 @@ contract SmartStaking {
     * totalDays 7, 30, 90, 180
     */
     function setupPackage1(uint256 _bonusPercent) public onlyOwner {
+        require(_bonusPercent >= 0);
         packages[PACKAGE1].bonusPercent = _bonusPercent;
     }
 
     function setupPackage2(uint256 _bonusPercent) public onlyOwner {
+        require(_bonusPercent >= 0);
         packages[PACKAGE2].bonusPercent = _bonusPercent;
     }
 
     function setupPackage3(uint256 _bonusPercent) public onlyOwner {
+        require(_bonusPercent >= 0);
         packages[PACKAGE3].bonusPercent = _bonusPercent;
     }
 
     function setupPackage4(uint256 _bonusPercent) public onlyOwner {
+        require(_bonusPercent >= 0);
         packages[PACKAGE4].bonusPercent = _bonusPercent;
     }
 
