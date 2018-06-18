@@ -5,17 +5,24 @@ import { Link } from 'react-router-dom'
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message, Alert } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message, Alert, InputNumber } from 'antd'
 const FormItem = Form.Item;
 Message.config({
     top: 100
 })
 
 export default class extends LoggedInPage {
-    onChangeInput(e) {
-        this.setState({
-            amount: e.target.value
+
+  validValue(value) {
+    var deciPart = (value + ".").split(".")[1];
+    if (deciPart>99999999) {return value.toFixed(8)} else {return value};
+  }
+
+    onChangeInput(value) {
+      this.setState({
+            amount: this.validValue(value)
         })
+
     }
 
     componentDidMount() {
@@ -30,6 +37,7 @@ export default class extends LoggedInPage {
         this.props.getBalance().then((balance) => {
             this.setState({balance})
         })
+        this.setState({amount:0})
     }
 
     ord_renderContent () {
@@ -79,7 +87,13 @@ export default class extends LoggedInPage {
                             Amount:
                         </Col>
                         <Col span={12} offset={6} style={{'textAlign': 'left'}}>
-                            <Input type="number" onChange={this.onChangeInput.bind(this)} />
+
+                            <InputNumber
+                                className={"defaultWidth"}
+                                defaultValue={0}
+                                value={this.state.amount}
+                                onChange={this.onChangeInput.bind(this)}
+                            />
                         </Col>
                     </Row>
 
