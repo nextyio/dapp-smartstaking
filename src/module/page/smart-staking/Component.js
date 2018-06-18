@@ -79,7 +79,7 @@ export default class extends LoggedInPage {
                             Your balance:
                         </Col>
                         <Col span={8} style={{'textAlign': 'left'}}>
-                            {this.state.balance} NTY
+                            {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <h3 className="text-center">Add more</h3>
