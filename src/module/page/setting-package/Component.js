@@ -35,15 +35,15 @@ export default class extends LoggedInPage {
               package90daysSuccess:false,
               package180daysSuccess:false,
 
-              toReset_7days: packages.package1[1].toString(),
-              toReset_30days: packages.package2[1].toString(),
-              toReset_90days: packages.package3[1].toString(),
-              toReset_180days: packages.package4[1].toString(),
+              toReset_7days: packages.package1[1].toString()/100,
+              toReset_30days: packages.package2[1].toString()/100,
+              toReset_90days: packages.package3[1].toString()/100,
+              toReset_180days: packages.package4[1].toString()/100,
 
-              package7daysReward:packages.package1[1].toString(),
-              package30daysReward:packages.package2[1].toString(),
-              package90daysReward:packages.package3[1].toString(),
-              package180daysReward:packages.package4[1].toString()
+              package7daysReward:packages.package1[1].toString()/100,
+              package30daysReward:packages.package2[1].toString()/100,
+              package90daysReward:packages.package3[1].toString()/100,
+              package180daysReward:packages.package4[1].toString()/100
           })
       })
   }
@@ -245,7 +245,7 @@ export default class extends LoggedInPage {
               package90daysPosted:false,
               package180daysPosted:false,
             })
-            this.props.callFunction('setupPackage1', [this.state.package7daysReward]).then((result) => {
+            this.props.callFunction('setupPackage1', [this.state.package7daysReward*100]).then((result) => {
               console.log("done1");
               this.state.toReset_7days=this.state.package7daysReward;
               this.setState({
@@ -267,7 +267,7 @@ export default class extends LoggedInPage {
               package90daysPosted:false,
               package180daysPosted:false,
             })
-            this.props.callFunction('setupPackage2', [this.state.package30daysReward]).then((result) => {
+            this.props.callFunction('setupPackage2', [this.state.package30daysReward*100]).then((result) => {
               console.log("done2");
               this.state.toReset_30days=this.state.package30daysReward;
               this.setState({
@@ -289,7 +289,7 @@ export default class extends LoggedInPage {
               package90daysPosted:true,
               package180daysPosted:false,
             })
-            this.props.callFunction('setupPackage3', [this.state.package90daysReward]).then((result) => {
+            this.props.callFunction('setupPackage3', [this.state.package90daysReward*100]).then((result) => {
               console.log("done3");
               this.state.toReset_90days=this.state.package90daysReward;
               this.setState({
@@ -312,7 +312,7 @@ export default class extends LoggedInPage {
               package90daysPosted:false,
               package180daysPosted:true,
             })
-            this.props.callFunction('setupPackage4', [this.state.package180daysReward]).then((result) => {
+            this.props.callFunction('setupPackage4', [this.state.package180daysReward*100]).then((result) => {
               console.log("done4");
               this.state.toReset_180days=this.state.package180daysReward;
               this.setState({
