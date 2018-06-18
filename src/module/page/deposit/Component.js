@@ -26,16 +26,25 @@ export default class extends LoggedInPage {
         this.props.getBalance().then((balance) => {
             this.setState({balance})
         })
+        this.props.getPackagesInfo().then((packages) => {
+            this.setState({
+                currentReward:null,
+                package7daysReward:packages.package1[1].toString(),
+                package30daysReward:packages.package2[1].toString(),
+                package90daysReward:packages.package3[1].toString(),
+                package180daysReward:packages.package4[1].toString()
+            })
+        })
     }
 
 
     renderPackageDropdown() {
         const menu = (
             <Menu onClick={this.handleMenuClick.bind(this)}>
-                <Menu.Item key="7">7 days</Menu.Item>
-                <Menu.Item key="30">30 days</Menu.Item>
-                <Menu.Item key="90">90 days</Menu.Item>
-                <Menu.Item key="180">180 days</Menu.Item>
+                <Menu.Item key="7">7 days {this.state.package7daysReward}%</Menu.Item>
+                <Menu.Item key="30">30 days {this.state.package30daysReward}%</Menu.Item>
+                <Menu.Item key="90">90 days {this.state.package90daysReward}%</Menu.Item>
+                <Menu.Item key="180">180 days {this.state.package180daysReward}%</Menu.Item>
             </Menu>
         );
 
@@ -52,9 +61,18 @@ export default class extends LoggedInPage {
         this.setState({
             package: e.key
         })
+        var value=null;
+        if (e.key=='7') value=this.state.package7daysReward;
+        if (e.key=='30') value=this.state.package30daysReward;
+        if (e.key=='90') value=this.state.package90daysReward;
+        if (e.key=='180') value=this.state.package180daysReward;
+        this.setState({
+            currentReward: value
+        })
     }
 
     onAmountChange(e) {
+      console.log(this.state.package7daysReward);
       if (this.state.balance<e.target.value) {
         this.setState({
             notEnoughNTY: "not enough NTY"
@@ -137,6 +155,16 @@ export default class extends LoggedInPage {
                             <Input onChange={this.onAmountChange.bind(this)} type="number" />
                         </Col>
                     </Row>
+                    { !this.validate() &&
+                    <Row style={{'marginTop': '15px'}}>
+                        <Col span={12}>
+                            Amount after {this.state.package} days:
+                        </Col>
+                        <Col span={12}>
+                            {(this.state.amount*(1+this.state.currentReward/100)).toFixed(2)}
+                        </Col>
+                    </Row>
+                    }
                     <Row style={{'marginTop': '12px'}}>
                         <Col span={12}>
 
@@ -240,6 +268,7 @@ export default class extends LoggedInPage {
 
     validate() {
         let errorFields = [];
+        if ((this.state.amount*(this.state.currentReward/100)).toFixed(2)>this.state.fundBonus) errorFields.push("Reward Pool not enough");
         if(this.state.notEnoughNTY) {
             errorFields.push(this.state.notEnoughNTY);
         }
