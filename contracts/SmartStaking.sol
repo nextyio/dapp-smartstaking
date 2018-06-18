@@ -14,12 +14,12 @@ contract SmartStaking {
     uint256 constant PACKAGE3 = 3;
     uint256 constant PACKAGE4 = 4;
 
-    uint256 constant PACKAGE1_PERIOD = 1 minutes; // should be 7 days in mainnet
-    uint256 constant PACKAGE2_PERIOD = 2 minutes; // should be 30 days in mainnet
-    uint256 constant PACKAGE3_PERIOD = 3 minutes; // should be 90 days in mainnet
-    uint256 constant PACKAGE4_PERIOD = 5 minutes; // should be 180 days in mainnet
+    uint256 constant PACKAGE1_PERIOD = 7 minutes; // should be 7 days in mainnet
+    uint256 constant PACKAGE2_PERIOD = 30 minutes; // should be 30 days in mainnet
+    uint256 constant PACKAGE3_PERIOD = 90 minutes; // should be 90 days in mainnet
+    uint256 constant PACKAGE4_PERIOD = 180 minutes; // should be 180 days in mainnet
 
-    uint256 constant LOCK_PERIOD = 1 minutes; // should be 7 days in mainnet
+    uint256 constant LOCK_PERIOD = 7 minutes; // should be 7 days in mainnet
     uint256 constant STAKING_MIN_AMOUNT = 0.01 ether; // should be 50 pNTY ~ 500,000 NTY/ether in mainnet
     uint256 constant REWARD_TIME_UNIT = 1 minutes; // should be 1 days in mainnet
 
