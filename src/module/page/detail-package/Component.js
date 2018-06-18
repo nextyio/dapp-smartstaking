@@ -161,13 +161,17 @@ export default class extends LoggedInPage {
             }
 
             self.props.getEventWithdraw().watch(function (err, response) {
-                self.setState({
-                    tx_success: true
-                });
-                notification.success({
-                    message: 'Transaction successfully',
-                    // description: 'Transaction has been successfully',
-                });
+                // console.log("err, response", err, response, self.props.profile.wallet.getAddressString());
+
+                if(response.args._to == self.props.profile.wallet.getAddressString()) {
+                    self.setState({
+                        tx_success: true
+                    });
+                    notification.success({
+                        message: 'Transaction successfully',
+                        // description: 'Transaction has been successfully',
+                    });
+                }
             });
 
             setTimeout(function() {

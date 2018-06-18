@@ -101,11 +101,15 @@ export default class extends BaseComponent {
         }
 
         for(var menu in sidebar) {
-            if(url.indexOf(sidebar[menu]) > -1) {
-                return [sidebar[menu]];
-                break;
+            try {
+                if(url.indexOf(sidebar[menu]) > -1) {
+                    return [sidebar[menu]];
+                    break;
+                }
+            } catch (e) {
+                return [sidebar[0]];
             }
         }
-        return null;
+        return [sidebar[0]];
     }
 }
