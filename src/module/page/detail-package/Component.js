@@ -7,7 +7,7 @@ import moment from 'moment/moment'
 
 import './style.scss'
 
-import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message } from 'antd'
+import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message, notification } from 'antd'
 
 Message.config({
     top: 100
@@ -154,10 +154,18 @@ export default class extends LoggedInPage {
     }
 
     confirmWithraw() {
+        const self = this;
         this.props.callFunction('withdrawBonusPackage', [(this.state.packageId - 1)]).then((result) => {
             if (!result) {
                 Message.error('Deposit error')
             }
+
+            self.props.getEventWithdraw().watch(function (err, response) {
+                notification.success({
+                    message: 'Transaction successfully',
+                    // description: 'Transaction has been successfully',
+                  });
+            });
 
             Message.success('Deposit successful')
             this.setState({
