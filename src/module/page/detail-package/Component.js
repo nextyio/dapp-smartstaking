@@ -161,13 +161,25 @@ export default class extends LoggedInPage {
             }
 
             self.props.getEventWithdraw().watch(function (err, response) {
+                self.setState({
+                    tx_success: true
+                });
                 notification.success({
                     message: 'Transaction successfully',
                     // description: 'Transaction has been successfully',
-                  });
+                });
             });
 
-            Message.success('Deposit successful')
+            setTimeout(function() {
+                if(!self.state.tx_success) {
+                    notification.error({
+                        message: 'Transaction failed',
+                        description: 'Transaction has been failed. You can not withdraw now.',
+                    });
+                }
+            }, 5000);
+
+            // Message.success('Deposit successfully')
             this.setState({
                 txhash: result
             })
