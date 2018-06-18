@@ -73,7 +73,7 @@ export default class extends LoggedInPage {
             dataIndex: 'bonusPercent',
             key: 'bonusPercent',
             render: (bonusPercent, packageInfo) => {
-                return <p>{((packageInfo.bonusPercent * packageInfo.amount) / 100) / 1e18}</p>
+                return <p>{((packageInfo.bonusPercent * packageInfo.amount) / 100) / 1e18} NTY</p>
             }
         }];
 
