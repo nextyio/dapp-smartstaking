@@ -370,25 +370,30 @@ export default class extends LoggedInPage {
       })
     }
 
+    validValue(value) {
+      var deciPart = (value + ".").split(".")[1];
+      if (deciPart>99) {return value.toFixed(2)} else {return value};
+    }
+
     onChange7Days(value) {
         this.setState({
-            package7daysReward: value.toFixed(2)
+            package7daysReward: this.validValue(value)
         });
     }
     onChange30Days(value) {
         this.setState({
 
-            package30daysReward: value.toFixed(2)
+            package30daysReward: this.validValue(value)
         });
     }
     onChange90Days(value) {
         this.setState({
-            package90daysReward: value.toFixed(2)
+            package90daysReward: this.validValue(value)
         });
     }
     onChange180Days(value) {
         this.setState({
-            package180daysReward: value.toFixed(2)
+            package180daysReward: this.validValue(value)
         });
     }
 }
