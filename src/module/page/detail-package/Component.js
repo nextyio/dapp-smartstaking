@@ -7,7 +7,7 @@ import moment from 'moment/moment'
 
 import './style.scss'
 
-import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message } from 'antd'
+import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message, notification } from 'antd'
 
 Message.config({
     top: 100
@@ -161,7 +161,10 @@ export default class extends LoggedInPage {
             }
 
             self.props.getEventWithdraw().watch(function (err, response) {
-                console.log("err, response", err, response);
+                notification.success({
+                    message: 'Transaction successfully',
+                    // description: 'Transaction has been successfully',
+                  });
             });
 
             Message.success('Deposit successful')
