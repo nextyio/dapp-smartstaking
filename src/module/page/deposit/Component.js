@@ -75,7 +75,7 @@ export default class extends LoggedInPage {
       console.log(this.state.package7daysReward);
       if (this.state.balance<e.target.value) {
         this.setState({
-            notEnoughNTY: "not enough NTY"
+            notEnoughNTY: "Your balance not enough NTY"
         })
       } else
       this.setState({
