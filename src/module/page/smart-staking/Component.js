@@ -26,7 +26,8 @@ export default class extends LoggedInPage {
     }
 
     componentDidMount() {
-        this.loadData()
+        this.loadData();
+        this.interval = setInterval(() => this.loadData(), 3000);
     }
 
     loadData() {
@@ -37,7 +38,7 @@ export default class extends LoggedInPage {
         this.props.getBalance().then((balance) => {
             this.setState({balance})
         })
-        this.setState({amount:0})
+        //this.setState({amount:0})
     }
 
     ord_renderContent () {
