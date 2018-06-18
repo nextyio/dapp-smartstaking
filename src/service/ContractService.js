@@ -164,7 +164,6 @@ export default class extends BaseService {
         
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
-        console.log("this", contract)
-        return contract.Withdraw();
+        return contract.Withdraw()
     }
 }
