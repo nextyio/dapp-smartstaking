@@ -15,7 +15,8 @@ Message.config({
 export default class extends LoggedInPage {
 
     componentDidMount() {
-        this.loadData()
+        this.init();
+        this.interval = setInterval(() => this.loadData(), 3000);
     }
 
     loadData() {
@@ -28,7 +29,27 @@ export default class extends LoggedInPage {
         })
         this.props.getPackagesInfo().then((packages) => {
             this.setState({
-                currentReward:null,
+                package7daysReward:packages.package1[1].toString(),
+                package30daysReward:packages.package2[1].toString(),
+                package90daysReward:packages.package3[1].toString(),
+                package180daysReward:packages.package4[1].toString()
+            })
+        })
+    }
+
+    init(){
+        this.setState({
+          currentReward:null,
+        })
+        this.props.getFundBonus().then((fundBonus) => {
+            this.setState({fundBonus})
+        })
+
+        this.props.getBalance().then((balance) => {
+            this.setState({balance})
+        })
+        this.props.getPackagesInfo().then((packages) => {
+            this.setState({
                 package7daysReward:packages.package1[1].toString(),
                 package30daysReward:packages.package2[1].toString(),
                 package90daysReward:packages.package3[1].toString(),
