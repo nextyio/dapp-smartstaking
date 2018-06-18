@@ -372,23 +372,23 @@ export default class extends LoggedInPage {
 
     onChange7Days(value) {
         this.setState({
-            package7daysReward: value
+            package7daysReward: value.toFixed(2)
         });
     }
     onChange30Days(value) {
         this.setState({
 
-            package30daysReward: value
+            package30daysReward: value.toFixed(2)
         });
     }
     onChange90Days(value) {
         this.setState({
-            package90daysReward: value
+            package90daysReward: value.toFixed(2)
         });
     }
     onChange180Days(value) {
         this.setState({
-            package180daysReward: value
+            package180daysReward: value.toFixed(2)
         });
     }
 }
