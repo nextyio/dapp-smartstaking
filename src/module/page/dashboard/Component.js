@@ -50,11 +50,11 @@ export default class extends LoggedInPage {
                 <div className="ebp-page content-center">
                     <Row>
                         <Col span={12}>
-                            <h1>{this.state.fundBonus} NTY</h1>
+                            <h1>{parseFloat(this.state.fundBonus).toFixed(8)} NTY</h1>
                             <span className="text-stat">Reward pool</span>
                         </Col>
                         <Col span={12}>
-                            <h1>{this.state.fund} NTY</h1>
+                            <h1>{parseFloat(this.state.fund).toFixed(8)} NTY</h1>
                             <span className="text-stat">Total Smart Staking amount</span>
                         </Col>
                     </Row>
@@ -66,19 +66,19 @@ export default class extends LoggedInPage {
 
                     <Row>
                         <Col span={6}>
-                            <h1>{this.state.bonusPackage1} %</h1>
+                            <h1>{parseFloat(this.state.bonusPackage1).toFixed(2)} %</h1>
                             7 days
                         </Col>
                         <Col span={6}>
-                            <h1>{this.state.bonusPackage2} %</h1>
+                            <h1>{parseFloat(this.state.bonusPackage2).toFixed(2)} %</h1>
                             30 days
                         </Col>
                         <Col span={6}>
-                            <h1>{this.state.bonusPackage3} %</h1>
+                            <h1>{parseFloat(this.state.bonusPackage3).toFixed(2)} %</h1>
                             90 days
                         </Col>
                         <Col span={6}>
-                            <h1>{this.state.bonusPackage4} %</h1>
+                            <h1>{parseFloat(this.state.bonusPackage4).toFixed(2)} %</h1>
                             180 days
                         </Col>
                     </Row>

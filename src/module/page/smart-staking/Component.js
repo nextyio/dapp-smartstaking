@@ -71,7 +71,7 @@ export default class extends LoggedInPage {
                             Current amount in smart staking wallet:
                         </Col>
                         <Col span={8} style={{'textAlign': 'left'}}>
-                            {this.state.fundBonus} NTY
+                            {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>

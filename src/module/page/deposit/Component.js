@@ -62,10 +62,10 @@ export default class extends LoggedInPage {
     renderPackageDropdown() {
         const menu = (
             <Menu onClick={this.handleMenuClick.bind(this)}>
-                <Menu.Item key="7">7 days ({this.state.package7daysReward}%)</Menu.Item>
-                <Menu.Item key="30">30 days ({this.state.package30daysReward}%)</Menu.Item>
-                <Menu.Item key="90">90 days ({this.state.package90daysReward}%)</Menu.Item>
-                <Menu.Item key="180">180 days ({this.state.package180daysReward}%)</Menu.Item>
+                <Menu.Item key="7">7 days ({parseFloat(this.state.package7daysReward).toFixed(2)}%)</Menu.Item>
+                <Menu.Item key="30">30 days ({parseFloat(this.state.package30daysReward).toFixed(2)}%)</Menu.Item>
+                <Menu.Item key="90">90 days ({parseFloat(this.state.package90daysReward).toFixed(2)}%)</Menu.Item>
+                <Menu.Item key="180">180 days ({parseFloat(this.state.package180daysReward).toFixed(2)}%)</Menu.Item>
             </Menu>
         );
 
@@ -148,7 +148,7 @@ export default class extends LoggedInPage {
                             Your balance:
                         </Col>
                         <Col span={12}>
-                            {this.state.balance} NTY
+                            {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
@@ -156,7 +156,7 @@ export default class extends LoggedInPage {
                             Reward pool:
                         </Col>
                         <Col span={12}>
-                            {this.state.fundBonus} NTY
+                            {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <hr />
