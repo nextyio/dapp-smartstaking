@@ -55,6 +55,14 @@ export default class extends LoggedInPage {
     }
 
     onAmountChange(e) {
+      if (this.state.balance<e.target.value) {
+        this.setState({
+            notEnoughNTY: "not enough NTY"
+        })
+      } else
+      this.setState({
+          notEnoughNTY: null
+      })
         this.setState({
             amount: e.target.value
         })
@@ -232,13 +240,17 @@ export default class extends LoggedInPage {
 
     validate() {
         let errorFields = [];
+        if(this.state.notEnoughNTY) {
+            errorFields.push(this.state.notEnoughNTY);
+        }
+
         if(!this.state.package) {
-            errorFields.push('Package');
+            errorFields.push('Package is required');
         }
         if(!this.state.amount) {
-            errorFields.push('Amount');
+            errorFields.push('Amount is required');
         }
         if(errorFields.length == 0) return null;
-        return errorFields.join(", ") + " is required.";
+        return errorFields.join(", "); //+ " is required.";
     }
 }
