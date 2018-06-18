@@ -62,10 +62,10 @@ export default class extends LoggedInPage {
     renderPackageDropdown() {
         const menu = (
             <Menu onClick={this.handleMenuClick.bind(this)}>
-                <Menu.Item key="7">7 days {this.state.package7daysReward}%</Menu.Item>
-                <Menu.Item key="30">30 days {this.state.package30daysReward}%</Menu.Item>
-                <Menu.Item key="90">90 days {this.state.package90daysReward}%</Menu.Item>
-                <Menu.Item key="180">180 days {this.state.package180daysReward}%</Menu.Item>
+                <Menu.Item key="7">7 days ({this.state.package7daysReward}%)</Menu.Item>
+                <Menu.Item key="30">30 days ({this.state.package30daysReward}%)</Menu.Item>
+                <Menu.Item key="90">90 days ({this.state.package90daysReward}%)</Menu.Item>
+                <Menu.Item key="180">180 days ({this.state.package180daysReward}%)</Menu.Item>
             </Menu>
         );
 
@@ -179,10 +179,10 @@ export default class extends LoggedInPage {
                     { !this.validate() &&
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={12}>
-                            Amount after {this.state.package} days:
+                            Assumed Reward after {this.state.package} Days:
                         </Col>
                         <Col span={12}>
-                            {(this.state.amount*(1+this.state.currentReward/100)).toFixed(2)}
+                            {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                         </Col>
                     </Row>
                     }
