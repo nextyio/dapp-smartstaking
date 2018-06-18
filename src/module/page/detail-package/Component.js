@@ -154,10 +154,15 @@ export default class extends LoggedInPage {
     }
 
     confirmWithraw() {
+        const self = this;
         this.props.callFunction('withdrawBonusPackage', [(this.state.packageId - 1)]).then((result) => {
             if (!result) {
                 Message.error('Deposit error')
             }
+
+            self.props.getEventWithdraw().watch(function (err, response) {
+                console.log("err, response", err, response);
+            });
 
             Message.success('Deposit successful')
             this.setState({

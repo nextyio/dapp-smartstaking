@@ -159,4 +159,12 @@ export default class extends BaseService {
 
         return gas
     }
+
+    getEventWithdraw() {
+        
+        const storeUser = this.store.getState().user
+        let {contract, web3, wallet} = storeUser.profile
+        console.log("this", contract)
+        return contract.Withdraw();
+    }
 }

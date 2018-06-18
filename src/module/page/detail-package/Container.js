@@ -15,6 +15,9 @@ export default createContainer(Component, (state) => {
         },
         async callFunction(functionName, params) {
           return await contractService.callFunction(functionName, params)
+        },
+        getEventWithdraw() {
+            return contractService.getEventWithdraw()
         }
     }
 })
