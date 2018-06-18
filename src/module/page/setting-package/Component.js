@@ -25,7 +25,16 @@ export default class extends LoggedInPage {
 
       this.props.getPackagesInfo().then((packages) => {
           this.setState({
-              //package7daysPosted:false,
+              package7daysPosted:false,
+              package30daysPosted:false,
+              package90daysPosted:false,
+              package180daysPosted:false,
+
+              package7daysSuccess:false,
+              package30daysSuccess:false,
+              package90daysSuccess:false,
+              package180daysSuccess:false,
+
               toReset_7days: packages.package1[1].toString(),
               toReset_30days: packages.package2[1].toString(),
               toReset_90days: packages.package3[1].toString(),
@@ -58,11 +67,13 @@ export default class extends LoggedInPage {
                 <div className="ebp-page">
                     <h3 className="text-center">Interest rate</h3>
                     <Row>
-                        <Col span={4} offset={6}>
+                        <Col xs={0} sm={0} md={0} lg={6} xl={6} />
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                             7 days
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                         <InputNumber
+                            className={"defaultWidth"}
                             defaultValue={0}
                             value={this.state.package7daysReward}
                             min={0}
@@ -72,17 +83,31 @@ export default class extends LoggedInPage {
                             onChange={this.onChange7Days.bind(this)}
                         />
                         </Col>
-                        <Col span={4}>
-                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set1.bind(this)} className="btn-margin-top">Set</Button>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                            <Button type="primary" onClick={this.set1.bind(this)} className="defaultWidth" >Set</Button>
                         </Col>
+                        { this.state.package7daysPosted &&
+                            <div>
+                                {this.state.package7daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Success" type="success" showIcon />
+                                </Col>) : (
+                                <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Failed" type="error" showIcon />
+                                </Col>)
+                              }
+                            </div>
+                        }
+
                     </Row>
 
-                    <Row style={{'marginTop': '15px'}}>
-                        <Col span={4} offset={6}>
+                    <Row>
+                        <Col xs={0} sm={0} md={0} lg={6} xl={6} />
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                             30 days
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                         <InputNumber
+                            className={"defaultWidth"}
                             defaultValue={0}
                             value={this.state.package30daysReward}
                             min={0}
@@ -92,18 +117,31 @@ export default class extends LoggedInPage {
                             onChange={this.onChange30Days.bind(this)}
                         />
                         </Col>
-                        <Col span={4}>
-                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set2.bind(this)} className="btn-margin-top">Set</Button>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                            <Button type="primary" onClick={this.set2.bind(this)} className="defaultWidth" >Set</Button>
                         </Col>
+                        { this.state.package30daysPosted &&
+                            <div>
+                                {this.state.package30daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Success" type="success" showIcon />
+                                </Col>) : (
+                                <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Failed" type="error" showIcon />
+                                </Col>)
+                              }
+                            </div>
+                        }
 
                     </Row>
 
-                    <Row style={{'marginTop': '15px'}}>
-                        <Col span={4} offset={6}>
+                    <Row>
+                        <Col xs={0} sm={0} md={0} lg={6} xl={6} />
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                             90 days
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                         <InputNumber
+                            className={"defaultWidth"}
                             defaultValue={0}
                             value={this.state.package90daysReward}
                             min={0}
@@ -113,18 +151,31 @@ export default class extends LoggedInPage {
                             onChange={this.onChange90Days.bind(this)}
                         />
                         </Col>
-                        <Col span={4}>
-                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set3.bind(this)} className="btn-margin-top">Set</Button>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                            <Button type="primary" onClick={this.set3.bind(this)} className="defaultWidth" >Set</Button>
                         </Col>
+                        { this.state.package90daysPosted &&
+                            <div>
+                                {this.state.package90daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Success" type="success" showIcon />
+                                </Col>) : (
+                                <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Failed" type="error" showIcon />
+                                </Col>)
+                              }
+                            </div>
+                        }
 
                     </Row>
 
-                    <Row style={{'marginTop': '15px'}}>
-                        <Col span={4} offset={6}>
+                    <Row>
+                        <Col xs={0} sm={0} md={0} lg={6} xl={6} />
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                             180 days
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                         <InputNumber
+                            className={"defaultWidth"}
                             defaultValue={0}
                             value={this.state.package180daysReward}
                             min={0}
@@ -134,18 +185,29 @@ export default class extends LoggedInPage {
                             onChange={this.onChange180Days.bind(this)}
                         />
                         </Col>
-                        <Col span={4}>
-                            <Button style={{'marginLeft': '15px'}} type="primary" onClick={this.set4.bind(this)} className="btn-margin-top">Set</Button>
+                        <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                            <Button type="primary" onClick={this.set4.bind(this)} className="defaultWidth" >Set</Button>
                         </Col>
+                        { this.state.package180daysPosted &&
+                            <div>
+                                {this.state.package180daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Success" type="success" showIcon />
+                                </Col>) : (
+                                <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
+                                    <Alert message="Failed" type="error" showIcon />
+                                </Col>)
+                              }
+                            </div>
+                        }
 
                     </Row>
 
-                    <Row style={{'marginTop': '15px'}}>
+                    <Row>
                         <Col span={4} offset={6}>
 
                         </Col>
                         <Col span={4}>
-                            <Button onClick={this.reset.bind(this)} type="primary" className="btn-margin-top">Reset</Button>
+                            <Button onClick={this.reset.bind(this)} type="primary" className="defaultWidth">Reset</Button>
                         </Col>
                     </Row>
                 </div>
@@ -162,51 +224,106 @@ export default class extends LoggedInPage {
         );
     }
 
-  /*  clear(){
+    clear(){
         this.setState({
-          package7daysPosted:null,
-          package30daysPosted:null,
-          package90daysPosted:null,
-          package180daysPosted:null,
-          package7daysSuccess:null,
-          package30daysSuccess:null,
-          package90daysSuccess:null,
-          package180daysSuccess:null
+          package7daysPosted:false,
+          package7daysSuccess:false,
+          package30daysPosted:false,
+          package30daysSuccess:false,
+          package90daysPosted:false,
+          package90daysSuccess:false,
+          package180daysPosted:false,
+          package180daysSuccess:false,
         })
-    }*/
+    }
+
     set1 () {
         if (this.state.package7daysReward != this.state.toReset_7days) {
+            this.setState({
+              package7daysPosted:true,
+              package30daysPosted:false,
+              package90daysPosted:false,
+              package180daysPosted:false,
+            })
             this.props.callFunction('setupPackage1', [this.state.package7daysReward]).then((result) => {
               console.log("done1");
               this.state.toReset_7days=this.state.package7daysReward;
+              this.setState({
+                package7daysSuccess:true,
+              })
+            },
+            this.setState({
+              package7daysSuccess:false,
             })
+          )
         }
     }
 
     set2 (){
         if (this.state.package30daysReward != this.state.toReset_30days) {
+            this.setState({
+              package7daysPosted:false,
+              package30daysPosted:true,
+              package90daysPosted:false,
+              package180daysPosted:false,
+            })
             this.props.callFunction('setupPackage2', [this.state.package30daysReward]).then((result) => {
               console.log("done2");
               this.state.toReset_30days=this.state.package30daysReward;
+              this.setState({
+                package30daysSuccess:true,
+              })
+            },
+            this.setState({
+              package30daysSuccess:false,
             })
+          )
         }
     }
 
     set3 (){
         if (this.state.package90daysReward != this.state.toReset_90days) {
+            this.setState({
+              package7daysPosted:false,
+              package30daysPosted:false,
+              package90daysPosted:true,
+              package180daysPosted:false,
+            })
             this.props.callFunction('setupPackage3', [this.state.package90daysReward]).then((result) => {
               console.log("done3");
               this.state.toReset_90days=this.state.package90daysReward;
+              this.setState({
+                package90daysSuccess:true,
+              })
+            },
+            this.setState({
+              package90daysSuccess:false,
             })
+          )
         }
     }
 
     set4 (){
         if (this.state.package180daysReward != this.state.toReset_180days) {
+            console.log(this.state.package90daysPosted,this.state.package90daysSuccess);
+            this.setState({
+              package7daysPosted:false,
+              package30daysPosted:false,
+              package90daysPosted:false,
+              package180daysPosted:true,
+            })
             this.props.callFunction('setupPackage4', [this.state.package180daysReward]).then((result) => {
               console.log("done4");
               this.state.toReset_180days=this.state.package180daysReward;
+              this.setState({
+                package180daysSuccess:true,
+              })
+              return;
+            },
+            this.setState({
+              package180daysSuccess:false,
             })
+          )
         }
     }
 
