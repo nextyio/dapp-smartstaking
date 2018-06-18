@@ -25,10 +25,10 @@ export default class extends LoggedInPage {
 
         this.props.getPackagesInfo().then((packages) => {
             this.setState({
-                bonusPackage1: packages.package1[1].toString(),
-                bonusPackage2: packages.package2[1].toString(),
-                bonusPackage3: packages.package3[1].toString(),
-                bonusPackage4: packages.package4[1].toString()
+                bonusPackage1: packages.package1[1].toString()/100,
+                bonusPackage2: packages.package2[1].toString()/100,
+                bonusPackage3: packages.package3[1].toString()/100,
+                bonusPackage4: packages.package4[1].toString()/100
             })
         })
     }
