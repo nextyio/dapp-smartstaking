@@ -65,7 +65,7 @@ export default class extends LoggedInPage {
 
                 </div>
                 <div className="ebp-page">
-                    <h3 className="text-center">Interest rate</h3>
+                    <h3 className="text-center">Reward rate</h3>
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={6} xl={6} />
                         <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
