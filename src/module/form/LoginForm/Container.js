@@ -25,6 +25,7 @@ export default createContainer(Component, (state)=>{
                     userService.path.push('/dashboard')
                 }
             } catch (err) {
+                message.destroy()
                 message.error(err.message)
             }
         }
