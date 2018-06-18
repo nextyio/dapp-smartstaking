@@ -29,10 +29,10 @@ export default class extends LoggedInPage {
         })
         this.props.getPackagesInfo().then((packages) => {
             this.setState({
-                package7daysReward:packages.package1[1].toString(),
-                package30daysReward:packages.package2[1].toString(),
-                package90daysReward:packages.package3[1].toString(),
-                package180daysReward:packages.package4[1].toString()
+                package7daysReward:packages.package1[1].toString()/100,
+                package30daysReward:packages.package2[1].toString()/100,
+                package90daysReward:packages.package3[1].toString()/100,
+                package180daysReward:packages.package4[1].toString()/100
             })
         })
     }
@@ -50,10 +50,10 @@ export default class extends LoggedInPage {
         })
         this.props.getPackagesInfo().then((packages) => {
             this.setState({
-                package7daysReward:packages.package1[1].toString(),
-                package30daysReward:packages.package2[1].toString(),
-                package90daysReward:packages.package3[1].toString(),
-                package180daysReward:packages.package4[1].toString()
+                package7daysReward:packages.package1[1].toString()/100,
+                package30daysReward:packages.package2[1].toString()/100,
+                package90daysReward:packages.package3[1].toString()/100,
+                package180daysReward:packages.package4[1].toString()/100
             })
         })
     }
@@ -245,7 +245,7 @@ export default class extends LoggedInPage {
                     Amount: {this.state.amount} NTY
                 </div>
                 <div>
-                    Assumed reward: {(this.state.amount*(1+this.state.currentReward/100)).toFixed(2)} NTY
+                    Assumed reward: {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                 </div>
                 <div>
                     Expired date: {expire_month}/{expire_day}/{expire_year}
