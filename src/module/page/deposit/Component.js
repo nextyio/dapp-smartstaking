@@ -16,7 +16,6 @@ export default class extends LoggedInPage {
 
     componentDidMount() {
         this.init();
-        this.interval = setInterval(() => this.loadData(), 3000);
     }
 
     loadData() {

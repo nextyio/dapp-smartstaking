@@ -29,7 +29,6 @@ export default class extends LoggedInPage {
 
         const backdropStyle = {
             backgroundPosition: '0 50%',
-            backgroundImage: `url('/assets/images/HomeHeader.jpg')`
         }
 
         return (
@@ -43,25 +42,9 @@ export default class extends LoggedInPage {
 
                 </div>
                 <Row className="d_rowPrograms">
-                    <Col span={8}>
-                        <a href="/">
-                            <img src="/assets/images/Home_Developers.png" />
-                            <h3>
-                                Smart Staking
-                            </h3>
-                        </a>
-                    </Col>
                     <Col span={8} className="d_colProgram_middle">
                         <a href="/">
                             <img src="/assets/images/ss.jpeg" />
-                            <h3>
-                                Smart Staking
-                            </h3>
-                        </a>
-                    </Col>
-                    <Col span={8}>
-                        <a href="/">
-                            <img src="/assets/images/Home_Leader.png" />
                             <h3>
                                 Smart Staking
                             </h3>
