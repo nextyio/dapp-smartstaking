@@ -118,6 +118,14 @@ export default class extends LoggedInPage {
                     </div>
                     <Row>
                         <Col span={12} style={{ 'textAlign': 'right' }}>
+                            <span>Amount:</span>
+                        </Col>
+                        <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
+                            <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)}</span>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12} style={{ 'textAlign': 'right' }}>
                             <span>Package:</span>
                         </Col>
                         <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
@@ -126,7 +134,7 @@ export default class extends LoggedInPage {
                     </Row>
                     <Row>
                         <Col span={12} style={{ 'textAlign': 'right' }}>
-                            <span>Expire Date:</span>
+                            <span>Expired date:</span>
                         </Col>
                         <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
                             <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('DD/MM/YYYY') }</span>
@@ -163,7 +171,7 @@ export default class extends LoggedInPage {
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
                 <Breadcrumb.Item><Link to="/list-package"> List Package</Link></Breadcrumb.Item>
-                <Breadcrumb.Item> Detail</Breadcrumb.Item>
+                <Breadcrumb.Item> Details</Breadcrumb.Item>
             </Breadcrumb>
         );
     }
@@ -217,10 +225,10 @@ export default class extends LoggedInPage {
             okText: 'OK',
             okType: 'danger',
             cancelText: 'Cancel',
+            onCancel() {
+            },
             onOk: () => {
                 this.confirmWithraw()
-            },
-            onCancel() {
             }
         })
     }

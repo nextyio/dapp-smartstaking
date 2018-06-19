@@ -103,7 +103,7 @@ export default class extends LoggedInPage {
       //e.target.value=this.validValue(e.target.value);
       if (this.state.balance<value) {
         this.setState({
-            notEnoughNTY: "Your balance not enough NTY",
+            notEnoughNTY: "Your balance is not enough",
         })
       } else
       this.setState({
@@ -194,7 +194,7 @@ export default class extends LoggedInPage {
                     { !this.validate() &&
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={12}>
-                            Assumed Reward:
+                            Total estimated Reward:
                         </Col>
                         <Col span={12}>
                             {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
@@ -206,7 +206,7 @@ export default class extends LoggedInPage {
 
                         </Col>
                         <Col span={12}>
-                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I accept terms</Checkbox>
+                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
                         </Col>
                     </Row>
 
@@ -331,7 +331,7 @@ export default class extends LoggedInPage {
 
     validate() {
         let errorFields = [];
-        if ((this.state.amount*(this.state.currentReward/100)).toFixed(2)>this.state.fundBonus) errorFields.push("Reward Pool not enough");
+        if ((this.state.amount*(this.state.currentReward/100)).toFixed(2)>this.state.fundBonus) errorFields.push("Reward Pool is not enough");
         if(this.state.notEnoughNTY) {
             errorFields.push(this.state.notEnoughNTY);
         }
