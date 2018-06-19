@@ -105,18 +105,14 @@ contract('SmartStaking', function (accounts) {
 
     describe('smart staking reward pool accept', function () {
         const value = ether(2);
-        it('should accept payments', async function () {
-            await this.contract.send(value).should.be.fulfilled;
-        });
-
-        it('should forward funds to wallet', async function () {
-            await this.contract.sendTransaction({ value: value, from: owner }).should.be.fulfilled;
+        it('should forward funds to wallet via deposit function', async function () {
+            await this.contract.deposit(0, { value: value, from: owner });
             const bonus = await this.contract.fundBonus.call();
             assert.equal(bonus.toString(), value);
         });
 
-        it('should forward funds to wallet with data', async function () {
-            await this.contract.sendTransaction({ value: value, data: '0x001', from: owner }).should.be.fulfilled;
+        it('should forward funds to wallet with data via deposit function', async function () {
+            await this.contract.deposit(5, { value: value, data: '0x001', from: owner });
             const bonus = await this.contract.fundBonus.call();
             assert.equal(bonus.toString(), value);
         });
@@ -139,18 +135,18 @@ contract('SmartStaking', function (accounts) {
                 // setup package 1, 1500 ~ 15%
                 await this.contract.setupPackage1(1500, { from: owner });
     
-                // deposit 10 NTY to reward pool
-                await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                // deposit 2 NTY to reward pool
+                await this.contract.deposit(0, { value: reward, from: owner });
                 const bonus = await this.contract.fundBonus.call();
                 assert.equal(bonus.toString(), reward);
                 
                 // send 1 NTY to participate smart staking's package 1
                 // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
-                await this.contract.sendTransaction({
+                await this.contract.deposit(1, {
                     value: value,
                     data: '0x0000000000000000000000000000000000000000000000000000000000000001',
                     from: anyone
-                }).should.be.fulfilled;
+                });
     
                 await assertRevert(this.contract.withdrawBonusPackage(1, {from: anyone }));
             });
@@ -158,14 +154,14 @@ contract('SmartStaking', function (accounts) {
 
         describe('normal condition', function () {
             it('participate smart staking before admin setup package', async function () {
-                // deposit 10 NTY to reward pool
-                await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                // deposit 2 NTY to reward pool
+                await this.contract.deposit(0, { value: reward, from: owner });
                 const bonus = await this.contract.fundBonus.call();
                 assert.equal(bonus.toString(), reward);
 
                 // send 1 NTY to participate smart staking's package 1
                 // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
-                await this.contract.sendTransaction({
+                await this.contract.deposit(1, {
                     value: value,
                     data: '0x0000000000000000000000000000000000000000000000000000000000000001',
                     from: anyone
@@ -195,18 +191,24 @@ contract('SmartStaking', function (accounts) {
                 // setup package 1, 1500 ~ 15%
                 await this.contract.setupPackage1(1500, { from: owner });
     
-                // deposit 10 NTY to reward pool
-                await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                // deposit 2 NTY to reward pool
+                await expectEvent.inTransaction(
+                    this.contract.deposit(0, { value: reward, from: owner }),
+                    'DepositRewardPool'
+                );
                 const bonus = await this.contract.fundBonus.call();
                 assert.equal(bonus.toString(), reward);
                 
                 // send 1 NTY to participate smart staking's package 1
                 // data: '0x0000000000000000000000000000000000000000000000000000000000000001'
-                await this.contract.sendTransaction({
-                    value: value,
-                    data: '0x0000000000000000000000000000000000000000000000000000000000000001',
-                    from: anyone
-                }).should.be.fulfilled;
+                await expectEvent.inTransaction(
+                    this.contract.deposit(1, {
+                        value: value,
+                        data: '0x0000000000000000000000000000000000000000000000000000000000000001',
+                        from: anyone
+                    }),
+                    'JoinSmartStaking'
+                );
     
                 // check reward pool after smart staking
                 const bonusAfter = await this.contract.fundBonus.call();
@@ -232,18 +234,18 @@ contract('SmartStaking', function (accounts) {
                 // setup package 1, 2500 ~ 25%
                 await this.contract.setupPackage2(2500, { from: owner });
     
-                // deposit 10 NTY to reward pool
-                await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                // deposit 2 NTY to reward pool
+                await this.contract.deposit(0, { value: reward, from: owner });
                 const bonus = await this.contract.fundBonus.call();
                 assert.equal(bonus.toString(), reward);
 
                 // send 1 NTY to participate smart staking's package 2
                 // data: '0x0000000000000000000000000000000000000000000000000000000000000002'
-                await this.contract.sendTransaction({
+                await this.contract.deposit(2, {
                     value: value,
                     data: '0x0000000000000000000000000000000000000000000000000000000000000002',
                     from: anyone
-                }).should.be.fulfilled;
+                });
     
                 // check reward pool after smart staking
                 const bonusAfter = await this.contract.fundBonus.call();
@@ -300,8 +302,8 @@ contract('SmartStaking', function (accounts) {
                 });
 
                 it('wrong package key < 1 when update smart staking', async function () {
-                    // deposit 10 NTY to reward pool
-                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    // deposit 2 NTY to reward pool
+                    await this.contract.deposit(0, { value: reward, from: owner });
                     const bonus = await this.contract.fundBonus.call();
                     assert.equal(bonus.toString(), reward);
                     
@@ -310,8 +312,8 @@ contract('SmartStaking', function (accounts) {
                 });
 
                 it('wrong package key > 4 when update smart staking', async function () {
-                    // deposit 10 NTY to reward pool
-                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    // deposit 2 NTY to reward pool
+                    await this.contract.deposit(0, { value: reward, from: owner });
                     const bonus = await this.contract.fundBonus.call();
                     assert.equal(bonus.toString(), reward);
 
@@ -320,8 +322,8 @@ contract('SmartStaking', function (accounts) {
                 });
 
                 it('dont have enough fund to pay reward when creating smart staking', async function () {
-                    // deposit 10 NTY to reward pool
-                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    // deposit 2 NTY to reward pool
+                    await this.contract.deposit(0, { value: reward, from: owner });
                     const bonus = await this.contract.fundBonus.call();
                     assert.equal(bonus.toString(), reward);
 
@@ -329,8 +331,8 @@ contract('SmartStaking', function (accounts) {
                 });
 
                 it('dont have enough fund to pay reward when updating smart staking', async function () {
-                    // deposit 10 NTY to reward pool
-                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    // deposit 2 NTY to reward pool
+                    await this.contract.deposit(0, { value: reward, from: owner });
                     const bonus = await this.contract.fundBonus.call();
                     assert.equal(bonus.toString(), reward);
 
@@ -341,8 +343,8 @@ contract('SmartStaking', function (accounts) {
 
             describe('create and update smart staking succesfully', function () {
                 it('owner can create new smart staking for anyone', async function () {
-                    // deposit 10 NTY to reward pool
-                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    // deposit 2 NTY to reward pool
+                    await this.contract.deposit(0, { value: reward, from: owner });
                     const bonus = await this.contract.fundBonus.call();
                     assert.equal(bonus.toString(), reward);
 
@@ -369,8 +371,8 @@ contract('SmartStaking', function (accounts) {
                 });
 
                 it('owner can create then update smart staking for anyone', async function () {
-                    // deposit 10 NTY to reward pool
-                    await this.contract.sendTransaction({ value: reward, from: owner }).should.be.fulfilled;
+                    // deposit 2 NTY to reward pool
+                    await this.contract.deposit(0, { value: reward, from: owner });
                     const bonus = await this.contract.fundBonus.call();
                     assert.equal(bonus.toString(), reward);
 

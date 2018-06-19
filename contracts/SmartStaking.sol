@@ -41,44 +41,33 @@ contract SmartStaking {
     mapping(address => InvestorPackage[]) public investorPackages;
 
     event Withdraw(address _to, uint256 _amount);
+    event DepositRewardPool(address _from, uint256 _amount);
+    event JoinSmartStaking(address _from, uint256 _amount);
 
     /**
-     * @dev fallback function to handle when user send fund the the contract address
+     * @dev deposit function to handle when user send fund the the contract address
      */
-    function () external payable {
-        if (msg.data.length == 0) {
-            fundBonus = safeAdd(fundBonus, msg.value);
-            return;
-        }
-        uint256 dataPackageId = uint256(bytesToBytes32(msg.data, 0));
-
-        if (PACKAGE1 == dataPackageId) {
-            processStaking(PACKAGE1);
-        } else if (PACKAGE2 == dataPackageId) {
-            processStaking(PACKAGE2);
-        } else if (PACKAGE3 == dataPackageId) {
-            processStaking(PACKAGE3);
-        } else if (PACKAGE4 == dataPackageId) {
-            processStaking(PACKAGE4);
+    function deposit(uint256 _packageId) external payable {
+        if (PACKAGE1 == _packageId) {
+            if (processStaking(PACKAGE1)) {
+                emit JoinSmartStaking(msg.sender, msg.value);
+            }
+        } else if (PACKAGE2 == _packageId) {
+            if (processStaking(PACKAGE2)) {
+                emit JoinSmartStaking(msg.sender, msg.value);
+            }
+        } else if (PACKAGE3 == _packageId) {
+            if (processStaking(PACKAGE3)) {
+                emit JoinSmartStaking(msg.sender, msg.value);
+            }
+        } else if (PACKAGE4 == _packageId) {
+            if (processStaking(PACKAGE4)) {
+                emit JoinSmartStaking(msg.sender, msg.value);
+            }
         } else {
             fundBonus = safeAdd(fundBonus, msg.value);
+            emit DepositRewardPool(msg.sender, msg.value);
         }
-    }
-
-    /**
-     * @dev convert any bytes array to maximum length 32 bytes array
-     * if the length of input bytes array `b` < 32 then take the bytes array length
-     */
-    function bytesToBytes32(bytes b, uint offset) private pure returns (bytes32) {
-        bytes32 out;
-        uint256 length = b.length;
-        if (length > 32) {
-            length = 32;
-        }
-        for (uint i = 0; i < length; i++) {
-            out |= bytes32(b[offset + i] & 0xFF) >> (i * 8);
-        }
-        return out;
     }
 
     /**
@@ -110,7 +99,7 @@ contract SmartStaking {
      * before Friday, August 31, 2018 11:59:59 PM
      */
     function createStaking(address _to, uint256 _amount, uint256 _packageId,
-            uint256 _bonusPercent, uint256 _expiredDate, uint256 _lastDateWithdraw) public onlyOwner {
+            uint256 _bonusPercent, uint256 _expiredDate, uint256 _lastDateWithdraw) public onlyOwner returns (bool) {
 
         // Only onwer can create new smart staking for `_to` before Friday, August 31, 2018 11:59:59 PM
         require(now <= 1535759999);
@@ -131,6 +120,7 @@ contract SmartStaking {
             lastDateWithdraw: _lastDateWithdraw,
             expiredDate: _expiredDate
         }));
+        return true;
     }
 
     /**
@@ -138,7 +128,7 @@ contract SmartStaking {
      * before Friday, August 31, 2018 11:59:59 PM
      */
     function updateStaking(address _to, uint256 _id, bool _isPaid, uint256 _amount, uint256 _packageId,
-            uint256 _bonusPercent, uint256 _expiredDate, uint256 _lastDateWithdraw) public onlyOwner {
+            uint256 _bonusPercent, uint256 _expiredDate, uint256 _lastDateWithdraw) public onlyOwner returns (bool) {
 
         // Only onwer can update smart staking for `_to` before Friday, August 31, 2018 11:59:59 PM
         require(now <= 1535759999);
@@ -160,12 +150,13 @@ contract SmartStaking {
         oldPackage.bonusPercent = _bonusPercent;
         oldPackage.lastDateWithdraw = _lastDateWithdraw;
         oldPackage.expiredDate = _expiredDate;
+        return true;
     }
 
     /**
      * @dev create new smart staking package for user when they send fund to the contract
      */
-    function processStaking(uint256 _package) internal {
+    function processStaking(uint256 _package) internal returns (bool) {
         uint256 bonusAmount = safeDiv(safeMul(msg.value, packages[_package].bonusPercent), 10000);
         require(msg.value >= STAKING_MIN_AMOUNT);
         require(fundBonus >= bonusAmount);
@@ -181,6 +172,7 @@ contract SmartStaking {
             lastDateWithdraw: safeAdd(now, LOCK_PERIOD),
             expiredDate: safeAdd(now, safeAdd(packages[_package].totalDays, LOCK_PERIOD))
         }));
+        return true;
     }
 
     /**
