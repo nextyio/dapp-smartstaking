@@ -222,12 +222,13 @@ export default class extends LoggedInPage {
         Modal.confirm({
             title: 'Are you sure?',
             content: '',
-            okText: 'OK',
             okType: 'danger',
-            cancelText: 'Cancel',
-            onCancel() {
+            cancelText: 'OK',
+            okText: 'Cancel',
+            onOk() {
+              //this.confirmWithraw()
             },
-            onOk: () => {
+            onCancel: () => {
                 this.confirmWithraw()
             }
         })
