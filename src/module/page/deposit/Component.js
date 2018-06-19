@@ -40,7 +40,10 @@ export default class extends LoggedInPage {
 
     init(){
         this.setState({
-          currentReward:null,
+            isLoading:false
+        })
+        this.setState({
+            currentReward:null,
         })
         this.props.getFundBonus().then((fundBonus) => {
             this.setState({fundBonus})
@@ -143,7 +146,7 @@ export default class extends LoggedInPage {
              txhash = <Alert message={message} type="success" showIcon />
         }
 
-        
+
 
         // const valid = this.state.package && this.state.amount && (alerts.length == 0);
         // if(valid) {
@@ -164,6 +167,11 @@ export default class extends LoggedInPage {
                         <Row>
                             {this.state.txhash &&
                               <Alert message={"Transaction hash: "+ this.state.txhash} type="success" showIcon />
+                            }
+                        </Row>
+                        <Row>
+                            {this.state.isLoading &&
+                              <img src='/assets/images/Loading.gif' />
                             }
                         </Row>
                     </div>
@@ -305,6 +313,9 @@ export default class extends LoggedInPage {
             '90': 3,
             '180': 4
         }
+        this.setState({
+            isLoading: true
+        });
 
         const self = this;
         this.props.deposit(mapsDaysToPackage[this.state.package], this.state.amount).then((result) => {
@@ -316,8 +327,14 @@ export default class extends LoggedInPage {
             event.watch(function (err, response) {
                 if(response.event == 'JoinSmartStaking') {
                     self.setState({
-                        tx_success: true
+                        tx_success: true,
+
                     });
+                    self.setState({
+                        isLoading: false,
+                        txhash: null
+                    });
+                    self.loadData();
                     notification.success({
                         message: 'Smart staking success',
                         description: 'Deposit fund to smart staking successfully!',
@@ -325,16 +342,6 @@ export default class extends LoggedInPage {
                     event.stopWatching()
                 }
             });
-
-            setTimeout(function() {
-                if(!self.state.tx_success) {
-                    notification.error({
-                        message: 'Smart staking failed',
-                        description: 'Something wrong. Deposit fund to smart staking has been failed!',
-                    });
-                    event.stopWatching()
-                }
-            }, 10000);
 
             Message.success('Smart staking transaction has been sent successfully!')
             this.setState({
@@ -344,7 +351,7 @@ export default class extends LoggedInPage {
                 submitted: false
             })
         })
-        setTimeout(this.loadData.bind(this), 6000);
+        //setTimeout(this.loadData.bind(this), 6000);
 
     }
 
