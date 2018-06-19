@@ -201,7 +201,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Package:
                         </Col>
-                        <Col span={18}>
+                        <Col span={6}>
                             {this.renderPackageDropdown()}
                         </Col>
                     </Row>
@@ -209,7 +209,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Amount:
                         </Col>
-                        <Col span={18}>
+                        <Col span={6}>
 
                             <InputNumber className="defaultWidth"
                                 defaultValue={0}
