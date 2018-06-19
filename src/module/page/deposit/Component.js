@@ -317,7 +317,7 @@ export default class extends LoggedInPage {
                     });
                     event.stopWatching()
                 }
-            }, 5000);
+            }, 10000);
 
             Message.success('Smart staking transaction has been sent successfully!')
             this.setState({
