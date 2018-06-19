@@ -74,7 +74,7 @@ export default class extends LoggedInPage {
                     </div>
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={8} offset={6} style={{'textAlign': 'left'}}>
-                            Current amount in smart staking wallet:
+                            Reward pool:
                         </Col>
                         <Col span={8} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
@@ -174,7 +174,7 @@ export default class extends LoggedInPage {
         }
 
         if (this.state.amount > this.state.balance) {
-            return Message.error('Amount do not greater than your balance')
+            return Message.error('Amount must be less than your balance')
         }
 
         if (this.state.amount <= 0) {
