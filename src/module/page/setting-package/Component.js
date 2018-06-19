@@ -263,6 +263,7 @@ export default class extends LoggedInPage {
             })
           )
       }
+      setTimeout(this.clear.bind(this), 10000);
     }
 
     set2 (){
@@ -285,6 +286,7 @@ export default class extends LoggedInPage {
             })
           )
         }
+        setTimeout(this.clear.bind(this), 10000);
     }
 
     set3 (){
@@ -307,6 +309,7 @@ export default class extends LoggedInPage {
             })
           )
         }
+        setTimeout(this.clear.bind(this), 10000);
     }
 
     set4 (){
@@ -331,6 +334,7 @@ export default class extends LoggedInPage {
             })
           )
         }
+        setTimeout(this.clear.bind(this), 10000);
     }
 
     set () {
