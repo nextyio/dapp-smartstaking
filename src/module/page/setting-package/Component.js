@@ -6,8 +6,13 @@ import { Link } from 'react-router-dom'
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox, Alert } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox, Alert, message} from 'antd'
 const FormItem = Form.Item;
+
+message.config({
+    top: 100
+})
+
 
 export default class extends LoggedInPage {
   componentDidMount() {
@@ -164,6 +169,7 @@ export default class extends LoggedInPage {
                                 </Col>)
                               }
                             </div>
+
                         }
 
                     </Row>
@@ -219,7 +225,7 @@ export default class extends LoggedInPage {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-                <Breadcrumb.Item> Setting Package</Breadcrumb.Item>
+                <Breadcrumb.Item> Setting Packages</Breadcrumb.Item>
             </Breadcrumb>
         );
     }
@@ -248,6 +254,7 @@ export default class extends LoggedInPage {
             this.props.callFunction('setupPackage1', [this.state.package7daysReward*100]).then((result) => {
               console.log("done1");
               this.state.toReset_7days=this.state.package7daysReward;
+              message.success("Success", 2);
               this.setState({
                 package7daysSuccess:true,
               })
