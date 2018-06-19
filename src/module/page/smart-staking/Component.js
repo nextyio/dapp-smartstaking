@@ -156,7 +156,7 @@ export default class extends LoggedInPage {
                     });
                     event.stopWatching()
                 }
-            }, 5000);
+            }, 10000);
 
             Message.success('Reward pool funding transaction has been sent successfully!')
             this.setState({
@@ -165,7 +165,7 @@ export default class extends LoggedInPage {
             })
 
         })
-        setTimeout(this.loadData.bind(this), 6000);
+        setTimeout(this.loadData.bind(this), 10000);
     }
 
     depositNTY() {
