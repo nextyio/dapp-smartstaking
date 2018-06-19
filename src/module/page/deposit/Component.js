@@ -4,6 +4,7 @@ import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 import './style.scss'
+import { MIN_VALUE_DEPOSIT } from '@/constant'
 
 import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
@@ -359,8 +360,8 @@ export default class extends LoggedInPage {
         if(!this.state.amount && this.state.amount !== 0) {
             errorFields.push('Amount is required');
         }
-        if(this.state.amount < 5) {
-            errorFields.push('Amount must be greater than or equal to 5');
+        if(this.state.amount < MIN_VALUE_DEPOSIT) {
+            errorFields.push('Amount must be greater than or equal to ' + MIN_VALUE_DEPOSIT);
         }
         if(errorFields.length == 0) return null;
         return errorFields.join(", "); //+ " is required.";
