@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message, Alert, InputNumber } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message, Alert, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
 Message.config({
     top: 100
@@ -128,12 +128,37 @@ export default class extends LoggedInPage {
     }
 
     confirm() {
+        const self = this;
         this.props.deposit(0, this.state.amount).then((result) => {
             if (!result) {
-                Message.error('Deposit error')
+                Message.error('Cannot send reward pool funding transaction!')
             }
 
-            Message.success('Adding deposit to reward pool successfully')
+            var event = self.props.getEventDepositRewardPool()
+            event.watch(function (err, response) {
+                if(response.event == 'DepositRewardPool') {
+                    self.setState({
+                        tx_success: true
+                    });
+                    notification.success({
+                        message: 'Reward pool fund success',
+                        description: 'Deposit fund to reward pool successfully!',
+                    });
+                    event.stopWatching()
+                }
+            });
+
+            setTimeout(function() {
+                if(!self.state.tx_success) {
+                    notification.error({
+                        message: 'Reward pool fund failed',
+                        description: 'Something wrong. Deposit fund to reward pool has been failed!',
+                    });
+                    event.stopWatching()
+                }
+            }, 5000);
+
+            Message.success('Reward pool funding transaction has been sent successfully!')
             this.setState({
                 txhash: result,
                 amount: '',
