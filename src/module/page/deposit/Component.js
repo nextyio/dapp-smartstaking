@@ -233,7 +233,7 @@ export default class extends LoggedInPage {
 
                         </Col>
                         <Col span={12}>
-                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the <big>Terms & Conditions.</big></Checkbox>
+                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
                         </Col>
                     </Row>
 
@@ -291,7 +291,7 @@ export default class extends LoggedInPage {
                     Assumed reward: {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                 </div>
                 <div>
-                    Expired date: {expire_month}/{expire_day}/{expire_year}
+                    Expired date: {expire_day}/{expire_month}/{expire_year}
                 </div>
             </div>
         );
