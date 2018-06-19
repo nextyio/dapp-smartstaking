@@ -62,7 +62,7 @@ export default class extends LoggedInPage {
 
                     </div>
 
-                    <div><span className="text-stat">Current reward:</span></div>
+                    <div><span className="text-stat">Current reward rate:</span></div>
 
                     <Row>
                         <Col span={6}>
