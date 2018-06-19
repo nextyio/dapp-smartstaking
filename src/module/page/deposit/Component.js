@@ -340,7 +340,8 @@ export default class extends LoggedInPage {
             this.setState({
                 txhash: result,
                 amount: '',
-                package: null
+                package: null,
+                submitted: false
             })
         })
         setTimeout(this.loadData.bind(this), 6000);
