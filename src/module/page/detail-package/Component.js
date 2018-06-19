@@ -191,7 +191,7 @@ export default class extends LoggedInPage {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-                <Breadcrumb.Item><Link to="/list-package"> List Package</Link></Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/list-package"> List Packages</Link></Breadcrumb.Item>
                 <Breadcrumb.Item> Details</Breadcrumb.Item>
             </Breadcrumb>
         );

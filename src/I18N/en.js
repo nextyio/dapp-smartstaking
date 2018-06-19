@@ -10,7 +10,7 @@ export default {
     '0008': 'About',
     '0009': 'FAQ',
     '0010': 'Interest Management',
-    '0011': 'List Package',
+    '0011': 'List Packages',
     '0012': 'Setting Packages',
     '0013': 'Deposit',
 
