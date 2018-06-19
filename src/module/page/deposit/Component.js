@@ -29,7 +29,6 @@ export default class extends LoggedInPage {
         })
         this.props.getPackagesInfo().then((packages) => {
             this.setState({
-                txhash:null,
                 package7daysReward:packages.package1[1].toString()/100,
                 package30daysReward:packages.package2[1].toString()/100,
                 package90daysReward:packages.package3[1].toString()/100,
@@ -85,6 +84,7 @@ export default class extends LoggedInPage {
     handleMenuClick(e) {
         this.setState({
             package: e.key,
+            isLoading: false,
             txhash: null
         })
 
@@ -115,7 +115,7 @@ export default class extends LoggedInPage {
       })
         this.setState({
             amount: this.validValue(value),
-            txhash: null
+            txhash: null,
         })
     }
 
@@ -160,56 +160,56 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page">
                     <h3 className="text-center">Smart Staking Information</h3>
-                    <div className="ant-col-md-10 ant-col-md-offset-7 text-alert">
+                    <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                         <Row>
                             {alerts}
                         </Row>
+                        {this.state.txhash &&
                         <Row>
-
-                            {this.state.isLoading &&
-                                <Col span={4}>
-                                    <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} />
-                                </Col>
-                            }
-
+                          <Col span={6}>
+                              TxHash:
+                          </Col>
+                          <Col span={18}>
                             {this.state.txhash &&
-                                  <Col span={20}>
-                                      <Alert message={"Transaction hash: "+ this.state.txhash} type="success" showIcon />
-                                  </Col>
+                                  <div>
+                                      {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} /> : <Icon type="check" />}
+                                  </div>
                             }
+                            </Col>
                         </Row>
+                        }
                     </div>
-                    <div className="ant-col-md-10 ant-col-md-offset-7" style={{'textAlign': 'left'}}>
+                    <div className="ant-col-md-18 ant-col-md-offset-3" style={{'textAlign': 'left'}}>
                     <Row>
-                        <Col span={12}>
+                        <Col span={6}>
                             Your balance:
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
                             {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={12}>
+                        <Col span={6}>
                             Reward pool:
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <hr />
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={12}>
+                        <Col span={6}>
                             Package:
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
                             {this.renderPackageDropdown()}
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={12}>
+                        <Col span={6}>
                             Amount:
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
 
                             <InputNumber className="defaultWidth"
                                 defaultValue={0}
@@ -220,28 +220,28 @@ export default class extends LoggedInPage {
                     </Row>
                     { !this.validate() &&
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={12}>
+                        <Col span={6}>
                             Total estimated Reward:
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
                             {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                         </Col>
                     </Row>
                     }
                     <Row style={{'marginTop': '12px'}}>
-                        <Col span={12}>
+                        <Col span={6}>
 
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
                             <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
                         </Col>
                     </Row>
 
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={12}>
+                        <Col span={6}>
 
                         </Col>
-                        <Col span={12}>
+                        <Col span={18}>
                             <Button disabled={!this.state.checkedTerms} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
@@ -332,11 +332,7 @@ export default class extends LoggedInPage {
                 if(response.event == 'JoinSmartStaking') {
                     self.setState({
                         tx_success: true,
-
-                    });
-                    self.setState({
-                        isLoading: false,
-                        txhash: null
+                        isLoading: false
                     });
                     self.loadData();
                     notification.success({
