@@ -21,7 +21,9 @@ export default class extends LoggedInPage {
 
     onChangeInput(value) {
       this.setState({
-            amount: this.validValue(value)
+            amount: this.validValue(value),
+            isLoading: false,
+            txhash: false,
         })
 
     }
@@ -42,7 +44,6 @@ export default class extends LoggedInPage {
             this.setState({balance})
         })
 
-        this.setState({txhash:0})
     }
 
     ord_renderContent () {
@@ -57,7 +58,7 @@ export default class extends LoggedInPage {
             const message = 'Transaction hash: ' + this.state.txhash
              txhash = <Alert message={message} type="success" showIcon />;
 
-             Message.success(message, 3);
+             //Message.success(message, 3);
         }
 
         return (
@@ -67,33 +68,47 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page">
                     <h3 className="text-center">Smart Staking Information</h3>
-                    <div className="ant-col-md-11 ant-col-md-offset-6 text-alert">
-                        <Row>
 
+
+                        {this.state.txhash &&
+                        <Row>
+                          <Col span={4} offset={2} style={{'textAlign': 'left'}} >
+                              TxHash:
+                          </Col>
+                          <Col span={18} style={{'textAlign': 'left'}}>
+                            {this.state.txhash &&
+                                  <div>
+                                      {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} /> :
+                                      <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
+                                  </div>
+                            }
+                            </Col>
                         </Row>
-                    </div>
+                        }
+
+
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={8} offset={6} style={{'textAlign': 'left'}}>
+                        <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Reward pool:
                         </Col>
-                        <Col span={8} style={{'textAlign': 'left'}}>
+                        <Col span={18} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={8} offset={6} style={{'textAlign': 'left'}}>
+                        <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Your balance:
                         </Col>
-                        <Col span={8} style={{'textAlign': 'left'}}>
+                        <Col span={18} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
                     </Row>
                     <h3 className="text-center">Add more</h3>
                     <Row style={{'marginTop': '15px'}}>
-                        <Col span={8} offset={6} style={{'textAlign': 'left'}}>
+                        <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Amount:
                         </Col>
-                        <Col span={12} offset={6} style={{'textAlign': 'left'}}>
+                        <Col span={18} offset={2} style={{'textAlign': 'left'}}>
 
                             <InputNumber
                                 className={"defaultWidth"}
@@ -128,6 +143,10 @@ export default class extends LoggedInPage {
     }
 
     confirm() {
+        this.setState({
+          isLoading: true,
+        })
+
         const self = this;
         this.props.deposit(0, this.state.amount).then((result) => {
             if (!result) {
@@ -138,8 +157,10 @@ export default class extends LoggedInPage {
             event.watch(function (err, response) {
                 if(response.event == 'DepositRewardPool') {
                     self.setState({
-                        tx_success: true
+                        tx_success: true,
+                        isLoading: false
                     });
+                    self.loadData();
                     notification.success({
                         message: 'Reward pool fund success',
                         description: 'Deposit fund to reward pool successfully!',
@@ -148,24 +169,13 @@ export default class extends LoggedInPage {
                 }
             });
 
-            setTimeout(function() {
-                if(!self.state.tx_success) {
-                    notification.error({
-                        message: 'Reward pool fund failed',
-                        description: 'Something wrong. Deposit fund to reward pool has been failed!',
-                    });
-                    event.stopWatching()
-                }
-            }, 10000);
-
             Message.success('Reward pool funding transaction has been sent successfully!')
-            this.setState({
+            self.setState({
                 txhash: result,
                 amount: '',
             })
 
         })
-        setTimeout(this.loadData.bind(this), 10000);
     }
 
     depositNTY() {
