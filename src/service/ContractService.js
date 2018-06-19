@@ -70,7 +70,8 @@ export default class extends BaseService {
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
 
-        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
+        const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: 'deposit' }), '')
+        const payloadData = functionDef.toPayload([packageId]).data
         const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
 
         const rawTx = {
@@ -78,7 +79,7 @@ export default class extends BaseService {
             from: wallet.getAddressString(),
             value: web3.toWei(amount, "ether"),
             to: contract.address,
-            data: '0x000000000000000000000000000000000000000000000000000000000000000' + packageId
+            data: payloadData
         }
 
         const gas = this.estimateGas(rawTx)
@@ -161,9 +162,20 @@ export default class extends BaseService {
     }
 
     getEventWithdraw() {
-        
         const storeUser = this.store.getState().user
         let {contract, web3, wallet} = storeUser.profile
         return contract.Withdraw()
     }
+
+    getEventDepositRewardPool() {
+        const storeUser = this.store.getState().user
+        let {contract, web3, wallet} = storeUser.profile
+        return contract.DepositRewardPool()
+    }
+
+    getEventJoinSmartStaking() {
+        const storeUser = this.store.getState().user
+        let {contract, web3, wallet} = storeUser.profile
+        return contract.JoinSmartStaking()
+    }    
 }

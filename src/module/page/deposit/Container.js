@@ -23,6 +23,9 @@ export default createContainer(Component, (state) => {
         },
         async deposit(packageId, amount) {
             return await contractService.deposit(packageId, amount)
+        },
+        getEventJoinSmartStaking() {
+            return contractService.getEventJoinSmartStaking()
         }
     }
 })
