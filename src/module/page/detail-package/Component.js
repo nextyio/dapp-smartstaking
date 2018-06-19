@@ -124,7 +124,7 @@ export default class extends LoggedInPage {
                             <span>Expire Date:</span>
                         </Col>
                         <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
-                            <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('MM/DD/YYYY') }</span>
+                            <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('DD/MM/YYYY') }</span>
                         </Col>
                     </Row>
                     <Row>
