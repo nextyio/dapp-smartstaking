@@ -5,7 +5,7 @@ import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
 
 Message.config({
@@ -289,13 +289,34 @@ export default class extends LoggedInPage {
             '90': 3,
             '180': 4
         }
-
+        const self = this;
         this.props.deposit(mapsDaysToPackage[this.state.package], this.state.amount).then((result) => {
             if (!result) {
-                Message.error('Deposit error')
+                Message.error('Cannot send smart staking transaction!')
             }
 
-            Message.success('Deposit successful')
+            self.props.getEventJoinSmartStaking().watch(function (err, response) {
+                if(response.event == 'JoinSmartStaking') {
+                    self.setState({
+                        tx_success: true
+                    });
+                    notification.success({
+                        message: 'Smart staking success',
+                        description: 'Deposit fund to smart staking successfully!',
+                    });
+                }
+            });
+
+            setTimeout(function() {
+                if(!self.state.tx_success) {
+                    notification.error({
+                        message: 'Smart staking failed',
+                        description: 'Something wrong. Deposit fund to smart staking has been failed!',
+                    });
+                }
+            }, 5000);
+
+            Message.success('Smart staking transaction has been sent successfully!')
             this.setState({
                 txhash: result,
                 amount: ''
