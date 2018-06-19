@@ -41,7 +41,8 @@ export default class extends LoggedInPage {
         this.props.getBalance().then((balance) => {
             this.setState({balance})
         })
-        //this.setState({amount:0})
+
+        this.setState({txhash:0})
     }
 
     ord_renderContent () {
@@ -135,9 +136,11 @@ export default class extends LoggedInPage {
             Message.success('Adding deposit to reward pool successfully')
             this.setState({
                 txhash: result,
-                amount: 0,
+                amount: '',
             })
+
         })
+        setTimeout(this.loadData.bind(this), 6000);
     }
 
     depositNTY() {
