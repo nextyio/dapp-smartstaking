@@ -53,22 +53,32 @@ export default class extends LoggedInPage {
         const dateLastWithDraw = moment.utc(this.state.packageInfo.lastDateWithdraw * 1000)
         const dateExpired = moment.utc(this.state.packageInfo.expiredDate * 1000);
 
-        const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'days')
-        const nowToLast =  dateNow.diff(dateLastWithDraw, 'days')
-        const expiredToNow = dateExpired.diff(dateNow, 'days')
+        //const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'days')
+        //const nowToLast =  dateNow.diff(dateLastWithDraw, 'days')
+        //const expiredToNow = dateExpired.diff(dateNow, 'days')
+        const oneday= 60 //seconds, testing 1 day=1min=60s
+        const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'seconds')
+        const nowToLast =  dateNow.diff(dateLastWithDraw, 'seconds')
+        const expiredToNow = dateExpired.diff(dateNow, 'seconds')
 
-        const bonusPerday = ((this.state.packageInfo.amount * this.state.packageInfo.bonusPercent) / 100) / days[this.state.packageInfo.packageId]
+        const bonusPerday = ((this.state.packageInfo.amount * this.state.packageInfo.bonusPercent) / 10000) / days[this.state.packageInfo.packageId]
+
+        //console.log(lastToExpired + " " + nowToLast + " " + expiredToNow + " " + bonusPerday+ " " + this.state.packageInfo.bonusPercent+ " " + this.state.packageInfo.amount*1e-18);
         let amount
 
         if (expiredToNow < 0) {
-            amount = lastToExpired * bonusPerday
+            //amount = lastToExpired * bonusPerday
+            amount = (Math.floor((lastToExpired+0.1)/oneday)) * bonusPerday
         } else {
-            amount = nowToLast * bonusPerday
+            //amount = nowToLast * bonusPerday
+            amount = (Math.floor((nowToLast+0.1)/oneday)) * bonusPerday
         }
 
         if (amount > 0) {
             amount = amount / 1e18
         }
+
+        amount=amount.toFixed(8);
 
         return (<p>{amount} NTY</p>)
     }
