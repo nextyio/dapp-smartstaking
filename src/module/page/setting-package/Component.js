@@ -262,7 +262,7 @@ export default class extends LoggedInPage {
               package7daysSuccess:false,
             })
           )
-        }
+      }
     }
 
     set2 (){
@@ -383,22 +383,26 @@ export default class extends LoggedInPage {
     }
 
     onChange7Days(value) {
+      this.clear()
         this.setState({
             package7daysReward: this.validValue(value)
         });
     }
     onChange30Days(value) {
+      this.clear()
         this.setState({
 
             package30daysReward: this.validValue(value)
         });
     }
     onChange90Days(value) {
+      this.clear()
         this.setState({
             package90daysReward: this.validValue(value)
         });
     }
     onChange180Days(value) {
+      this.clear()
         this.setState({
             package180daysReward: this.validValue(value)
         });
