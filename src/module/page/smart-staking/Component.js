@@ -16,7 +16,7 @@ export default class extends LoggedInPage {
 
   validValue(value) {
     var deciPart = (value + ".").split(".")[1];
-    if (deciPart>99999999) {return value.toFixed(8)} else {return value};
+    if (deciPart.length>8) {return value.toFixed(8)} else {return value};
   }
 
     onChangeInput(value) {
