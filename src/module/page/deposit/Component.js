@@ -4,6 +4,7 @@ import Footer from '@/module/layout/Footer/Container'
 import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 import './style.scss'
+import { MIN_VALUE_DEPOSIT } from '@/constant'
 
 import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
@@ -96,7 +97,7 @@ export default class extends LoggedInPage {
 
     validValue(value) {
       var deciPart = (value + ".").split(".")[1];
-      console.log(deciPart)
+    //   console.log(deciPart)
       if (deciPart.length>8) {return value.toFixed(8)} else {return value};
     }
 
@@ -122,11 +123,19 @@ export default class extends LoggedInPage {
     }
 
     ord_renderContent () {
-
-        const alerts = [];
-        if(this.state.error) {
-            alerts.push(<Alert message={this.state.error} type="error" showIcon />)
+        const self = this;
+        let alerts = [];
+        if(this.state.submitted) {
+            const error = self.validate();
+            if(error) {
+                alerts.push(<Alert message={error} type="error" showIcon />)
+            }
         }
+
+        // let alerts = [];
+        // if(this.state.error) {
+        //     alerts.push(<Alert message={this.state.error} type="error" showIcon />)
+        // }
 
         let txhash = null;
         if (this.state.txhash) {
@@ -134,7 +143,12 @@ export default class extends LoggedInPage {
              txhash = <Alert message={message} type="success" showIcon />
         }
 
-        const valid = this.state.package && this.state.amount && (this.state.amount > 5);
+        
+
+        // const valid = this.state.package && this.state.amount && (alerts.length == 0);
+        // if(valid) {
+        //     alerts = [];
+        // }
 
         return (
             <div className="">
@@ -145,7 +159,7 @@ export default class extends LoggedInPage {
                     <h3 className="text-center">Smart Staking Information</h3>
                     <div className="ant-col-md-10 ant-col-md-offset-7 text-alert">
                         <Row>
-                            {!valid && alerts}
+                            {alerts}
                         </Row>
                         <Row>
                             {this.state.txhash &&
@@ -238,7 +252,8 @@ export default class extends LoggedInPage {
     confirm () {
         const error = this.validate();
         this.setState({
-            error: error
+            error: error,
+            submitted: true
         });
         if(error) {
             return;
@@ -345,8 +360,8 @@ export default class extends LoggedInPage {
         if(!this.state.amount && this.state.amount !== 0) {
             errorFields.push('Amount is required');
         }
-        if(this.state.amount < 5) {
-            errorFields.push('Amount must be greater than or equal to 5');
+        if(this.state.amount < MIN_VALUE_DEPOSIT) {
+            errorFields.push('Amount must be greater than or equal to ' + MIN_VALUE_DEPOSIT);
         }
         if(errorFields.length == 0) return null;
         return errorFields.join(", "); //+ " is required.";
