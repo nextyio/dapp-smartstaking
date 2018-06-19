@@ -89,7 +89,12 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                            <Button type="primary" onClick={this.set1.bind(this)} className="defaultWidth" >Set</Button>
+                            <Row>
+                                <Col xs={0} sm={0} md={0} lg={4} xl={4}/>
+                                <Col xs={24} sm={24} md={24} lg={16} xl={16}>
+                                    <Button type="primary" onClick={this.set1.bind(this)} className="defaultWidth" >Set</Button>
+                                </Col>
+                            </Row>
                         </Col>
                         { this.state.package7daysPosted &&
                             <div>
@@ -123,7 +128,12 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                            <Button type="primary" onClick={this.set2.bind(this)} className="defaultWidth" >Set</Button>
+                            <Row>
+                                <Col xs={0} sm={0} md={0} lg={4} xl={4}/>
+                                <Col xs={24} sm={24} md={24} lg={16} xl={16}>
+                                    <Button type="primary" onClick={this.set2.bind(this)} className="defaultWidth" >Set</Button>
+                                </Col>
+                            </Row>
                         </Col>
                         { this.state.package30daysPosted &&
                             <div>
@@ -157,7 +167,12 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                            <Button type="primary" onClick={this.set3.bind(this)} className="defaultWidth" >Set</Button>
+                            <Row>
+                                <Col xs={0} sm={0} md={0} lg={4} xl={4}/>
+                                <Col xs={24} sm={24} md={24} lg={16} xl={16}>
+                                    <Button type="primary" onClick={this.set3.bind(this)} className="defaultWidth" >Set</Button>
+                                </Col>
+                            </Row>
                         </Col>
                         { this.state.package90daysPosted &&
                             <div>
@@ -192,7 +207,12 @@ export default class extends LoggedInPage {
                         />
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                            <Button type="primary" onClick={this.set4.bind(this)} className="defaultWidth" >Set</Button>
+                        <Row>
+                            <Col xs={0} sm={0} md={0} lg={4} xl={4}/>
+                            <Col xs={24} sm={24} md={24} lg={16} xl={16}>
+                                <Button type="primary" onClick={this.set4.bind(this)} className="defaultWidth" >Set</Button>
+                            </Col>
+                        </Row>
                         </Col>
                         { this.state.package180daysPosted &&
                             <div>
