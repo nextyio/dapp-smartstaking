@@ -206,7 +206,7 @@ export default class extends LoggedInPage {
 
                         </Col>
                         <Col span={12}>
-                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
+                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the <big>Terms & Conditions.</big></Checkbox>
                         </Col>
                     </Row>
 
