@@ -83,6 +83,7 @@ export default class extends LoggedInPage {
             package: e.key,
             txhash: null
         })
+
         var value=null;
         if (e.key=='7') value=this.state.package7daysReward;
         if (e.key=='30') value=this.state.package30daysReward;
@@ -101,6 +102,13 @@ export default class extends LoggedInPage {
 
     onAmountChange(value) {
       //e.target.value=this.validValue(e.target.value);
+        if(this.state.submitted) {
+            const error = this.validate();
+            this.setState({
+                error: error
+            });
+        }
+
       if (this.state.balance<value) {
         this.setState({
             notEnoughNTY: "Your balance is not enough",
@@ -135,6 +143,8 @@ export default class extends LoggedInPage {
              txhash = <Alert message={message} type="success" showIcon />
         }
 
+        const valid = this.state.package && this.state.amount;
+
         return (
             <div className="">
                 <div className="ebp-header-divider">
@@ -144,7 +154,7 @@ export default class extends LoggedInPage {
                     <h3 className="text-center">Smart Staking Information</h3>
                     <div className="ant-col-md-10 ant-col-md-offset-7 text-alert">
                         <Row>
-                            {alerts}
+                            {!valid && alerts}
                         </Row>
                         <Row>
                             {this.state.txhash &&
@@ -289,6 +299,7 @@ export default class extends LoggedInPage {
             '90': 3,
             '180': 4
         }
+
         const self = this;
         this.props.deposit(mapsDaysToPackage[this.state.package], this.state.amount).then((result) => {
             if (!result) {
