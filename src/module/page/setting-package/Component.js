@@ -57,7 +57,7 @@ export default class extends LoggedInPage {
         let {wallet, web3, contract} = this.props.profile
         let balance
         let address
-        //if (this.state.package7daysSuccess) console.log('done');
+        //if (this.state.package7daysSuccess) //console.log('done');
 
         if (wallet) {
             balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
@@ -213,7 +213,7 @@ export default class extends LoggedInPage {
 
                         </Col>
                         <Col span={4}>
-                            <Button onClick={this.reset.bind(this)} type="primary" className="defaultWidth">Reset</Button>
+                            <Button onClick={this.reset.bind(this)} type="primary" className="defaultWidth">Refresh</Button>
                         </Col>
                     </Row>
                 </div>
@@ -252,9 +252,8 @@ export default class extends LoggedInPage {
               package180daysPosted:false,
             })
             this.props.callFunction('setupPackage1', [this.state.package7daysReward*100]).then((result) => {
-              console.log("done1");
+              ////console.log("done1");
               this.state.toReset_7days=this.state.package7daysReward;
-              message.success("Success", 2);
               this.setState({
                 package7daysSuccess:true,
               })
@@ -275,7 +274,7 @@ export default class extends LoggedInPage {
               package180daysPosted:false,
             })
             this.props.callFunction('setupPackage2', [this.state.package30daysReward*100]).then((result) => {
-              console.log("done2");
+              //console.log("done2");
               this.state.toReset_30days=this.state.package30daysReward;
               this.setState({
                 package30daysSuccess:true,
@@ -297,7 +296,7 @@ export default class extends LoggedInPage {
               package180daysPosted:false,
             })
             this.props.callFunction('setupPackage3', [this.state.package90daysReward*100]).then((result) => {
-              console.log("done3");
+              //console.log("done3");
               this.state.toReset_90days=this.state.package90daysReward;
               this.setState({
                 package90daysSuccess:true,
@@ -312,7 +311,7 @@ export default class extends LoggedInPage {
 
     set4 (){
         if (this.state.package180daysReward != this.state.toReset_180days) {
-            console.log(this.state.package90daysPosted,this.state.package90daysSuccess);
+            //console.log(this.state.package90daysPosted,this.state.package90daysSuccess);
             this.setState({
               package7daysPosted:false,
               package30daysPosted:false,
@@ -320,7 +319,7 @@ export default class extends LoggedInPage {
               package180daysPosted:true,
             })
             this.props.callFunction('setupPackage4', [this.state.package180daysReward*100]).then((result) => {
-              console.log("done4");
+              //console.log("done4");
               this.state.toReset_180days=this.state.package180daysReward;
               this.setState({
                 package180daysSuccess:true,
@@ -335,32 +334,32 @@ export default class extends LoggedInPage {
     }
 
     set () {
-        //console.log('xxx', this.state.package7daysReward);
+        ////console.log('xxx', this.state.package7daysReward);
         //this.clear.bind(this);
         if (this.state.package7daysReward != this.state.toReset_7days) {
             this.props.callFunction('setupPackage1', [this.state.package7daysReward]).then((result) => {
-              console.log("done1");
+              //console.log("done1");
               this.state.toReset_7days=this.state.package7daysReward;
             })
         }
 
         if (this.state.package30daysReward != this.state.toReset_30days) {
             this.props.callFunction('setupPackage2', [this.state.package30daysReward]).then((result) => {
-              console.log("done2");
+              //console.log("done2");
               this.state.toReset_30days=this.state.package30daysReward;
             })
         }
 
         if (this.state.package90daysReward != this.state.toReset_90days) {
             this.props.callFunction('setupPackage3', [this.state.package90daysReward]).then((result) => {
-              console.log("done3");
+              //console.log("done3");
               this.state.toReset_90days=this.state.package90daysReward;
             })
         }
 
         if (this.state.package180daysReward != this.state.toReset_180days) {
             this.props.callFunction('setupPackage4', [this.state.package180daysReward]).then((result) => {
-              console.log("done4");
+              //console.log("done4");
               this.state.toReset_180days=this.state.package180daysReward;
             })
         }
@@ -368,6 +367,7 @@ export default class extends LoggedInPage {
     }
 
     reset () {
+      this.clear()
       this.setState({
 
           package7daysReward:this.state.toReset_7days,
