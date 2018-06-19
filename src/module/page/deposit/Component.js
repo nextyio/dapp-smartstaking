@@ -165,13 +165,17 @@ export default class extends LoggedInPage {
                             {alerts}
                         </Row>
                         <Row>
-                            {this.state.txhash &&
-                              <Alert message={"Transaction hash: "+ this.state.txhash} type="success" showIcon />
-                            }
-                        </Row>
-                        <Row>
+
                             {this.state.isLoading &&
-                              <img src='/assets/images/Loading.gif' />
+                                <Col span={4}>
+                                    <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} />
+                                </Col>
+                            }
+
+                            {this.state.txhash &&
+                                  <Col span={20}>
+                                      <Alert message={"Transaction hash: "+ this.state.txhash} type="success" showIcon />
+                                  </Col>
                             }
                         </Row>
                     </div>
