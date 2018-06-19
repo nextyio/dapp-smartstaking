@@ -121,7 +121,7 @@ export default class extends LoggedInPage {
                             <span>Amount:</span>
                         </Col>
                         <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
-                            <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)}</span>
+                            <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)} NTY</span>
                         </Col>
                     </Row>
                     <Row>
