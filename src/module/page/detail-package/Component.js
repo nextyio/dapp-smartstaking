@@ -63,22 +63,22 @@ export default class extends LoggedInPage {
 
         const bonusPerday = ((this.state.packageInfo.amount * this.state.packageInfo.bonusPercent) / 10000) / days[this.state.packageInfo.packageId]
 
-        //console.log(lastToExpired + " " + nowToLast + " " + expiredToNow + " " + bonusPerday+ " " + this.state.packageInfo.bonusPercent+ " " + this.state.packageInfo.amount*1e-18);
+    console.log(lastToExpired + " " + nowToLast + " " + expiredToNow + " " + bonusPerday*1e-18+ " " + this.state.packageInfo.bonusPercent+ " " + this.state.packageInfo.amount*1e-18 );
         let amount
 
         if (expiredToNow < 0) {
             //amount = lastToExpired * bonusPerday
-            amount = (Math.floor((lastToExpired+0.1)/oneday)) * bonusPerday
+            amount = (Math.floor(Math.abs(lastToExpired/oneday))) * bonusPerday
         } else {
             //amount = nowToLast * bonusPerday
-            amount = (Math.floor((nowToLast+0.1)/oneday)) * bonusPerday
+            amount = (Math.floor(Math.abs(nowToLast)/oneday)) * bonusPerday
         }
 
         if (amount > 0) {
             amount = amount / 1e18
         }
 
-        amount=amount.toFixed(8);
+      //  amount=amount.toFixed(8);
 
         return (<p>{amount} NTY</p>)
     }
