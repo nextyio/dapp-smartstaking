@@ -17,12 +17,12 @@ export default class extends LoggedInPage {
 
     state = {
         packageInfo: {
-            isPaid : false,
-            amount : 0,
-            packageId : 0,
-            bonusPercent : 0,
-            lastDateWithdraw : 0,
-            expiredDate : 0
+            isPaid: false,
+            amount: 0,
+            packageId: 0,
+            bonusPercent: 0,
+            lastDateWithdraw: 0,
+            expiredDate: 0
         },
     }
 
@@ -43,10 +43,10 @@ export default class extends LoggedInPage {
 
     renderReward() {
         const days = {
-            '1' : 7,
-            '2' : 30,
-            '3' : 90,
-            '4' : 180,
+            '1': 7,
+            '2': 30,
+            '3': 90,
+            '4': 180,
         }
 
         const dateNow = moment.utc(new Date())
@@ -92,16 +92,16 @@ export default class extends LoggedInPage {
         const packageId = this.props.match.params.id
 
         const days = {
-            '1' : '7 days',
-            '2' : '30 days',
-            '3' : '90 days',
-            '4' : '180 days',
+            '1': '7 days',
+            '2': '30 days',
+            '3': '90 days',
+            '4': '180 days',
         }
 
         let txhash = null;
         if (this.state.txhash) {
             const message = 'Transaction hash: ' + this.state.txhash
-             txhash = <Alert message={message} type="success" showIcon />
+            txhash = <Alert message={message} type="success" showIcon />
         }
 
         return (
@@ -117,15 +117,15 @@ export default class extends LoggedInPage {
                         </Row>
                     </div>
                     <Row>
-                        <Col span={12} style={{'textAlign': 'right'}}>
+                        <Col span={12} style={{ 'textAlign': 'right' }}>
                             <span>Package:</span>
                         </Col>
-                        <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
+                        <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
                             <span>{days[this.state.packageInfo.packageId]}</span>
                         </Col>
                     </Row>
                     <Row>
-                        <Col span={12} style={{'textAlign': 'right'}}>
+                        <Col span={12} style={{ 'textAlign': 'right' }}>
                             <span>Expire Date:</span>
                         </Col>
                         <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
@@ -133,10 +133,10 @@ export default class extends LoggedInPage {
                         </Col>
                     </Row>
                     <Row>
-                        <Col span={12} style={{'textAlign': 'right'}}>
+                        <Col span={12} style={{ 'textAlign': 'right' }}>
                             <span>Current reward:</span>
                         </Col>
-                        <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
+                        <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
                             <span>{this.renderReward()}</span>
                         </Col>
                     </Row>
@@ -175,34 +175,33 @@ export default class extends LoggedInPage {
                 Message.error('Deposit error')
             }
 
-            self.props.getEventWithdraw().watch(function (err, response) {
+            var event = self.props.getEventWithdraw();
+
+            event.watch(function (err, response) {
                 // console.log("err, response", err, response, self.props.profile.wallet.getAddressString());
 
-                if(response.args._to == self.props.profile.wallet.getAddressString()) {
+                if (response.args._to == self.props.profile.wallet.getAddressString() && response.event == "Withdraw") {
                     self.setState({
                         tx_success: true
                     });
+                    notification.success({
+                        message: 'Withdraw successfully',
+                        // description: 'Transaction has been successfully',
+                    });
 
-                    if(!self.state.withdraw_noti_show) {
-                        notification.success({
-                            message: 'Withdraw successfully',
-                            // description: 'Transaction has been successfully',
-                        });
-                        self.setState({
-                            withdraw_noti_show: true
-                        });
-                    }
+                    event.stopWatching();
                 }
             });
 
-            setTimeout(function() {
-                if(!self.state.tx_success) {
+            setTimeout(function () {
+                if (!self.state.tx_success) {
                     notification.error({
                         message: 'Withdraw failed',
                         description: 'You can not withdraw now.',
                     });
+                    event.stopWatching();
                 }
-            }, 7000);
+            }, 10000);
 
             // Message.success('Deposit successfully')
             self.setState({
@@ -211,7 +210,7 @@ export default class extends LoggedInPage {
         })
     }
 
-    confirm () {
+    confirm() {
         Modal.confirm({
             title: 'Are you sure?',
             content: '',
