@@ -28,6 +28,7 @@ export default class extends LoggedInPage {
         })
         this.props.getPackagesInfo().then((packages) => {
             this.setState({
+                txhash:null,
                 package7daysReward:packages.package1[1].toString()/100,
                 package30daysReward:packages.package2[1].toString()/100,
                 package90daysReward:packages.package3[1].toString()/100,
@@ -79,7 +80,8 @@ export default class extends LoggedInPage {
 
     handleMenuClick(e) {
         this.setState({
-            package: e.key
+            package: e.key,
+            txhash: null
         })
         var value=null;
         if (e.key=='7') value=this.state.package7daysReward;
@@ -101,14 +103,15 @@ export default class extends LoggedInPage {
       //e.target.value=this.validValue(e.target.value);
       if (this.state.balance<value) {
         this.setState({
-            notEnoughNTY: "Your balance not enough NTY"
+            notEnoughNTY: "Your balance not enough NTY",
         })
       } else
       this.setState({
           notEnoughNTY: null
       })
         this.setState({
-            amount: this.validValue(value)
+            amount: this.validValue(value),
+            txhash: null
         })
     }
 
@@ -144,7 +147,9 @@ export default class extends LoggedInPage {
                             {alerts}
                         </Row>
                         <Row>
-                            {txhash}
+                            {this.state.txhash &&
+                              <Alert message={"Transaction hash: "+ this.state.txhash} type="success" showIcon />
+                            }
                         </Row>
                     </div>
                     <div className="ant-col-md-10 ant-col-md-offset-7" style={{'textAlign': 'left'}}>
@@ -292,9 +297,12 @@ export default class extends LoggedInPage {
 
             Message.success('Deposit successful')
             this.setState({
-                txhash: result
+                txhash: result,
+                amount: ''
             })
         })
+        setTimeout(this.loadData.bind(this), 6000);
+
     }
 
     validate() {
