@@ -9,6 +9,8 @@ import './style.scss'
 
 import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message, notification } from 'antd'
 
+const oneday = 60; // will be 60 * 60 * 24 on product;
+
 Message.config({
     top: 100
 })
@@ -56,7 +58,7 @@ export default class extends LoggedInPage {
         //const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'days')
         //const nowToLast =  dateNow.diff(dateLastWithDraw, 'days')
         //const expiredToNow = dateExpired.diff(dateNow, 'days')
-        const oneday=60
+
         const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'seconds')
         const nowToLast =  dateNow.diff(dateLastWithDraw, 'seconds')
         const expiredToNow = dateExpired.diff(dateNow, 'seconds')
@@ -96,6 +98,20 @@ export default class extends LoggedInPage {
             '2': '30 days',
             '3': '90 days',
             '4': '180 days',
+        }
+        const days_time = {
+            '1': 7 * oneday,
+            '2': 30 * oneday,
+            '3': 90 * oneday,
+            '4': 180 * oneday
+        }
+
+        let withdrawable;
+        let now_unix = new Date().getTime() / 1000;
+        if(this.state.packageInfo.expiredDate - days_time[this.state.packageInfo.packageId] > now_unix) {
+            withdrawable = false;
+        } else {
+            withdrawable = true;
         }
 
         let txhash = null;
@@ -155,7 +171,12 @@ export default class extends LoggedInPage {
                     </Row>
                     <Row>
                         <Col md={8} offset={8}>
-                            <Button onClick={this.confirm.bind(this)} className="btn-withdraw" type="primary">Withdraw</Button>
+                            {!withdrawable && <Alert message="You cannot withdraw now." type="error" showIcon /> }
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={8} offset={8}>
+                            <Button disabled={!withdrawable} onClick={this.confirm.bind(this)} className="btn-withdraw" type="primary">Withdraw</Button>
                         </Col>
                     </Row>
                 </div>
