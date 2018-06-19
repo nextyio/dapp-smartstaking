@@ -5,7 +5,7 @@ import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 import './style.scss'
 
-import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message } from 'antd'
+import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber } from 'antd'
 const FormItem = Form.Item;
 
 Message.config({
@@ -60,7 +60,7 @@ export default class extends LoggedInPage {
 
     renderPackageDropdown() {
         const menu = (
-            <Menu onClick={this.handleMenuClick.bind(this)}>
+            <Menu onClick={this.handleMenuClick.bind(this)} >
                 <Menu.Item key="7">7 days ({parseFloat(this.state.package7daysReward).toFixed(2)}%)</Menu.Item>
                 <Menu.Item key="30">30 days ({parseFloat(this.state.package30daysReward).toFixed(2)}%)</Menu.Item>
                 <Menu.Item key="90">90 days ({parseFloat(this.state.package90daysReward).toFixed(2)}%)</Menu.Item>
@@ -69,8 +69,8 @@ export default class extends LoggedInPage {
         );
 
         return (
-            <Dropdown overlay={menu}>
-                <Button>
+            <Dropdown overlay={menu} >
+                <Button className="defaultWidth">
                     {this.state.package ? this.state.package + " days" : "Please Choose"} <Icon type="down" />
                 </Button>
             </Dropdown>
@@ -91,9 +91,14 @@ export default class extends LoggedInPage {
         })
     }
 
-    onAmountChange(e) {
-      console.log(this.state.package7daysReward);
-      if (this.state.balance<e.target.value) {
+    validValue(value) {
+      var deciPart = (value + ".").split(".")[1];
+      if (deciPart>99999999) {return value.toFixed(8)} else {return value};
+    }
+
+    onAmountChange(value) {
+      //e.target.value=this.validValue(e.target.value);
+      if (this.state.balance<value) {
         this.setState({
             notEnoughNTY: "Your balance not enough NTY"
         })
@@ -102,7 +107,7 @@ export default class extends LoggedInPage {
           notEnoughNTY: null
       })
         this.setState({
-            amount: e.target.value
+            amount: this.validValue(value)
         })
     }
 
@@ -172,7 +177,12 @@ export default class extends LoggedInPage {
                             Amount:
                         </Col>
                         <Col span={12}>
-                            <Input onChange={this.onAmountChange.bind(this)} type="number" />
+
+                            <InputNumber className="defaultWidth"
+                                defaultValue={0}
+                                value={this.state.amount}
+                                onChange={this.onAmountChange.bind(this)}
+                            />
                         </Col>
                     </Row>
                     { !this.validate() &&
