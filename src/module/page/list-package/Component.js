@@ -42,7 +42,7 @@ export default class extends LoggedInPage {
                 return <p>{parseFloat(amount / 1e18).toFixed(8)} NTY</p>
             }
         },  {
-            title: 'Paid',
+            title: 'Status',
             dataIndex: 'isPaid',
             key: 'isPaid',
             render: (isPaid) => {
@@ -62,7 +62,7 @@ export default class extends LoggedInPage {
                 return <p>{days[packageId]}</p>
             }
         }, {
-            title: 'Expire Date',
+            title: 'Expired date',
             dataIndex: 'expiredDate',
             key: 'expiredDate',
             render: (expiredDate) => {
@@ -102,7 +102,7 @@ export default class extends LoggedInPage {
         return (
             <Breadcrumb style={{ 'marginLeft': '16px', 'marginTop': '16px', float: 'right' }}>
                 <Breadcrumb.Item><Link to="/dashboard"><Icon type="home" /> Home</Link></Breadcrumb.Item>
-                <Breadcrumb.Item> List Package</Breadcrumb.Item>
+                <Breadcrumb.Item> List Packages</Breadcrumb.Item>
             </Breadcrumb>
         );
     }
