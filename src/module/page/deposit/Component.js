@@ -5,6 +5,7 @@ import Tx from 'ethereumjs-tx'
 import { Link } from 'react-router-dom'
 import './style.scss'
 import { MIN_VALUE_DEPOSIT } from '@/constant'
+import moment from 'moment/moment'
 
 import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
@@ -172,7 +173,8 @@ export default class extends LoggedInPage {
                           <Col span={18}>
                             {this.state.txhash &&
                                   <div>
-                                      {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} /> : <Icon type="check" />}
+                                      {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} /> :
+                                      <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
                                   </div>
                             }
                             </Col>
@@ -275,9 +277,10 @@ export default class extends LoggedInPage {
         const package_timestamp = parseInt(_package) * 24 * 60 * 60 * 1000;
         const expire_timestamp = new Date().getTime() + package_timestamp + 7 * 24 * 60 * 60 * 1000;
         const expire_date = new Date(expire_timestamp);
-        const expire_month = expire_date.getMonth() + 1;
-        const expire_day = expire_date.getDate();
-        const expire_year = expire_date.getFullYear();
+        const expire_date_default_format= moment.utc(expire_date).format('DD/MM/YYYY') ;
+    //    const expire_month = expire_date.getMonth() + 1;
+    //    const expire_day = expire_date.getDate();
+    //    const expire_year = expire_date.getFullYear();
 
         const content = (
             <div>
@@ -291,7 +294,7 @@ export default class extends LoggedInPage {
                     Assumed reward: {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                 </div>
                 <div>
-                    Expired date: {expire_day}/{expire_month}/{expire_year}
+                    Expired date: {expire_date_default_format}
                 </div>
             </div>
         );
