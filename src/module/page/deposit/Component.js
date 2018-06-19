@@ -333,7 +333,8 @@ export default class extends LoggedInPage {
             Message.success('Smart staking transaction has been sent successfully!')
             this.setState({
                 txhash: result,
-                amount: ''
+                amount: '',
+                package: null
             })
         })
         setTimeout(this.loadData.bind(this), 6000);
