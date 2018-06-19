@@ -295,7 +295,8 @@ export default class extends LoggedInPage {
                 Message.error('Cannot send smart staking transaction!')
             }
 
-            self.props.getEventJoinSmartStaking().watch(function (err, response) {
+            var event = self.props.getEventJoinSmartStaking()
+            event.watch(function (err, response) {
                 if(response.event == 'JoinSmartStaking') {
                     self.setState({
                         tx_success: true
@@ -304,6 +305,7 @@ export default class extends LoggedInPage {
                         message: 'Smart staking success',
                         description: 'Deposit fund to smart staking successfully!',
                     });
+                    event.stopWatching()
                 }
             });
 
@@ -313,6 +315,7 @@ export default class extends LoggedInPage {
                         message: 'Smart staking failed',
                         description: 'Something wrong. Deposit fund to smart staking has been failed!',
                     });
+                    event.stopWatching()
                 }
             }, 5000);
 

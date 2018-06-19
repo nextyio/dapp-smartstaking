@@ -134,7 +134,8 @@ export default class extends LoggedInPage {
                 Message.error('Cannot send reward pool funding transaction!')
             }
 
-            self.props.getEventDepositRewardPool().watch(function (err, response) {
+            var event = self.props.getEventDepositRewardPool()
+            event.watch(function (err, response) {
                 if(response.event == 'DepositRewardPool') {
                     self.setState({
                         tx_success: true
@@ -143,6 +144,7 @@ export default class extends LoggedInPage {
                         message: 'Reward pool fund success',
                         description: 'Deposit fund to reward pool successfully!',
                     });
+                    event.stopWatching()
                 }
             });
 
@@ -152,6 +154,7 @@ export default class extends LoggedInPage {
                         message: 'Reward pool fund failed',
                         description: 'Something wrong. Deposit fund to reward pool has been failed!',
                     });
+                    event.stopWatching()
                 }
             }, 5000);
 
