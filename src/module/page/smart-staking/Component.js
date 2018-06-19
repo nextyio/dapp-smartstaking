@@ -2,6 +2,7 @@ import React from 'react';
 import LoggedInPage from '../LoggedInPage';
 import Footer from '@/module/layout/Footer/Container'
 import { Link } from 'react-router-dom'
+//import {CopyToClipboard} from 'react-copy-to-clipboard'
 
 import './style.scss'
 
@@ -27,6 +28,9 @@ export default class extends LoggedInPage {
 
     componentDidMount() {
         this.loadData();
+        this.setState({
+          copied: false,
+        });
     }
 
     loadData() {
@@ -50,7 +54,9 @@ export default class extends LoggedInPage {
         let txhash = null;
         if (this.state.txhash) {
             const message = 'Transaction hash: ' + this.state.txhash
-             txhash = <Alert message={message} type="success" showIcon />
+             txhash = <Alert message={message} type="success" showIcon />;
+
+             Message.success(message, 3);
         }
 
         return (
@@ -62,7 +68,7 @@ export default class extends LoggedInPage {
                     <h3 className="text-center">Smart Staking Information</h3>
                     <div className="ant-col-md-11 ant-col-md-offset-6 text-alert">
                         <Row>
-                            {txhash}
+
                         </Row>
                     </div>
                     <Row style={{'marginTop': '15px'}}>
@@ -128,7 +134,8 @@ export default class extends LoggedInPage {
 
             Message.success('Adding deposit to reward pool successfully')
             this.setState({
-                txhash: result
+                txhash: result,
+                amount: 0,
             })
         })
     }
