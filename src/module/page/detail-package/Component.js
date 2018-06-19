@@ -255,7 +255,7 @@ export default class extends LoggedInPage {
                     event.stopWatching();
                 }
             });
-
+/*
             setTimeout(function () {
                 if (!self.state.tx_success) {
                     notification.error({
@@ -265,6 +265,7 @@ export default class extends LoggedInPage {
                     event.stopWatching();
                 }
             }, 10000);
+*/
 
             // Message.success('Deposit successfully')
             self.setState({
