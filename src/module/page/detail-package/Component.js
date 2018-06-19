@@ -56,7 +56,7 @@ export default class extends LoggedInPage {
         //const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'days')
         //const nowToLast =  dateNow.diff(dateLastWithDraw, 'days')
         //const expiredToNow = dateExpired.diff(dateNow, 'days')
-        const oneday= 60 //seconds, testing 1 day=1min=60s
+        const oneday=60
         const lastToExpired =  dateExpired.diff(dateLastWithDraw, 'seconds')
         const nowToLast =  dateNow.diff(dateLastWithDraw, 'seconds')
         const expiredToNow = dateExpired.diff(dateNow, 'seconds')
@@ -68,17 +68,22 @@ export default class extends LoggedInPage {
 
         if (expiredToNow < 0) {
             //amount = lastToExpired * bonusPerday
-            amount = (Math.floor(Math.abs(lastToExpired/oneday))) * bonusPerday
+            amount = (Math.floor(lastToExpired/oneday)) * bonusPerday
         } else {
             //amount = nowToLast * bonusPerday
-            amount = (Math.floor(Math.abs(nowToLast)/oneday)) * bonusPerday
+            amount = (Math.floor(nowToLast/oneday)) * bonusPerday
         }
 
         if (amount > 0) {
             amount = amount / 1e18
         }
 
-      //  amount=amount.toFixed(8);
+        if (amount < 0) {
+            amount = 0
+        }
+
+
+        amount=amount.toFixed(8);
 
         return (<p>{amount} NTY</p>)
     }
