@@ -178,7 +178,7 @@ export default class extends LoggedInPage {
                     { !this.validate() &&
                     <Row style={{'marginTop': '15px'}}>
                         <Col span={12}>
-                            Assumed Reward after {this.state.package} Days:
+                            Assumed Reward:
                         </Col>
                         <Col span={12}>
                             {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
