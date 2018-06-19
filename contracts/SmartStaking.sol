@@ -193,7 +193,7 @@ contract SmartStaking {
         require(!package.isPaid);
 
         uint256 amountBonusPackage = safeDiv(safeMul(package.amount, package.bonusPercent), 10000);
-        uint256 bonusPerday = safeDiv(amountBonusPackage, safeDiv(packages[package.packageId].totalDays, 1 minutes));
+        uint256 bonusPerday = safeDiv(amountBonusPackage, safeDiv(packages[package.packageId].totalDays, REWARD_TIME_UNIT));
         uint256 sumDays;
         uint256 packageAmount = package.amount;
         uint256 expiredDate = package.expiredDate;
@@ -201,13 +201,13 @@ contract SmartStaking {
 
         if (package.expiredDate > now) {
             sumDays = safeDiv(safeSub(now, package.lastDateWithdraw), REWARD_TIME_UNIT);
-            package.lastDateWithdraw = now;
+            package.lastDateWithdraw = safeAdd(package.lastDateWithdraw, safeMul(sumDays, REWARD_TIME_UNIT));
             amount = safeMul(sumDays, bonusPerday);
         }
 
         if (package.expiredDate <= now) {
             sumDays = safeDiv(safeSub(expiredDate, package.lastDateWithdraw), REWARD_TIME_UNIT);
-            package.lastDateWithdraw = now;
+            package.lastDateWithdraw = safeAdd(package.lastDateWithdraw, safeMul(sumDays, REWARD_TIME_UNIT));
 
             fund = safeSub(fund, packageAmount);
             package.isPaid = true;
