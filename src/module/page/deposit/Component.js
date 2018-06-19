@@ -101,14 +101,6 @@ export default class extends LoggedInPage {
     }
 
     onAmountChange(value) {
-      //e.target.value=this.validValue(e.target.value);
-        if(this.state.submitted) {
-            const error = this.validate();
-            this.setState({
-                error: error
-            });
-        }
-
       if (this.state.balance<value) {
         this.setState({
             notEnoughNTY: "Your balance is not enough",
@@ -132,7 +124,6 @@ export default class extends LoggedInPage {
     ord_renderContent () {
 
         const alerts = [];
-
         if(this.state.error) {
             alerts.push(<Alert message={this.state.error} type="error" showIcon />)
         }
@@ -143,7 +134,7 @@ export default class extends LoggedInPage {
              txhash = <Alert message={message} type="success" showIcon />
         }
 
-        const valid = this.state.package && this.state.amount;
+        const valid = this.state.package && this.state.amount && (this.state.amount > 5);
 
         return (
             <div className="">
@@ -351,8 +342,11 @@ export default class extends LoggedInPage {
         if(!this.state.package) {
             errorFields.push('Package is required');
         }
-        if(!this.state.amount) {
+        if(!this.state.amount && this.state.amount !== 0) {
             errorFields.push('Amount is required');
+        }
+        if(this.state.amount < 5) {
+            errorFields.push('Amount must be greater than or equal to 5');
         }
         if(errorFields.length == 0) return null;
         return errorFields.join(", "); //+ " is required.";
