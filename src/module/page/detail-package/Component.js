@@ -126,59 +126,89 @@ export default class extends LoggedInPage {
 
                 </div>
                 <div className="">
-                    <h2 className="text-center">SS000{packageId}</h2>
-                    <div className="ant-col-md-10 ant-col-md-offset-7 text-alert">
-                        <Row>
-                            {txhash}
-                        </Row>
-                    </div>
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
+                    <h2>SS000{packageId}</h2>
+                </div>
+
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
+                    {this.state.txhash &&
                     <Row>
-                        <Col span={12} style={{ 'textAlign': 'right' }}>
+                        <Col span={6}>
+                            TxHash:
+                        </Col>
+                        <Col span={18}>
+                        {this.state.txhash &&
+                              <div>
+                                  {this.state.txhash} {this.state.isLoading ? <img src='/assets/images/Loading.gif' style = {{'width' : '20px'}} /> :
+                                  <Icon type="check" style={{ fontSize: 24, color: '#4CAF50' }}/>}
+                              </div>
+                        }
+                        </Col>
+                    </Row>
+                    }
+                </div>
+
+
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
+                    <Row>
+                        <Col span={6}>
                             <span>Amount:</span>
                         </Col>
-                        <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
+                        <Col span={18}>
                             <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)} NTY</span>
                         </Col>
                     </Row>
+                </div>
+
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
-                        <Col span={12} style={{ 'textAlign': 'right' }}>
+                        <Col span={6}>
                             <span>Package:</span>
                         </Col>
-                        <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
+                        <Col span={18}>
                             <span>{days[this.state.packageInfo.packageId]}</span>
                         </Col>
                     </Row>
+                </div>
+
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
-                        <Col span={12} style={{ 'textAlign': 'right' }}>
+                        <Col span={6}>
                             <span>Expired date:</span>
                         </Col>
-                        <Col span={4} style={{'textAlign': 'left', 'marginLeft': '25px'}}>
+                        <Col span={18}>
                             <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('DD/MM/YYYY') }</span>
                         </Col>
                     </Row>
+                </div>
+
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
-                        <Col span={12} style={{ 'textAlign': 'right' }}>
+                        <Col span={6}>
                             <span>Current reward:</span>
                         </Col>
-                        <Col span={4} style={{ 'textAlign': 'left', 'marginLeft': '25px' }}>
+                        <Col span={18}>
                             <span>{this.renderReward()}</span>
                         </Col>
                     </Row>
+                </div>
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
+
                     <Row>
-                        <Col md={8} offset={8}>
-                            {/*<Alert className="alert-withdraw" message="You cannot withdraw deposit" type="error" />*/}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={8} offset={8}>
+                        <Col md={6}>
                             {!withdrawable && <Alert message="You cannot withdraw now." type="error" showIcon /> }
                         </Col>
                     </Row>
+                </div>
+                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
-                        <Col md={8} offset={8}>
+                        {!this.state.tx_success &&
+                        <Col md={8}>
                             <Button disabled={!withdrawable} onClick={this.confirm.bind(this)} className="btn-withdraw" type="primary">Withdraw</Button>
                         </Col>
+                        }
                     </Row>
+                </div>
                 </div>
                 <div className="ebp-page">
 
@@ -199,6 +229,9 @@ export default class extends LoggedInPage {
 
     confirmWithraw() {
         const self = this;
+        self.setState({
+          isLoading: true,
+        })
         this.props.callFunction('withdrawBonusPackage', [(this.state.packageId - 1)]).then((result) => {
             if (!result) {
                 Message.error('Deposit error')
@@ -211,7 +244,8 @@ export default class extends LoggedInPage {
 
                 if (response.args._to == self.props.profile.wallet.getAddressString() && response.event == "Withdraw") {
                     self.setState({
-                        tx_success: true
+                        tx_success: true,
+                        isLoading: false,
                     });
                     notification.success({
                         message: 'Withdraw successfully',
