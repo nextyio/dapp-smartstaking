@@ -62,7 +62,7 @@ export default class extends LoggedInPage {
                 return <p>{days[packageId]}</p>
             }
         }, {
-            title: 'Expired date',
+            title: 'Maturity date',
             dataIndex: 'expiredDate',
             key: 'expiredDate',
             render: (expiredDate) => {

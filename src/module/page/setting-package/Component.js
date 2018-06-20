@@ -99,7 +99,7 @@ export default class extends LoggedInPage {
                         { this.state.package7daysPosted &&
                             <div>
                                 {this.state.package7daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                                    <Alert message="Success" type="success" showIcon />
+                                    <Alert message="Successful" type="success" showIcon />
                                 </Col>) : (
                                 <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
                                     <Alert message="Failed" type="error" showIcon />
@@ -138,7 +138,7 @@ export default class extends LoggedInPage {
                         { this.state.package30daysPosted &&
                             <div>
                                 {this.state.package30daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                                    <Alert message="Success" type="success" showIcon />
+                                    <Alert message="Successful" type="success" showIcon />
                                 </Col>) : (
                                 <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
                                     <Alert message="Failed" type="error" showIcon />
@@ -177,7 +177,7 @@ export default class extends LoggedInPage {
                         { this.state.package90daysPosted &&
                             <div>
                                 {this.state.package90daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                                    <Alert message="Success" type="success" showIcon />
+                                    <Alert message="Successful" type="success" showIcon />
                                 </Col>) : (
                                 <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
                                     <Alert message="Failed" type="error" showIcon />
@@ -217,7 +217,7 @@ export default class extends LoggedInPage {
                         { this.state.package180daysPosted &&
                             <div>
                                 {this.state.package180daysSuccess ? (<Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
-                                    <Alert message="Success" type="success" showIcon />
+                                    <Alert message="Successful" type="success" showIcon />
                                 </Col>) : (
                                 <Col xs={24} sm={24} md={12} lg={4} xl={4} className="defaultPadding">
                                     <Alert message="Failed" type="error" showIcon />

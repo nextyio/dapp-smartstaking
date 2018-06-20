@@ -174,7 +174,7 @@ export default class extends LoggedInPage {
                     self.loadData();
                     notification.success({
                         message: 'Reward pool fund success',
-                        description: 'Deposit fund to reward pool successfully!',
+                        description: 'Transaction successful!',
                     });
                     event.stopWatching()
                 }

@@ -251,7 +251,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
-                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
+                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accepted the Terms & Conditions.</Checkbox>
                         </Col>
                     </Row>
 
@@ -311,7 +311,7 @@ export default class extends LoggedInPage {
                     Estimated reward: {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                 </div>
                 <div>
-                    Expired date: {expire_date_default_format}
+                    Maturity date: {expire_date_default_format}
                 </div>
             </div>
         );
@@ -357,7 +357,7 @@ export default class extends LoggedInPage {
                     self.loadData();
                     notification.success({
                         message: 'Smart staking success',
-                        description: 'Deposit fund to smart staking successfully!',
+                        description: 'Deposit successfully!',
                     });
                     event.stopWatching()
                 }
