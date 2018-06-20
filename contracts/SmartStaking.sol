@@ -64,7 +64,7 @@ contract SmartStaking {
             if (processStaking(PACKAGE4)) {
                 emit JoinSmartStaking(msg.sender, msg.value);
             }
-        } else {
+        } else if (_packageId == 0x0) {
             fundBonus = safeAdd(fundBonus, msg.value);
             emit DepositRewardPool(msg.sender, msg.value);
         }

@@ -112,7 +112,7 @@ contract('SmartStaking', function (accounts) {
         });
 
         it('should forward funds to wallet with data via deposit function', async function () {
-            await this.contract.deposit(5, { value: value, data: '0x001', from: owner });
+            await this.contract.deposit(0, { value: value, data: '0x001', from: owner });
             const bonus = await this.contract.fundBonus.call();
             assert.equal(bonus.toString(), value);
         });
