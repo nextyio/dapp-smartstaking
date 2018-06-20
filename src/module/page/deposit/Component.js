@@ -153,7 +153,7 @@ export default class extends LoggedInPage {
         let txhash = null;
         if (this.state.txhash) {
             const message = 'Transaction hash: ' + this.state.txhash
-             txhash = <Alert message={message} type="success" showIcon />
+             txhash = <Alert description={message} type="success" showIcon />
         }
 
 
@@ -383,15 +383,20 @@ export default class extends LoggedInPage {
         }
 
         if(!this.state.package) {
-            errorFields.push('Package is required');
+            errorFields.push(<p className="alert-no-padding">Package is required</p>);
         }
         if(!this.state.amount && this.state.amount !== 0) {
-            errorFields.push('Amount is required');
+            errorFields.push(<p className="alert-no-padding">Amount is required</p>);
         }
         if(this.state.amount < MIN_VALUE_DEPOSIT) {
-            errorFields.push('Amount must be greater than or equal to ' + MIN_VALUE_DEPOSIT);
+            errorFields.push(<p className="alert-no-padding">Amount must be equal or greater than { MIN_VALUE_DEPOSIT }</p>);
         }
         if(errorFields.length == 0) return null;
-        return errorFields.join(", "); //+ " is required.";
+        return (
+            <div>
+                {errorFields}
+            </div>
+        )
+        // return errorFields.join(", "); //+ " is required.";
     }
 }

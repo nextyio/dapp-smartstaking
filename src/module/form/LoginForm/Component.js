@@ -46,7 +46,7 @@ class C extends BaseComponent {
                 <p>
                     Do you want to access your wallet?
                 </p>
-                <Form onSubmit={this.handleSubmit.bind(this)} className="c_loginForm">
+                <Form autoComplete="off" onSubmit={this.handleSubmit.bind(this)} className="c_loginForm">
                     <FormItem>
                         {p.privateKey}
                     </FormItem>
