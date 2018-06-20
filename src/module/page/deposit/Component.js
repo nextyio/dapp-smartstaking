@@ -10,6 +10,12 @@ import moment from 'moment/moment'
 import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Alert, Message, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
 
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobi l e') !== -1);
+};
+
+const isMobile = isMobileDevice();
+
 Message.config({
     top: 100
 })
@@ -74,10 +80,13 @@ export default class extends LoggedInPage {
         );
 
         return (
-            <Dropdown overlay={menu} >
+
+            <Dropdown overlay={menu} className="defaultWidth" >
+
                 <Button className="defaultWidth">
-                    {this.state.package ? this.state.package + " days" : "Please Choose"} <Icon type="down" />
+                    {this.state.package ? this.state.package + " days" : "Please Choose"}  <Icon type="down" />
                 </Button>
+
             </Dropdown>
         )
     }
@@ -170,6 +179,7 @@ export default class extends LoggedInPage {
                           <Col span={6}>
                               TxHash:
                           </Col>
+                          {isMobile && <Col span={24}/>}
                           <Col span={18}>
                             {this.state.txhash &&
                                   <div>
@@ -186,6 +196,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Your balance:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
@@ -194,6 +205,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Reward pool:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
@@ -203,6 +215,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Package:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={6}>
                             {this.renderPackageDropdown()}
                         </Col>
@@ -211,6 +224,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Amount:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={6}>
 
                             <InputNumber className="defaultWidth"
@@ -225,6 +239,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Total estimated Reward:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                         </Col>
@@ -234,6 +249,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
 
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
                         </Col>
@@ -243,6 +259,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
 
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             <Button disabled={!this.state.checkedTerms} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
