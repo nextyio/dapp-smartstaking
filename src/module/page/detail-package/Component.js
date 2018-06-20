@@ -113,8 +113,14 @@ export default class extends LoggedInPage {
         }
 
         let withdrawable;
-        let now_unix = new Date().getTime() / 1000;
-        if(this.state.packageInfo.expiredDate - days_time[this.state.packageInfo.packageId] > now_unix) {
+        const dateNow = moment.utc(new Date())
+        const dateExpired = moment.utc(this.state.packageInfo.expiredDate * 1000);
+
+
+        const expiredToNow = dateExpired.diff(dateNow, 'seconds')
+
+        // let now_unix = new Date().getTime() / 1000;
+        if(expiredToNow >= days_time[this.state.packageInfo.packageId] - oneday) {
             withdrawable = false;
         } else {
             withdrawable = true;
@@ -216,7 +222,7 @@ export default class extends LoggedInPage {
                     <Row>
                         {!this.state.tx_success &&
                         <Col md={8}>
-                            <Button disabled={!withdrawable} onClick={this.confirm.bind(this)} className="btn-withdraw" type="primary">Withdraw</Button>
+                            <Button disabled={!withdrawable || this.state.packageInfo.isPaid} onClick={this.confirm.bind(this)} className="btn-withdraw" type="primary">Withdraw</Button>
                         </Col>
                         }
                     </Row>
