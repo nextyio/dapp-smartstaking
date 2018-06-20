@@ -24,7 +24,7 @@ export default class extends BaseComponent {
 }
 toggleCollapsed = () => {
   this.setState({
-    collapsed: mobilecheck,
+    collapsed:!this.state.collapsed,
   });
 }
 
