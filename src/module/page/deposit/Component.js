@@ -261,7 +261,7 @@ export default class extends LoggedInPage {
                         </Col>
                         {isMobile && <Col span={24}/>}
                         <Col span={18}>
-                            <Button disabled={!this.state.checkedTerms} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
+                            <Button disabled={(!this.state.checkedTerms) || this.state.isLoading} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
                     </div>

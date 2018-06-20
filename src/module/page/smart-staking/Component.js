@@ -133,7 +133,7 @@ export default class extends LoggedInPage {
                     <Row style={{'marginTop': '15px'}}>
 
                         <Col span={8} offset={8}>
-                            <Button onClick={this.depositNTY.bind(this)} type="primary" className="btn-margin-top">Add</Button>
+                            <Button disabled={this.state.isLoading} onClick={this.depositNTY.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
                     </Row>
                     {/* <p>Account Address: {address}</p> */}
