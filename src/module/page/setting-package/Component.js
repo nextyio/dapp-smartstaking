@@ -232,7 +232,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={6}>
 
                         </Col>
-                        <Col xs={24} sm={24} md={24} lg={4} xl={4}>
+                        <Col xs={24} sm={24} md={24} lg={4} xl={4} className="defaultPadding">
                             <Button onClick={this.reset.bind(this)} type="primary" className="defaultWidth">Refresh</Button>
                         </Col>
                     </Row>
