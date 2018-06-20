@@ -19,12 +19,40 @@ function isMobileDevice() {
 const isMobile = isMobileDevice();
 
 export default class extends BaseComponent {
+  constructor() {
+  super();
+  this.state = {
+    height: window.innerHeight,
+    width: window.innerWidth
+  };
+  this.updateDimensions = this.updateDimensions.bind(this);
+}
+
+updateDimensions() {
+  if ((!this.state.collapsed) && (this.state.width>window.innerWidth))
+  this.setState({
+      collapsed: true,
+      siderWidth: '0px'
+  });
+
+  if ((this.state.collapsed) && (this.state.width<window.innerWidth))
+  this.setState({
+      collapsed: false,
+      siderWidth: '200px'
+  });
+
+  this.setState({
+    height: window.innerHeight,
+    width: window.innerWidth
+  });
+}
   componentDidMount() {
+      window.addEventListener("resize", this.updateDimensions);
       this.loadData()
   }
   state = {
   collapsed: isMobile,
-}
+  }
 toggleCollapsed = () => {
   this.setState({
     collapsed:!this.state.collapsed,
@@ -35,7 +63,7 @@ toggleCollapsed = () => {
 
 loadData() {
   this.setState({
-    siderWidth: isMobile?'0px':'200px'
+    siderWidth: this.state.collapsed?'0px':'200px'
   });
 }
 
@@ -49,10 +77,12 @@ loadData() {
                 collapsedWidth="0px"
                 collapsible
                 >
-                <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 ,position: 'absolute',top:0,left:this.state.siderWidth }}>
-                    <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
-                </Button>
-                <div className="xlogo">
+
+                    <Icon onClick={this.toggleCollapsed} type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                    style={{ position: 'absolute',top:window.innerHeight/2,left:this.state.siderWidth,fontSize: 20 }}
+                    />
+
+                <div className="xlogo" >
                     <img src='/assets/images/logo.png' onClick={this.toggleCollapsed} />
                     Smart Staking
                 </div>
