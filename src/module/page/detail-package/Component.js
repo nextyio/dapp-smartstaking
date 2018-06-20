@@ -209,14 +209,14 @@ export default class extends LoggedInPage {
                         </Col>
                     </Row>
                 </div>
-                <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
-
+                { !withdrawable && <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
                         <Col span={24}>
-                            {!withdrawable && <Alert message="You cannot withdraw now." type="error" showIcon /> }
+                            {<Alert message="You cannot withdraw now." type="error" showIcon /> }
                         </Col>
                     </Row>
                 </div>
+                }
                 <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                 <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
