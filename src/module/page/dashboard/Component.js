@@ -9,6 +9,12 @@ import './style.scss'
 import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb } from 'antd'
 const FormItem = Form.Item;
 
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobi l e') !== -1);
+};
+
+const isMobile = isMobileDevice();
+
 export default class extends LoggedInPage {
     componentDidMount() {
         this.loadData()
@@ -49,10 +55,11 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page content-center">
                     <Row>
-                        <Col span={12}>
-                            <h1>{parseFloat(this.state.fundBonus).toFixed(8)} NTY</h1>
+                        <Col span={12} style={{'display':'block'}}>
+                            <h1>{parseFloat(this.state.fundBonus).toFixed(8)} NTY </h1>
                             <span className="text-stat">Reward pool</span>
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={12}>
                             <h1>{parseFloat(this.state.fund).toFixed(8)} NTY</h1>
                             <span className="text-stat">Total Smart Staking amount</span>
@@ -69,18 +76,22 @@ export default class extends LoggedInPage {
                             <h1>{parseFloat(this.state.bonusPackage1).toFixed(2)} %</h1>
                             7 days
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={6}>
                             <h1>{parseFloat(this.state.bonusPackage2).toFixed(2)} %</h1>
                             30 days
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={6}>
                             <h1>{parseFloat(this.state.bonusPackage3).toFixed(2)} %</h1>
                             90 days
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={6}>
                             <h1>{parseFloat(this.state.bonusPackage4).toFixed(2)} %</h1>
                             180 days
                         </Col>
+                        {isMobile && <Col span={24}/>}
                     </Row>
                 </div>
             </div>
