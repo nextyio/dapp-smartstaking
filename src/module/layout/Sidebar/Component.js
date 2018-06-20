@@ -1,9 +1,9 @@
 import React from 'react'
 import BaseComponent from '@/model/BaseComponent'
-import {Layout, Menu, Icon, Badge, Avatar, Modal, Dropdown} from 'antd'
+import {Layout, Menu, Icon, Badge, Avatar, Modal, Dropdown, Button} from 'antd'
 import _ from 'lodash'
 import I18N from '@/I18N'
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout
 
 import {USER_ROLE} from '@/constant';
 import './style.scss';
@@ -12,21 +12,39 @@ import './style.scss';
 const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup
 
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobi l e') !== -1);
+};
+
+const isMobile = isMobileDevice();
+
 export default class extends BaseComponent {
+  state = {
+  collapsed: isMobile,
+}
+toggleCollapsed = () => {
+  this.setState({
+    collapsed: mobilecheck,
+  });
+}
 
     ord_render() {
 
         const isAdmin = this.props.isAdmin
         return (
 
-            <Sider
+            <Sider collapsed={this.state.collapsed}
                 trigger={null}
                 collapsible
                 >
+
                 <div className="xlogo">
-                    <img src='/assets/images/logo.png' />
+                    <img src='/assets/images/logo.png' onClick={this.toggleCollapsed} />
                     Smart Staking
                 </div>
+                <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
+                    <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
+                </Button>
                 <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
@@ -48,6 +66,7 @@ export default class extends BaseComponent {
                         </Menu.Item>
                     }
                 </Menu>
+
             </Sider>
         )
     }
