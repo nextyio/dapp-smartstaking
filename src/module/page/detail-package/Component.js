@@ -206,7 +206,7 @@ export default class extends LoggedInPage {
                 <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
 
                     <Row>
-                        <Col md={6}>
+                        <Col span={24}>
                             {!withdrawable && <Alert message="You cannot withdraw now." type="error" showIcon /> }
                         </Col>
                     </Row>
