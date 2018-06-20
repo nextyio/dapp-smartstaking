@@ -8,6 +8,13 @@ import './style.scss'
 
 import { Col, Row, Icon, Form, Input, Button, Dropdown, Breadcrumb, Modal, Menu, Checkbox, Message, Alert, InputNumber, notification} from 'antd'
 const FormItem = Form.Item;
+
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobi l e') !== -1);
+};
+
+const isMobile = isMobileDevice();
+
 Message.config({
     top: 100
 })
@@ -75,6 +82,7 @@ export default class extends LoggedInPage {
                           <Col span={4} offset={2} style={{'textAlign': 'left'}} >
                               TxHash:
                           </Col>
+                          {isMobile && <Col span={24}/>}
                           <Col span={18} style={{'textAlign': 'left'}}>
                             {this.state.txhash &&
                                   <div>
@@ -91,6 +99,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Reward pool:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
@@ -99,6 +108,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Your balance:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
@@ -108,6 +118,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Amount:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18} offset={2} style={{'textAlign': 'left'}}>
 
                             <InputNumber
