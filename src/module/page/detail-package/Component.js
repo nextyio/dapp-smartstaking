@@ -15,7 +15,7 @@ function isMobileDevice() {
 
 const isMobile = isMobileDevice();
 
-const oneday = 60; // will be 60 * 60 * 24 on product;
+const oneday = 60 * 60 * 24; // will be 60 * 60 * 24 on product;
 
 Message.config({
     top: 100
