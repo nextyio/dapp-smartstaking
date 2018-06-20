@@ -12,6 +12,9 @@ const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup
 
 export default class extends BaseComponent {
+    componentDidMount() {
+        document.title = "Smart Staking"
+    }
 
     buildAcctDropdown() {
 
