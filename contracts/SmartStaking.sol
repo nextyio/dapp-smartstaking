@@ -210,6 +210,8 @@ contract SmartStaking {
             msg.sender.transfer(amount);
             emit Withdraw(msg.sender, amount);
         }
+        // still emit Withdraw event because it always success
+        emit Withdraw(msg.sender, 0);
     }
 
     /**
