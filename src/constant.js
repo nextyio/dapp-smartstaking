@@ -90,4 +90,4 @@ export const DEFAULT_IMAGE = {
     TASK : '/assets/images/task_thumbs/12.jpg'
 };
 
-export const MIN_VALUE_DEPOSIT = 5;
+export const MIN_VALUE_DEPOSIT = 500000;
