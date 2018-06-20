@@ -19,32 +19,43 @@ function isMobileDevice() {
 const isMobile = isMobileDevice();
 
 export default class extends BaseComponent {
+  componentDidMount() {
+      this.loadData()
+  }
   state = {
   collapsed: isMobile,
 }
 toggleCollapsed = () => {
   this.setState({
     collapsed:!this.state.collapsed,
+    siderWidth: this.state.collapsed?'200px':'0px'
+  });
+  console.log(this.state.siderWidth)
+}
+
+loadData() {
+  this.setState({
+    siderWidth: isMobile?'0px':'200px'
   });
 }
 
-    ord_render() {
 
+    ord_render() {
         const isAdmin = this.props.isAdmin
         return (
 
             <Sider collapsed={this.state.collapsed}
                 trigger={null}
+                collapsedWidth="0px"
                 collapsible
                 >
-
+                <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 ,position: 'absolute',top:0,left:this.state.siderWidth }}>
+                    <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
+                </Button>
                 <div className="xlogo">
                     <img src='/assets/images/logo.png' onClick={this.toggleCollapsed} />
                     Smart Staking
                 </div>
-                <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
-                    <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
-                </Button>
                 <Menu onClick={this.clickItem.bind(this)} theme="dark" mode="inline" className="menu-sidebar" defaultSelectedKeys={this.detectUrl()}>
                     <Menu.Item key="dashboard">
                         <Icon type="dashboard" /> {I18N.get('0003')}
@@ -68,6 +79,7 @@ toggleCollapsed = () => {
                 </Menu>
 
             </Sider>
+
         )
     }
 
