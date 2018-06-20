@@ -82,7 +82,7 @@ export default class extends LoggedInPage {
                           <Col span={4} offset={2} style={{'textAlign': 'left'}} >
                               TxHash:
                           </Col>
-                          {isMobile && <Col span={24}/>}
+                          <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                           <Col span={18} style={{'textAlign': 'left'}}>
                             {this.state.txhash &&
                                   <div>
@@ -99,7 +99,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Reward pool:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
@@ -108,7 +108,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Your balance:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18} style={{'textAlign': 'left'}}>
                             {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
@@ -118,7 +118,7 @@ export default class extends LoggedInPage {
                         <Col span={4} offset={2} style={{'textAlign': 'left'}}>
                             Amount:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18} offset={2} style={{'textAlign': 'left'}}>
 
                             <InputNumber

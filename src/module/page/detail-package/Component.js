@@ -148,7 +148,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             TxHash:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                         {this.state.txhash &&
                               <div>
@@ -167,7 +167,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Amount:</span>
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)} NTY</span>
                         </Col>
@@ -179,7 +179,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Package:</span>
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             <span>{days[this.state.packageInfo.packageId]}</span>
                         </Col>
@@ -191,7 +191,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Expired date:</span>
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('DD/MM/YYYY') }</span>
                         </Col>
@@ -203,7 +203,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Current reward:</span>
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             <span>{this.renderReward()}</span>
                         </Col>
@@ -217,7 +217,7 @@ export default class extends LoggedInPage {
                         </Col>
                     </Row>
                 </div>
-                {isMobile && <Col span={24}/>}
+                <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                 <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
                         {!this.state.tx_success &&
