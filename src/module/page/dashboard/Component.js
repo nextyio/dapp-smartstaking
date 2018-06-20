@@ -59,7 +59,7 @@ export default class extends LoggedInPage {
                             <h1>{parseFloat(this.state.fundBonus).toFixed(8)} NTY </h1>
                             <span className="text-stat">Reward pool</span>
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={12}>
                             <h1>{parseFloat(this.state.fund).toFixed(8)} NTY</h1>
                             <span className="text-stat">Total Smart Staking amount</span>
@@ -76,22 +76,22 @@ export default class extends LoggedInPage {
                             <h1>{parseFloat(this.state.bonusPackage1).toFixed(2)} %</h1>
                             7 days
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={6}>
                             <h1>{parseFloat(this.state.bonusPackage2).toFixed(2)} %</h1>
                             30 days
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={6}>
                             <h1>{parseFloat(this.state.bonusPackage3).toFixed(2)} %</h1>
                             90 days
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={6}>
                             <h1>{parseFloat(this.state.bonusPackage4).toFixed(2)} %</h1>
                             180 days
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                     </Row>
                 </div>
             </div>

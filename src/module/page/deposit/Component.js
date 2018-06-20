@@ -179,7 +179,7 @@ export default class extends LoggedInPage {
                           <Col span={6}>
                               TxHash:
                           </Col>
-                          {isMobile && <Col span={24}/>}
+                          <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                           <Col span={18}>
                             {this.state.txhash &&
                                   <div>
@@ -196,7 +196,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Your balance:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             {parseFloat(this.state.balance).toFixed(8)} NTY
                         </Col>
@@ -205,7 +205,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Reward pool:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             {parseFloat(this.state.fundBonus).toFixed(8)} NTY
                         </Col>
@@ -215,7 +215,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Package:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={6}>
                             {this.renderPackageDropdown()}
                         </Col>
@@ -224,7 +224,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Amount:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={6}>
 
                             <InputNumber className="defaultWidth"
@@ -239,7 +239,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             Total estimated Reward:
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
                         </Col>
@@ -249,7 +249,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
 
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accept the Terms & Conditions.</Checkbox>
                         </Col>
@@ -259,7 +259,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
 
                         </Col>
-                        {isMobile && <Col span={24}/>}
+                        <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
                             <Button disabled={(!this.state.checkedTerms) || this.state.isLoading} onClick={this.confirm.bind(this)} type="primary" className="btn-margin-top">Add</Button>
                         </Col>
