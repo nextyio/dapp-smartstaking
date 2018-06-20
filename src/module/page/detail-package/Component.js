@@ -9,6 +9,12 @@ import './style.scss'
 
 import { Col, Row, Icon, Alert, Input, Button, Table, Breadcrumb, Modal, Menu, Checkbox, Message, notification } from 'antd'
 
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobi l e') !== -1);
+};
+
+const isMobile = isMobileDevice();
+
 const oneday = 60; // will be 60 * 60 * 24 on product;
 
 Message.config({
@@ -136,6 +142,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             TxHash:
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                         {this.state.txhash &&
                               <div>
@@ -154,6 +161,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Amount:</span>
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)} NTY</span>
                         </Col>
@@ -165,6 +173,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Package:</span>
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             <span>{days[this.state.packageInfo.packageId]}</span>
                         </Col>
@@ -176,6 +185,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Expired date:</span>
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             <span>{moment.utc(this.state.packageInfo.expiredDate * 1000).format('DD/MM/YYYY') }</span>
                         </Col>
@@ -187,6 +197,7 @@ export default class extends LoggedInPage {
                         <Col span={6}>
                             <span>Current reward:</span>
                         </Col>
+                        {isMobile && <Col span={24}/>}
                         <Col span={18}>
                             <span>{this.renderReward()}</span>
                         </Col>
@@ -200,6 +211,7 @@ export default class extends LoggedInPage {
                         </Col>
                     </Row>
                 </div>
+                {isMobile && <Col span={24}/>}
                 <div className="ant-col-md-18 ant-col-md-offset-3 text-alert" style={{'textAlign': 'left'}}>
                     <Row>
                         {!this.state.tx_success &&
