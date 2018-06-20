@@ -252,7 +252,7 @@ export default class extends LoggedInPage {
         })
         this.props.callFunction('withdrawBonusPackage', [(this.state.packageId - 1)]).then((result) => {
             if (!result) {
-                Message.error('Deposit error')
+                Message.error('Something wrong, withdraw failure!')
             }
 
             var event = self.props.getEventWithdraw();
@@ -266,7 +266,7 @@ export default class extends LoggedInPage {
                         isLoading: false,
                     });
                     notification.success({
-                        message: 'Withdraw successfully',
+                        message: 'Withdraw successfully!',
                         // description: 'Transaction has been successfully',
                     });
 
