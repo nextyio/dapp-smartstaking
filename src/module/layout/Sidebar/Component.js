@@ -47,6 +47,7 @@ updateDimensions() {
   });
 }
   componentDidMount() {
+      document.title = "Smart Staking"
       window.addEventListener("resize", this.updateDimensions);
       this.loadData()
   }
@@ -78,11 +79,11 @@ loadData() {
                 collapsible
                 >
 
-                    <Icon onClick={this.toggleCollapsed} type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                    style={{ position: 'absolute',top:window.innerHeight/2,left:this.state.siderWidth,fontSize: 20 }}
+                    <Icon onClick={this.toggleCollapsed} type={this.state.collapsed ? 'appstore' : 'appstore'}
+                    style={{ position: 'absolute',top:0, background : '#3c8dbc', left:this.state.siderWidth,fontSize: 20, color: 'white' }}
                     />
 
-                <div className="xlogo" >
+                <div className="xlogo" style ={{background : '#3c8dbc'}}>
                     <img src='/assets/images/logo.png' onClick={this.toggleCollapsed} />
                     Smart Staking
                 </div>
