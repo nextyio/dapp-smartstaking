@@ -1,7 +1,6 @@
 import React from 'react';
 import StandardPage from '../StandardPage';
 import LoginForm from '@/module/form/LoginForm/Container';
-import Footer from '@/module/layout/Footer/Container';
 import { Col, Row, Icon, Form, Input, Button, InputNumber, Breadcrumb, Modal, Menu, Checkbox, Alert, message} from 'antd'
 
 import './style.scss'
@@ -17,7 +16,6 @@ export default class extends StandardPage {
                     </Col>
 
                 </div>
-                <Footer />
             </div>
         );
     }

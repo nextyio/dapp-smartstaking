@@ -26,3 +26,19 @@
 .d_rowGrey {
   background-color: rgb(229, 229, 229);
 }
+
+.d_rowFooterBottom {
+  background: #082b5f;
+  color: #fff;
+  height: 35px;
+  text-align: center;
+
+  p {
+    padding-bottom: 0px;
+    padding-top: 10px;
+  }
+
+  .margin-left-15 {
+    margin-left: 15px;
+  }
+}

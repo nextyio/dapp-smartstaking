@@ -9,6 +9,7 @@ import LoginPage from '@/module/page/login/Container'
 import RegisterPage from '@/module/page/register/Container'
 import ProfilePage from '@/module/page/profile/Container'
 import TermsConditionsPage from '@/module/page/terms/Container'
+import UserGuidePage from '@/module/page/user-guide/Container'
 
 import NotFound from '@/module/page/error/NotFound'
 
@@ -60,6 +61,10 @@ export default [
     {
         path: '/terms-conditions',
         page: TermsConditionsPage
+    },
+    {
+        path: '/user-guide',
+        page: UserGuidePage
     },
     {
         page: NotFound

@@ -51,7 +51,9 @@ export default class extends BaseComponent {
     }
 
     ord_checkLogin(isLogin, isAdmin) {
-        if (!isLogin) {
+        let url = window.location.pathname;
+
+        if (!isLogin && url !== '/user-guide') {
             return this.props.history.replace('/login');
         }
     }

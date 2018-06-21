@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseComponent from '@/model/BaseComponent';
 import { Col, Row, Icon } from 'antd'
+import { Link } from 'react-router-dom'
 
 import './style.scss'
 
@@ -12,8 +13,9 @@ export default class extends BaseComponent {
                     <Row className="d_rowFooter">
                         <Col xs={24} sm={24} md={12} span={12}>
                             <div className="d_footerSection">
-                                <b>ABOUT</b>
-                                <p>Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program by controlling supply and demand. Smart Staking encourages users to keep the coins with different reward rate incentives throughout different program lengths.</p>
+                                <b>WHAT IS NEXTY SMART STAKING?</b>
+                                <p className="margin-left-15">Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program. Smart Staking encourages users to keep the coins with different reward rate incentives throughout different program lengths.</p>
+                                <a href="/assets/Nexty-Smart-Staking-How-to-use.pdf" target="_blank">HOW TO USE</a>
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={12} span={12}>
@@ -31,6 +33,9 @@ export default class extends BaseComponent {
                                 </p>
                             </div>
                         </Col>
+                    </Row>
+                    <Row className="d_rowFooterBottom">
+                        <p className="text-center">2018 © Nexty Platform.</p>
                     </Row>
                 </div>
             </div>
