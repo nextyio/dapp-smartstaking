@@ -251,7 +251,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
-                            <Checkbox onChange={this.onChangeCheckbox.bind(this)}>I have read and accepted the Terms & Conditions.</Checkbox>
+                            <Checkbox checked={this.state.checkedTerms} onChange={this.onChangeCheckbox.bind(this)}>I have read and accepted the Terms & Conditions.</Checkbox>
                         </Col>
                     </Row>
 
@@ -368,7 +368,8 @@ export default class extends LoggedInPage {
                 txhash: result,
                 amount: '',
                 package: null,
-                submitted: false
+                submitted: false,
+                checkedTerms: false
             })
         })
         //setTimeout(this.loadData.bind(this), 6000);
