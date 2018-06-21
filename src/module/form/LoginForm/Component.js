@@ -43,8 +43,8 @@ class C extends BaseComponent {
         const p = this.getInputProps()
         return (
             <Col span={24} className="c_loginForm">
-                <Col xs={0} sm={0} md={0} lg={3} xl={3} />
-                <Col xs={24} sm={24} md={24} lg={18} xl={18}>
+                <Col xs={0} sm={0} md={0} lg={4} xl={4} />
+                <Col xs={24} sm={24} md={24} lg={16} xl={16}>
                 <p>
                     Do you want to access your wallet?
                 </p>
