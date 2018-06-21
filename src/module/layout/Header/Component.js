@@ -57,6 +57,7 @@ export default class extends BaseComponent {
                     <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
+
             )
         }
     }
