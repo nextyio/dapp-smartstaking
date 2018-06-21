@@ -77,7 +77,7 @@ loadData() {
                 trigger={null}
                 collapsedWidth="0px"
                 collapsible
-                style={{height:window.innerHeight-186-64,align: 'left'}}
+                style={{align: 'left'}}
                 >
                 <div className="xlogo" style={{background:'#0d47a1'}}>
                     <img src='/assets/images/logo.png' />
