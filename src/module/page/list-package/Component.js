@@ -39,7 +39,7 @@ export default class extends LoggedInPage {
             dataIndex: 'amount',
             key: 'amount',
             render: (amount) => {
-                return <p>{parseFloat(amount / 1e18).toFixed(8)} NTY</p>
+                return <p>{parseFloat(amount / 1e18).toFixed(2)} NTY</p>
             }
         },  {
             title: 'Status',
@@ -73,7 +73,7 @@ export default class extends LoggedInPage {
             dataIndex: 'bonusPercent',
             key: 'bonusPercent',
             render: (bonusPercent, packageInfo) => {
-                return <p>{parseFloat(((packageInfo.bonusPercent * packageInfo.amount) / 10000) / 1e18).toFixed(8)} NTY</p>
+                return <p>{parseFloat(((packageInfo.bonusPercent * packageInfo.amount) / 10000) / 1e18).toFixed(2)} NTY</p>
             }
         }];
 

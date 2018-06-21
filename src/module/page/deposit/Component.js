@@ -111,7 +111,7 @@ export default class extends LoggedInPage {
     validValue(value) {
       var deciPart = (value + ".").split(".")[1];
     //   console.log(deciPart)
-      if (deciPart.length>8) {return value.toFixed(8)} else {return value};
+      if (deciPart.length>2) {return value.toFixed(2)} else {return value};
     }
 
     onAmountChange(value) {
@@ -198,7 +198,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
-                            {parseFloat(this.state.balance).toFixed(8)} NTY
+                            {parseFloat(this.state.balance).toFixed(2)} NTY
                         </Col>
                     </Row>
                     <Row style={{'marginTop': '15px'}}>
@@ -207,7 +207,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
-                            {parseFloat(this.state.fundBonus).toFixed(8)} NTY
+                            {parseFloat(this.state.fundBonus).toFixed(2)} NTY
                         </Col>
                     </Row>
                     <hr />

@@ -56,12 +56,12 @@ export default class extends LoggedInPage {
                 <div className="ebp-page content-center">
                     <Row>
                         <Col span={12} style={{'display':'block'}}>
-                            <h1>{parseFloat(this.state.fundBonus).toFixed(8)} NTY </h1>
+                            <h1>{parseFloat(this.state.fundBonus).toFixed(2)} NTY </h1>
                             <span className="text-stat">Reward pool</span>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={12}>
-                            <h1>{parseFloat(this.state.fund).toFixed(8)} NTY</h1>
+                            <h1>{parseFloat(this.state.fund).toFixed(2)} NTY</h1>
                             <span className="text-stat">Total Smart Staking amount</span>
                         </Col>
                     </Row>

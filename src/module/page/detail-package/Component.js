@@ -91,7 +91,7 @@ export default class extends LoggedInPage {
         }
 
 
-        amount=amount.toFixed(8);
+        amount=amount.toFixed(2);
 
         return (<p>{amount} NTY</p>)
     }
@@ -169,7 +169,7 @@ export default class extends LoggedInPage {
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}/>
                         <Col span={18}>
-                            <span>{(this.state.packageInfo.amount*1e-18).toFixed(8)} NTY</span>
+                            <span>{(this.state.packageInfo.amount*1e-18).toFixed(2)} NTY</span>
                         </Col>
                     </Row>
                 </div>
