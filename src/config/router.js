@@ -8,6 +8,7 @@ import DepositPage from '@/module/page/deposit/Container'
 import LoginPage from '@/module/page/login/Container'
 import RegisterPage from '@/module/page/register/Container'
 import ProfilePage from '@/module/page/profile/Container'
+import TermsConditionsPage from '@/module/page/terms/Container'
 
 import NotFound from '@/module/page/error/NotFound'
 
@@ -55,6 +56,10 @@ export default [
     {
         path: '/profile',
         page: ProfilePage
+    },
+    {
+        path: '/terms-conditions',
+        page: TermsConditionsPage
     },
     {
         page: NotFound

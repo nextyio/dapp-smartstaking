@@ -33,7 +33,7 @@ export default class extends LoggedInPage {
                 </div>
                 <div className="ebp-page">
                     <h3 className="text-center">Terms & Conditions</h3>
-                    
+                    <p>Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program by controlling supply and demand. Smart Staking encourages users to keep the coins with different interest rate incentives throughout different program lengths.</p>
                 </div>
             </div>
         )
