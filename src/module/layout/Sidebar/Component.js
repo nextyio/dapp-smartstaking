@@ -77,13 +77,19 @@ loadData() {
                 trigger={null}
                 collapsedWidth="0px"
                 collapsible
+                style={{zIndex : '2'}}
                 >
                 <div style={{width: '50px', height: '50px', position: 'fixed', bottom: '20px', left: '20px', zIndex : '99999'}}>
                     <a href="https://t.me/nexty_io" target="_blank" rel="noopener"><img style ={{width: '50px', zIndex : '99999'}} src="/assets/images/telegram.png" /></a>
                 </div>
-                    <Icon onClick={this.toggleCollapsed} type={this.state.collapsed ? 'appstore' : 'appstore'}
-                    style={{ position: 'absolute',top:0, background : '#3c8dbc', left:this.state.siderWidth,fontSize: 20, color: 'white' }}
-                    />
+
+                <Icon onClick={this.toggleCollapsed} type={"menu-unfold"}
+                style={{ position: 'fixed',top:window.innerHeight/2, background : 'white', left:0,fontSize: 20, zIndex : '1', display:!this.state.collapsed?'none':'block' }}
+                />
+
+                <Icon onClick={this.toggleCollapsed} type={"menu-fold"}
+                style={{ position: 'absolute',top:window.innerHeight/2, left:this.state.siderWidth,fontSize: 20, display:this.state.collapsed?'none':'block' }}
+                />
 
                 <div className="xlogo" style ={{background : '#3c8dbc'}}>
                     <img src='/assets/images/logo.png' onClick={this.toggleCollapsed} />
