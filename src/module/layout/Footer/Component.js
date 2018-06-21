@@ -13,7 +13,7 @@ export default class extends BaseComponent {
                         <Col xs={24} sm={24} md={12} span={12}>
                             <div className="d_footerSection">
                                 <b>ABOUT</b>
-                                <p>Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program by controlling supply and demand. Smart Staking encourages users to keep the coins with different interest rate incentives throughout different program lengths.</p>
+                                <p>Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program by controlling supply and demand. Smart Staking encourages users to keep the coins with different reward rate incentives throughout different program lengths.</p>
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={12} span={12}>
