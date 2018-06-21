@@ -117,7 +117,7 @@ export default class extends LoggedInPage {
     onAmountChange(value) {
       if (this.state.balance<value) {
         this.setState({
-            notEnoughNTY: "Your balance is not enough",
+            notEnoughNTY: <p className="alert-no-padding">Your balance is not enough</p>,
         })
       } else
       this.setState({
@@ -377,7 +377,7 @@ export default class extends LoggedInPage {
 
     validate() {
         let errorFields = [];
-        if ((this.state.amount*(this.state.currentReward/100)).toFixed(2)>this.state.fundBonus) errorFields.push("Reward Pool is not enough");
+        if ((this.state.amount*(this.state.currentReward/100)).toFixed(2)>this.state.fundBonus) errorFields.push(<p className="alert-no-padding">Reward Pool is not enough</p>);
         if(this.state.notEnoughNTY) {
             errorFields.push(this.state.notEnoughNTY);
         }
