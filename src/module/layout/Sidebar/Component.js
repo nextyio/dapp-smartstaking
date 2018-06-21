@@ -78,7 +78,7 @@ loadData() {
                 collapsedWidth="0px"
                 collapsible
                 >
-                <div style={{width: '50px', height: '50px', position: 'fixed', bottom: '20px', right: '20px'}}>
+                <div style={{width: '50px', height: '50px', position: 'fixed', bottom: '20px', left: '20px', zIndex : '99999'}}>
                     <a href="https://t.me/nexty_io" target="_blank" rel="noopener"><img style ={{width: '50px', zIndex : '99999'}} src="/assets/images/telegram.png" /></a>
                 </div>
                     <Icon onClick={this.toggleCollapsed} type={this.state.collapsed ? 'appstore' : 'appstore'}
