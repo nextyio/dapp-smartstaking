@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import './style.scss'
 
-import { Breadcrumb, Icon } from 'antd'
+import { Breadcrumb, Icon, Button } from 'antd'
 
 export default class extends LoggedInPage {
 
@@ -62,6 +62,7 @@ export default class extends LoggedInPage {
                     <li><strong><em> Dispute resolution</em></strong></li>
                     </ol>
                     <p>Any dispute arising out of or related to this Agreement is personal to you and the Company and will be resolved solely through individual arbitration.</p>
+                    <Button type="primary"><Link to="/deposit">Back</Link></Button>
                 </div>
             </div>
         )
