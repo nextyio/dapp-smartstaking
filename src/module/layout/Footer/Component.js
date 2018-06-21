@@ -8,45 +8,26 @@ export default class extends BaseComponent {
     ord_render() {
         return (
             <div className="c_Footer">
-                {/* <div className="horizGap d_rowGrey">
-
-                </div> */}
                 <div className="d_rowGrey">
                     <Row className="d_rowFooter">
-                        <Col span={8}>
-                            {/*
+                        <Col xs={24} sm={24} md={12} span={12}>
                             <div className="d_footerSection">
-                                <h2>Offices</h2>
-
-                                <b>Beijing—</b>
-
-                                <p>
-                                    Tower G, Zhizao Street, Zhongguancun, No. 45, Chengfu Road, Haidian District, Beijing City
-                                </p>
-
-                                <b>Shanghai—</b>
-
-                                <p>
-                                    11F, Huahong Tower, 463 Tanggu Road, Shanghai, China
-                                </p>
+                                <b>ABOUT</b>
+                                <p>Nexty’s unique Smart Staking program plays an active role in user’s staking decisions, which helps the price stabilization program by controlling supply and demand. Smart Staking encourages users to keep the coins with different interest rate incentives throughout different program lengths.</p>
                             </div>
-                            */}
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} span={12}>
                             <div className="d_footerSection">
-                                <h4>Contact Us</h4>
+                                <b>FOLLOW US ON</b><br />
+                                <br />
+                                <p>
+                                    <a href="https://bitcointalk.org/index.php?topic=2498919"><img src="/assets/images/btc.png" width="25px" /></a>&nbsp; &nbsp;
+                                    <a href="https://www.facebook.com/nextycoin"><Icon type="facebook" style={{ fontSize: 22 }} /></a>&nbsp; &nbsp;
+                                    <a href="https://twitter.com/nextyio"><Icon type="twitter" style={{ fontSize: 22 }} /></a>
+                                </p>
                                 <b>Email</b>
                                 <p>
-                                    <a href="support@nexty.io">support@nexty.io</a>
-                                </p>
-                            </div>
-                        </Col>
-                        <Col span={8}>
-                            <div className="d_footerSection">
-                                <h4>Support</h4>
-
-                                <p>
-                                    <a href="mailto:support@nexty.io">support@nexty.io</a>
+                                    <a>support@nexty.io</a>
                                 </p>
                             </div>
                         </Col>
