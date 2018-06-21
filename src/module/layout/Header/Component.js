@@ -57,7 +57,7 @@ export default class extends BaseComponent {
             )
         } else {
             return (
-                <div className="xlogo" style={{background:'rgb(60, 141, 188)'}}>
+                <div className="xlogo" style={{background:'#0d47a1'}}>
                     <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
@@ -71,7 +71,7 @@ export default class extends BaseComponent {
         const isLogin = this.props.isLogin
 
         return (
-            <Header style={{ background: '#3c8dbc', padding: 0 }}>
+            <Header style={{ background: '#0d47a1', padding: 0 }}>
                 {this.renderHeader()}
 
             </Header>

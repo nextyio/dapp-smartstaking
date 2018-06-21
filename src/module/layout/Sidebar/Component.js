@@ -79,7 +79,7 @@ loadData() {
                 collapsible
                 style={{height:window.innerHeight-186-64,align: 'left'}}
                 >
-                <div className="xlogo" style={{background:'rgb(60, 141, 188)'}}>
+                <div className="xlogo" style={{background:'#0d47a1'}}>
                     <img src='/assets/images/logo.png' />
                     Smart Staking
                 </div>
