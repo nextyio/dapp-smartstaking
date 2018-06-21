@@ -49,7 +49,7 @@ export default class extends BaseComponent {
         const isLogin = this.props.isLogin;
         if (isLogin) {
             return (
-              <div className="xlogo" style={{background:'rgb(60, 141, 188)'}}>
+              <div className="xlogo" style={{background:'rgb(60, 141, 188)',display:'inline'}}>
                   <img src='/assets/images/logo.png' />
                   Smart Staking
                   <Button className="right-side" onClick={this.logout.bind(this)} ghost>
