@@ -6951,13 +6951,6 @@ mark {
 .ant-layout-sider-zero-width-trigger:hover {
   background: #192c3e;
 }
-.ant-layout-sider-light {
-  background: #fff;
-}
-.ant-layout-sider-light > .ant-layout-sider-trigger {
-  color: rgba(0, 0, 0, 0.65);
-  background: #fff;
-}
 /* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
 /* stylelint-disable no-duplicate-selectors */
 /* stylelint-disable declaration-bang-space-before,no-duplicate-selectors */
@@ -7180,7 +7173,7 @@ mark {
 .ant-modal-open {
   overflow: hidden;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .ant-modal {
     width: auto !important;
     margin: 10px;
@@ -7963,12 +7956,11 @@ mark {
 .ant-btn + .ant-btn-group,
 .ant-btn-group span + .ant-btn,
 .ant-btn-group .ant-btn + span,
-.ant-btn-group > span + span,
 .ant-btn-group + .ant-btn,
 .ant-btn-group + .ant-btn-group {
   margin-left: -1px;
 }
-.ant-btn-group .ant-btn-primary + .ant-btn:not(.ant-btn-primary):not([disabled]) {
+.ant-btn-group .ant-btn-primary + .ant-btn:not(.ant-btn-primary) {
   border-left-color: transparent;
 }
 .ant-btn-group .ant-btn:not(:first-child):not(:last-child) {
@@ -11934,7 +11926,6 @@ span.ant-radio + * {
 .ant-spin-dot {
   position: relative;
   display: inline-block;
-  font-size: 20px;
   width: 20px;
   height: 20px;
 }
@@ -11982,7 +11973,6 @@ span.ant-radio + * {
           animation: antRotate 1.2s infinite linear;
 }
 .ant-spin-sm .ant-spin-dot {
-  font-size: 14px;
   width: 14px;
   height: 14px;
 }
@@ -11991,7 +11981,6 @@ span.ant-radio + * {
   height: 6px;
 }
 .ant-spin-lg .ant-spin-dot {
-  font-size: 32px;
   width: 32px;
   height: 32px;
 }
