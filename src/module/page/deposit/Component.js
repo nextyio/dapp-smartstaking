@@ -389,7 +389,7 @@ export default class extends LoggedInPage {
             errorFields.push(<p className="alert-no-padding">Amount is required</p>);
         }
         if(this.state.amount < MIN_VALUE_DEPOSIT) {
-            errorFields.push(<p className="alert-no-padding">Amount must be equal or greater than { MIN_VALUE_DEPOSIT }</p>);
+            errorFields.push(<p className="alert-no-padding">Amount must be equal or greater than { MIN_VALUE_DEPOSIT } NTY</p>);
         }
         if(errorFields.length == 0) return null;
         return (
