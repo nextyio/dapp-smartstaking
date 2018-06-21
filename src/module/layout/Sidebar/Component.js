@@ -77,14 +77,18 @@ loadData() {
                 trigger={null}
                 collapsedWidth="0px"
                 collapsible
-                style={{position:'fixed', height:window.innerHeight-186-64, left:0,top:64 , zIndex : '2'}}
+                style={{height:window.innerHeight-186-64,align: 'left'}}
                 >
+                <div className="xlogo" style={{background:'rgb(60, 141, 188)'}}>
+                    <img src='/assets/images/logo.png' />
+                    Smart Staking
+                </div>
                 <div style={{width: '50px', height: '50px', position: 'fixed', bottom: '20px', left: '20px', zIndex : '99999'}}>
                     <a href="https://t.me/nexty_io" target="_blank" rel="noopener"><img style ={{width: '50px', zIndex : '99999'}} src="/assets/images/telegram.png" /></a>
                 </div>
 
                 <Icon onClick={this.toggleCollapsed} type={"menu-unfold"}
-                style={{ position: 'fixed',top:64+ (window.innerHeight-186)/2, background : 'white', left:0,fontSize: 20, zIndex : '1', display:!this.state.collapsed?'none':'block' }}
+                style={{ position: 'fixed',top: (window.innerHeight-186)/2, background : 'white', left:0,fontSize: 20, zIndex : '1', display:!this.state.collapsed?'none':'block' }}
                 />
 
                 <Icon onClick={this.toggleCollapsed} type={"menu-fold"}
