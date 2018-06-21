@@ -6,6 +6,7 @@ pragma solidity ^0.4.23;
  */
 contract SmartStaking {
     address public owner;
+    uint256 public version = 1; // smart staking contract version number
     uint256 public fund = 0; // total fund investor desposit
     uint256 public fundBonus = 0; // total fundBonus owner or volunteering desposit
 
