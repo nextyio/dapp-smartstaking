@@ -114,16 +114,22 @@ export default class extends LoggedInPage {
 
         let withdrawable;
         const dateNow = moment.utc(new Date())
-        const dateExpired = moment.utc(this.state.packageInfo.expiredDate * 1000);
+        // const dateExpired = moment.utc(this.state.packageInfo.expiredDate * 1000);
+        const dateLastWithDraw = moment.utc(this.state.packageInfo.lastDateWithdraw * 1000)
 
+        // const expiredToNow = dateExpired.diff(dateNow, 'seconds')
 
-        const expiredToNow = dateExpired.diff(dateNow, 'seconds')
+        // // let now_unix = new Date().getTime() / 1000;
+        // if(expiredToNow >= days_time[this.state.packageInfo.packageId] - oneday) {
+        //     withdrawable = false;
+        // } else {
+        //     withdrawable = true;
+        // }
 
-        // let now_unix = new Date().getTime() / 1000;
-        if(expiredToNow >= days_time[this.state.packageInfo.packageId] - oneday) {
-            withdrawable = false;
-        } else {
+        if(dateNow - dateLastWithDraw >= oneday) {
             withdrawable = true;
+        } else {
+            withdrawable = false;
         }
 
         let txhash = null;
