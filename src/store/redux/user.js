@@ -17,8 +17,11 @@ class UserRedux extends BaseRedux {
 
             profile : {
                 web3 : null,
+                web3Meta : null,
                 wallet : null,
-                contract : null
+                isMetamask : null,
+                contract : null,
+                contractMeta: null
             }
         };
     }

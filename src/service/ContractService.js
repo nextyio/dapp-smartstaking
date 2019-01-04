@@ -1,15 +1,15 @@
 import BaseService from '../model/BaseService'
 import _ from 'lodash'
 import Tx from 'ethereumjs-tx'
-const SolidityFunction = require('web3/lib/web3/function')
 import {WEB3} from '@/constant'
+const SolidityFunction = require('web3/lib/web3/function')
 
 export default class extends BaseService {
     async getFund() {
         const storeUser = this.store.getState().user
         let {contract} = storeUser.profile
-        if (!contract || contract.fund().toString() == 0) {
-          return 0
+        if (!contract || contract.fund().toString() === 0) {
+            return 0
         }
         return contract.fund().toString() / 1e18
     }
@@ -17,8 +17,8 @@ export default class extends BaseService {
     async getFundBonus() {
         const storeUser = this.store.getState().user
         let {contract} = storeUser.profile
-        if (!contract || contract.fundBonus().toString() == 0) {
-          return 0
+        if (!contract || contract.fundBonus().toString() === 0) {
+            return 0
         }
         return contract.fundBonus().toString() / 1e18
     }
@@ -28,7 +28,7 @@ export default class extends BaseService {
         let {contract} = storeUser.profile
 
         if (!contract) {
-          return
+            return
         }
 
         return {
@@ -48,7 +48,7 @@ export default class extends BaseService {
         let {contract} = storeUser.profile
 
         if (!contract) {
-          return
+            return
         }
 
         const packageCount = contract.getPackageCount().toString()
@@ -66,47 +66,86 @@ export default class extends BaseService {
         return packages;
     }
 
-    async deposit(packageId, amount) {
+/*     async depositMeta(packageId, amount) {
         const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
-
+        let {contractMeta, web3, wallet} = storeUser.profile
+        console.log(contractMeta)
+        contractMeta.deposit.sendTransaction(packageId, {from: wallet, value: web3.toWei(amount, 'ether')}, function(error, txnHash) {
+            if (error) throw error;
+            console.log(txnHash);
+        });
+    } */
+/*     async depositMeta(packageId, amount) {
+        const storeUser = this.store.getState().user
+        let {contractMeta, contract, web3, web3Meta, wallet} = storeUser.profile
         const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: 'deposit' }), '')
         const payloadData = functionDef.toPayload([packageId]).data
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
-
+        console.log(web3Meta)
         const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
-            value: web3.toWei(amount, "ether"),
+            from: wallet,
+            value: web3.toWei(amount, 'ether'),
             to: contract.address,
             data: payloadData
         }
 
-        const gas = this.estimateGas(rawTx)
-        rawTx.gas = gas
+        return contractMeta.sendTransaction(rawTx)
+    } */
 
-        return this.sendRawTransaction(rawTx)
+    async deposit(packageId, amount) {
+        const storeUser = this.store.getState().user
+        let {contract, web3, web3Meta, isMetamask, wallet} = storeUser.profile
+        console.log('isMetamask = ', isMetamask)
+        // if (isMetamask) {
+        //     return this.depositMeta(packageId, amount)
+        // } else {
+        const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: 'deposit' }), '')
+        const payloadData = functionDef.toPayload([packageId]).data
+
+        const rawTx = {
+            from: isMetamask ? wallet : wallet.getAddressString(),
+            value: web3.toWei(amount, 'ether'),
+            to: contract.address,
+            data: payloadData
+        }
+
+        if (!isMetamask) {
+            const gas = this.estimateGas(rawTx)
+            rawTx.gas = gas
+            rawTx.nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+            return this.sendRawTransaction(rawTx)
+        } else {
+            return web3Meta.eth.sendTransaction(rawTx, function(error, txnHash) {
+                if (error) throw error;
+                console.log(txnHash);
+            });
+        }
     }
 
     async callFunction(functionName, params) {
         const storeUser = this.store.getState().user
-        let {contract, web3, wallet} = storeUser.profile
+        let {contract, web3, web3Meta, isMetamask, wallet} = storeUser.profile
 
         const functionDef = new SolidityFunction('', _.find(WEB3.ABI, { name: functionName }), '')
         const payloadData = functionDef.toPayload(params).data
-        const nonce = web3.eth.getTransactionCount(wallet.getAddressString())
 
         const rawTx = {
-            nonce: nonce,
-            from: wallet.getAddressString(),
+            from: isMetamask ? wallet : wallet.getAddressString(),
             value: '0x0',
             to: contract.address,
             data: payloadData
         }
-        const gas = this.estimateGas(rawTx)
-        rawTx.gas = gas
+        if (!isMetamask) {
+            const gas = this.estimateGas(rawTx)
+            rawTx.nonce = web3.eth.getTransactionCount(wallet.getAddressString())
+            rawTx.gas = gas
+            return this.sendRawTransaction(rawTx)
+        } else {
+            return web3Meta.eth.sendTransaction(rawTx, function(error, txnHash) {
+                if (error) throw error;
+                console.log(txnHash);
+            });
+        }
 
-        return this.sendRawTransaction(rawTx)
     }
 
     getPackage(index) {
@@ -114,7 +153,7 @@ export default class extends BaseService {
         let {contract} = storeUser.profile
 
         if (!contract) {
-          return
+            return
         }
 
         const packageInfo = contract.getPackageInfo(index)
@@ -137,14 +176,17 @@ export default class extends BaseService {
 
     sendRawTransaction(rawTx) {
         const storeUser = this.store.getState().user
-        let {web3, wallet} = storeUser.profile
+        let {web3, web3Meta, isMetamask, wallet} = storeUser.profile
+        if (isMetamask) {
 
-        const privatekey = wallet.getPrivateKey()
-        const tx = new Tx(rawTx)
-        tx.sign(privatekey)
-        const serializedTx = tx.serialize()
-
-        return web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'))
+        } else {
+            const privatekey = wallet.getPrivateKey()
+            const tx = new Tx(rawTx)
+            tx.sign(privatekey)
+            const serializedTx = tx.serialize()
+    
+            return web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'))
+        }
     }
 
     estimateGas(rawTx) {

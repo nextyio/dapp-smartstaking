@@ -15,7 +15,7 @@ class C extends BaseComponent {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values)
-                this.props.decryptWallet(values.privateKey)
+                this.props.decryptWallet(false, values.privateKey)
 
             }
         })
@@ -45,25 +45,27 @@ class C extends BaseComponent {
             <Col span={24} className="c_loginForm">
                 <Col xs={0} sm={0} md={0} lg={4} xl={4} />
                 <Col xs={24} sm={24} md={24} lg={16} xl={16}>
-                <p>
-                    Do you want to access your wallet?
-                </p>
-                <Form autoComplete="off" onSubmit={this.handleSubmit.bind(this)} className="c_loginForm">
-                    <FormItem>
-                        {p.privateKey}
-                    </FormItem>
-                    <FormItem>
-                        <Col xs={24} sm={24} md={6} lg={6} xl={6} >
-                        <Button loading={this.props.loading} type="ebp" htmlType="submit" style={{width:'100%'}}>
-                            Login
-                        </Button>
-                        </Col>
-                        {/*&nbsp;&nbsp;
-                        <Button loading={this.props.loading} type="blue" htmlType="button" className="">
-                            Connect to Metamask
-                        </Button>*/}
-                    </FormItem>
-                </Form>
+                    <p>
+                        Do you want to access your wallet?
+                    </p>
+                    <Form autoComplete="off" onSubmit={this.handleSubmit.bind(this)} className="c_loginForm">
+                        <FormItem>
+                            {p.privateKey}
+                        </FormItem>
+                        <FormItem>
+                            <Col xs={24} sm={24} md={10} lg={10} xl={10} >
+                                <Button loading={this.props.loading} type="ebp" htmlType="submit" style={{width:'100%'}}>
+                                    Login
+                                </Button>
+                            </Col>
+                            <Col xs={0} sm={0} md={4} lg={4} xl={4} ></Col>
+                            <Col xs={24} sm={24} md={10} lg={10} xl={10} >
+                                <Button onClick = {() => this.props.decryptWallet(true, '')} loading={this.props.loading} type="blue" htmlType="button" className="" style={{width:'100%'}}>
+                                    Connect to Metamask
+                                </Button>
+                            </Col>
+                        </FormItem>
+                    </Form>
                 </Col>
             </Col>
         )

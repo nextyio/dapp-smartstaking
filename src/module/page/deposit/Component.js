@@ -286,7 +286,7 @@ export default class extends LoggedInPage {
             error: error,
             submitted: true
         });
-        if(error) {
+        if (error) {
             return;
         }
 
@@ -308,7 +308,7 @@ export default class extends LoggedInPage {
                     Amount: {this.state.amount} NTY
                 </div>
                 <div>
-                    Estimated reward: {(this.state.amount*(this.state.currentReward/100)).toFixed(2)} NTY
+                    Estimated reward: {(this.state.amount * (this.state.currentReward / 100)).toFixed(2)} NTY
                 </div>
                 <div>
                     Maturity date: {expire_date_default_format}

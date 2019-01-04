@@ -45,9 +45,6 @@ export default class extends LoggedInPage {
             return null;
         }
 
-        const balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-        const address = wallet.getAddressString()
-
         return (
             <div className="p_Profile">
                 <div className="ebp-header-divider">

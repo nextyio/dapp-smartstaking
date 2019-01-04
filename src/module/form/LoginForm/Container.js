@@ -7,18 +7,17 @@ message.config({
     top: 100
 })
 
-
 export default createContainer(Component, (state)=>{
     return {
         ...state.user.login_form
     }
-}, ()=>{
+}, () => {
     const userService = new UserService()
 
     return {
-        async decryptWallet(privateKey){
+        async decryptWallet(isMetamask, privateKey) {
             try {
-                const rs = await userService.decryptWallet(privateKey)
+                var rs = isMetamask ? await userService.decryptWalletMeta() : await userService.decryptWallet(privateKey)
 
                 if (rs) {
                     message.success('Login successfully')

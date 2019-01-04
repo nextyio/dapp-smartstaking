@@ -54,14 +54,14 @@ export default class extends LoggedInPage {
   }
 
     ord_renderContent () {
-        let {wallet, web3, contract} = this.props.profile
+        let {wallet, web3, isMetamask, contract} = this.props.profile
         let balance
         let address
         //if (this.state.package7daysSuccess) //console.log('done');
 
         if (wallet) {
             balance = parseFloat(web3.fromWei(wallet.balance, 'ether'))
-            address = wallet.getAddressString()
+            address = isMetamask ? wallet : wallet.getAddressString()
         }
 
         return (
